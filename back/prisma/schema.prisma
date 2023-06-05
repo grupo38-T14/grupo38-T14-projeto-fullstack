@@ -9,3 +9,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Address {
+  id         String @id
+  cep        String
+  state      String
+  city       String
+  street     String
+  number     String
+  complement String
+  created_at String
+  user       Users  @relation(fields: [userId], references: [id])
+  userId     String @unique
+
+  @@map("address")
+}
+
+model Users {
+  id           String     @id
+  name         String
+  email        String
+  cpf          String
+  phone        String
+  birth        String
+  description  String
+  password     String
+  account_type Boolean    @default(false)
+  created_at   String
+  address      Address?
+  comments     Comments[]
+  adverts      Advert[]
+
+  @@map("users")
+}
+
+model Comments {
+  id         String @id
+  comment    String
+  created_at String
+  user       Users  @relation(fields: [userId], references: [id])
+  userId     String
+
+  @@map("comments")
+}
+
+model Advert {
+  id      String  @id
+  user    Users?  @relation(fields: [userId], references: [id])
+  userId  String?
+
+  @@map("advert")
+}
+
+model Gallery {
+  id String @id
+
+  @@map("gallery")
+}
+
+enum Fuel {
+  eletric
+  ethanol
+  hybrid
+}
