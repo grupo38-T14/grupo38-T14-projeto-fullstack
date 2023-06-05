@@ -49,20 +49,37 @@ model Comments {
   created_at String
   user       Users  @relation(fields: [userId], references: [id])
   userId     String
+  advert     Advert @relation(fields: [advertId], references: [id])
+  advertId   String
 
   @@map("comments")
 }
 
 model Advert {
-  id      String  @id
-  user    Users?  @relation(fields: [userId], references: [id])
-  userId  String?
+  id               String     @id
+  brand            String
+  model            String
+  year             Int
+  fuel             Fuel
+  km               Decimal
+  color            String
+  table_fipe_price Int
+  price            Int
+  description      String
+  image_cape       String
+  user             Users?     @relation(fields: [userId], references: [id])
+  userId           String?
+  galerry          Gallery[]
+  comments         Comments[]
 
   @@map("advert")
 }
 
 model Gallery {
-  id String @id
+  id        String  @id
+  image_url String
+  Advert    Advert? @relation(fields: [advertId], references: [id])
+  advertId  String?
 
   @@map("gallery")
 }
