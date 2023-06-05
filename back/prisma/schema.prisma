@@ -87,5 +87,5 @@ model Gallery {
 enum Fuel {
   ELECTRIC
   ETHANOL
-  HYBRI
+  HYBRID
 }

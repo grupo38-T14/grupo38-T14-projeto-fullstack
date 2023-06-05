@@ -26,9 +26,4 @@ export class AdvertsController {
   update(@Param('id') id: string, @Body() updateAdvertDto: UpdateAdvertDto) {
     return this.advertsService.update(id, updateAdvertDto);
   }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.advertsService.remove(id);
-  }
 }

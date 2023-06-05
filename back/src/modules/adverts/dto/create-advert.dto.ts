@@ -7,7 +7,7 @@ import {
     IsDecimal,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Fuel } from '../entities/advert.entity';
+import { Fuel } from '@prisma/client';
 
 export class CreateAdvertDto {
   @ApiProperty({

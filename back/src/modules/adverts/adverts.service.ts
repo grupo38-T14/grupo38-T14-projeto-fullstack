@@ -8,7 +8,8 @@ export class AdvertsService {
   constructor(private advertRepository: AdvertRepository) {}
 
   async create(createAdvertDto: CreateAdvertDto) {
-    return 'This action adds a new advert';
+    const advert = await this.advertRepository.create(createAdvertDto)
+    return advert
   }
 
   async findAll() {
@@ -17,7 +18,11 @@ export class AdvertsService {
   }
 
   async findOne(id: string) {
-    return `This action returns a #${id} advert`;
+    const findAdvert = this.advertRepository.findOne(id);
+    if(!findAdvert){
+      throw new NotFoundException('Advert not found!')
+    }
+    return findAdvert
   }
 
   async update(id: string, updateAdvertDto: UpdateAdvertDto) {
@@ -29,9 +34,5 @@ export class AdvertsService {
     const advertUpdate = await this.advertRepository.update(id, updateAdvertDto)
 
     return advertUpdate
-  }
-
-  async remove(id: string) {
-    return `This action removes a #${id} advert`;
   }
 }
