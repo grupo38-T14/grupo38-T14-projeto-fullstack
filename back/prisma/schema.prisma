@@ -9,3 +9,83 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Address {
+  id         String @id
+  cep        String
+  state      String
+  city       String
+  street     String
+  number     String
+  complement String
+  created_at String
+  user       Users  @relation(fields: [userId], references: [id])
+  userId     String @unique
+
+  @@map("address")
+}
+
+model Users {
+  id           String     @id
+  name         String
+  email        String
+  cpf          String
+  phone        String
+  birth        String
+  description  String
+  password     String
+  account_type Boolean    @default(false)
+  created_at   String
+  address      Address?
+  comments     Comments[]
+  adverts      Advert[]
+
+  @@map("users")
+}
+
+model Advert {
+  id               String     @id
+  brand            String
+  model            String
+  year             Int
+  fuel             Fuel
+  km               Decimal
+  color            String
+  table_fipe_price Int
+  price            Int
+  description      String
+  image_cape       String
+  user             Users?     @relation(fields: [userId], references: [id])
+  userId           String?
+  gallery          Gallery[]
+  comments         Comments[]
+
+  @@map("advert")
+}
+
+model Comments {
+  id         String @id
+  comment    String
+  created_at String
+  user       Users  @relation(fields: [userId], references: [id])
+  userId     String
+  advert     Advert @relation(fields: [advertId], references: [id])
+  advertId   String
+
+  @@map("comments")
+}
+
+model Gallery {
+  id        String  @id
+  image_url String
+  Advert    Advert? @relation(fields: [advertId], references: [id])
+  advertId  String?
+
+  @@map("gallery")
+}
+
+enum Fuel {
+  ELECTRIC
+  ETHANOL
+  HYBRID
+}
