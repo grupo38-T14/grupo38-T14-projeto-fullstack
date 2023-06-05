@@ -11,13 +11,20 @@ export class AdvertPrismaRepository implements AdvertRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateAdvertDto): Promise<Advert> {
-    return;
+    const advert = new Advert()
+    Object.assign(advert, {
+        ...data
+    })
+    const newAdvert = await this.prisma.advert.create({
+        data: {...advert}
+    })
+    return plainToInstance(Advert, newAdvert);
   }
 
   async findAll(): Promise<Advert[]> {
     const adverts = await this.prisma.advert.findMany({
       include: {
-        galery: true,
+        gallery: true,
         comments: true,
         user: true,
       },
@@ -27,7 +34,15 @@ export class AdvertPrismaRepository implements AdvertRepository {
   }
 
   async findOne(id: string): Promise<Advert> {
-    return;
+    const advert = await this.prisma.advert.findUnique({
+        where: {id},
+        include: {
+            gallery: true,
+            comments: true,
+            user: true,
+          },
+    })
+    return plainToInstance(Advert, advert);
   }
 
   async update(id: string, data: UpdateAdvertDto): Promise<Advert> {
@@ -35,7 +50,7 @@ export class AdvertPrismaRepository implements AdvertRepository {
       where: { id },
       data: { ...data },
       include: {
-        galery: true,
+        gallery: true,
         comments: true,
         user: true,
       },
