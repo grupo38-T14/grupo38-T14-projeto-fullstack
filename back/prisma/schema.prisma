@@ -43,18 +43,6 @@ model Users {
   @@map("users")
 }
 
-model Comments {
-  id         String @id
-  comment    String
-  created_at String
-  user       Users  @relation(fields: [userId], references: [id])
-  userId     String
-  advert     Advert @relation(fields: [advertId], references: [id])
-  advertId   String
-
-  @@map("comments")
-}
-
 model Advert {
   id               String     @id
   brand            String
@@ -75,6 +63,18 @@ model Advert {
   @@map("advert")
 }
 
+model Comments {
+  id         String @id
+  comment    String
+  created_at String
+  user       Users  @relation(fields: [userId], references: [id])
+  userId     String
+  advert     Advert @relation(fields: [advertId], references: [id])
+  advertId   String
+
+  @@map("comments")
+}
+
 model Gallery {
   id        String  @id
   image_url String
@@ -85,7 +85,7 @@ model Gallery {
 }
 
 enum Fuel {
-  eletric
-  ethanol
-  hybrid
+  ELECTRIC
+  ETHANOL
+  HYBRI
 }
