@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Fuel" AS ENUM ('ELECTRIC', 'ETHANOL', 'HYBRI');
+CREATE TYPE "Fuel" AS ENUM ('ELECTRIC', 'ETHANOL', 'HYBRID');
 
 -- CreateTable
 CREATE TABLE "address" (

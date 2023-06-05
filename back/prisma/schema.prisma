@@ -57,7 +57,7 @@ model Advert {
   image_cape       String
   user             Users?     @relation(fields: [userId], references: [id])
   userId           String?
-  galerry          Gallery[]
+  galery          Gallery[]
   comments         Comments[]
 
   @@map("advert")
@@ -87,5 +87,5 @@ model Gallery {
 enum Fuel {
   ELECTRIC
   ETHANOL
-  HYBRI
+  HYBRID
 }
