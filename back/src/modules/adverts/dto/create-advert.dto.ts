@@ -7,7 +7,8 @@ import {
     IsDecimal,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Fuel } from '../entities/advert.entity';
+import { Fuel } from '@prisma/client';
+
 
 export class CreateAdvertDto {
   @ApiProperty({
@@ -44,8 +45,8 @@ export class CreateAdvertDto {
     description: 'Car fuel, is possible ["electric", "ethanol", "hybrid"]',
     type: Fuel,
     default: 'hybrid',
+    enum: Fuel
   })
-  @IsString()
   @IsEnum(Fuel)
   @IsNotEmpty()
   fuel: Fuel;

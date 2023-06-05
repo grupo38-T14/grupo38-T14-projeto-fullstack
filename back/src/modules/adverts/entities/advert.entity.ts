@@ -1,10 +1,5 @@
+import { Fuel } from "@prisma/client";
 import { randomUUID } from "crypto";
-
-export enum Fuel {
-    ELECTRIC = 'ELECTRIC',
-    ETHANOL = 'ETHANOL',
-    HYBRID = 'HYBRID'
-}
 
 export class Advert {
     readonly id: string;
