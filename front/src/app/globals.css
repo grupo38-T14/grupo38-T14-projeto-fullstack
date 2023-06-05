@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,10 +20,50 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: #ccc;
+}
+
+@layer base {
+  h1 {
+    @apply text-4.5xl font-lexend font-bold;
+  }
+  h2 {
+    @apply font-lexend font-semibold text-4xl;
+  }
+  h3 {
+    @apply font-lexend font-semibold text-3xl;
+  }
+  h4 {
+    @apply font-lexend font-semibold text-2xl;
+  }
+  h5 {
+    @apply font-lexend font-semibold text-xl;
+  }
+  h6 {
+    @apply font-lexend font-semibold text-lg;
+  }
+  .h7 {
+    @apply font-lexend font-semibold text-md;
+  }
+
+  .body-1 {
+    @apply font-inter font-normal text-md leading-7;
+  }
+  .body-2 {
+    @apply font-inter font-normal text-sm;
+  }
+
+  .button-big-text {
+    @apply font-inter font-semibold text-md;
+  }
+  .button-medium-text {
+    @apply font-inter font-semibold text-sm;
+  }
+
+  .input-placeholder {
+    @apply font-inter font-normal text-md;
+  }
+  .input-label {
+    @apply font-inter font-medium text-sm;
+  }
 }
