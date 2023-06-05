@@ -24,7 +24,7 @@ export class AdvertPrismaRepository implements AdvertRepository {
   async findAll(): Promise<Advert[]> {
     const adverts = await this.prisma.advert.findMany({
       include: {
-        galerry: true,
+        gallery: true,
         comments: true,
         user: true,
       },
@@ -37,7 +37,7 @@ export class AdvertPrismaRepository implements AdvertRepository {
     const advert = await this.prisma.advert.findUnique({
         where: {id},
         include: {
-            galerry: true,
+            gallery: true,
             comments: true,
             user: true,
           },
@@ -50,7 +50,7 @@ export class AdvertPrismaRepository implements AdvertRepository {
       where: { id },
       data: { ...data },
       include: {
-        galerry: true,
+        gallery: true,
         comments: true,
         user: true,
       },

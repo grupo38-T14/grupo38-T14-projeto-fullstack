@@ -8,8 +8,7 @@ export class AdvertsService {
   constructor(private advertRepository: AdvertRepository) {}
 
   async create(createAdvertDto: CreateAdvertDto) {
-    const advert = await this.advertRepository.create(createAdvertDto)
-    return advert
+    return await this.advertRepository.create(createAdvertDto)
   }
 
   async findAll() {

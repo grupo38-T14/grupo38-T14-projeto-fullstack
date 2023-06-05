@@ -57,7 +57,7 @@ model Advert {
   image_cape       String
   user             Users?     @relation(fields: [userId], references: [id])
   userId           String?
-  galerry          Gallery[]
+  gallery          Gallery[]
   comments         Comments[]
 
   @@map("advert")
