@@ -7,8 +7,7 @@ import {
     IsDecimal,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
-const fuel = ['eletric', 'ethanol', 'hybrid'];
+import { Fuel } from '../entities/advert.entity';
 
 export class CreateAdvertDto {
   @ApiProperty({
@@ -43,13 +42,13 @@ export class CreateAdvertDto {
 
   @ApiProperty({
     description: 'Car fuel, is possible ["electric", "ethanol", "hybrid"]',
-    type: String,
+    type: Fuel,
     default: 'hybrid',
   })
   @IsString()
-  @IsEnum(fuel)
+  @IsEnum(Fuel)
   @IsNotEmpty()
-  fuel: string;
+  fuel: Fuel;
 
   @ApiProperty({
     description: 'Car km',

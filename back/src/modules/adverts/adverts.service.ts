@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAdvertDto } from './dto/create-advert.dto';
 import { UpdateAdvertDto } from './dto/update-advert.dto';
+import { AdvertRepository } from './repositories/advert.repository';
 
 @Injectable()
 export class AdvertsService {
-  create(createAdvertDto: CreateAdvertDto) {
+  constructor(private advertRepository: AdvertRepository) {}
+
+  async create(createAdvertDto: CreateAdvertDto) {
     return 'This action adds a new advert';
   }
 
-  findAll() {
-    return `This action returns all adverts`;
+  async findAll() {
+    const advertList = await this.advertRepository.findAll()
+    return advertList
   }
 
-  findOne(id: number) {
+  async findOne(id: string) {
     return `This action returns a #${id} advert`;
   }
 
-  update(id: number, updateAdvertDto: UpdateAdvertDto) {
-    return `This action updates a #${id} advert`;
+  async update(id: string, updateAdvertDto: UpdateAdvertDto) {
+    const findAdvert = await this.advertRepository.findOne(id)
+    if(!findAdvert){
+      throw new NotFoundException("Advert not found")
+    }
+
+    const advertUpdate = await this.advertRepository.update(id, updateAdvertDto)
+
+    return advertUpdate
   }
 
-  remove(id: number) {
+  async remove(id: string) {
     return `This action removes a #${id} advert`;
   }
 }
