@@ -1,7 +1,11 @@
+import AdvertsFilter from "@/components/advertsFilter";
+import AdvertsList from "@/components/advertsList";
+
 export default function DashboardPage (){
     return (
         <main className="h-32">
-          <h2>Dashboard</h2>  
+          <AdvertsFilter />
+          <AdvertsList />
         </main>
     )
 }
