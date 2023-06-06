@@ -49,7 +49,7 @@ model Advert {
   model            String
   year             Int
   fuel             Fuel
-  km               Decimal
+  km               Int
   color            String
   table_fipe_price Int
   price            Int
