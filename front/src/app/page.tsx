@@ -1,7 +1,13 @@
+// Foi preciso adicionar esta linha com o `use client´ para utilizar o console.log()
+"use client";
+
 import Image from "next/image";
-import { Input } from "../components/input"
+import { Input } from "../components/input";
+import Button from "@/components/button";
+import { useState } from "react";
 
 export default function Home() {
+  const [disabledBtn, setDisableBtn] = useState(true);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {/* <div>
@@ -38,7 +44,49 @@ export default function Home() {
           Button medium text
         </button>
       </div> */}
-
+      <div className="grid grid-cols-3 gap-4 p-4 ">
+        <div className="col-span-2">
+          <Button handle={() => console.log("pegando")} type="brand">
+            Cadastrar
+          </Button>
+        </div>
+        <Button handle={() => console.log("pegando")} type={disabledBtn ? "disableBland" : "brand"} disable={disabledBtn}>
+          enviar
+        </Button>
+        <Button handle={() => console.log("pegando")} type="grey0">
+          voltar
+        </Button>
+        <Button handle={() => console.log("pegando")} type="success">
+          Entrar
+        </Button>
+        <Button handle={() => console.log("pegando")} type="alert">
+          Limpar filtro
+        </Button>
+        <Button handle={() => console.log("pegando")} type="outlineBrand1">
+          Ver anúncios
+        </Button>
+        <Button handle={() => console.log("pegando")} type="outline1">
+          ver todos anúncios
+        </Button>
+        <Button handle={() => console.log("pegando")} type="outline2">
+          comprar
+        </Button>
+        <Button handle={() => console.log("pegando")} type="outlineLight">
+          fazer login
+        </Button>
+        <Button handle={() => console.log("pegando")} type="negative">
+          comentar
+        </Button>
+        <Button handle={() => console.log("pegando")} type={disabledBtn ? "disable" : "negative"} disable={disabledBtn}>
+          ir para o login
+        </Button>
+        <div className="col-span-3">
+          <Button handle={() => console.log("pegando")} type="light">
+            editar
+          </Button>
+        </div>
+        
+      </div>
       <Input />
     </main>
   );
