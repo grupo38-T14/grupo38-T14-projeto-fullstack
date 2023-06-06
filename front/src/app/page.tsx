@@ -2,9 +2,11 @@
 "use client";
 
 import Image from "next/image";
-import { Input } from "../components/input";
 import Button from "@/components/button";
 import { useState } from "react";
+import Input from "@/components/inputs";
+import TextArea from "@/components/textArea";
+import Select from "@/components/select";
 
 export default function Home() {
   const [disabledBtn, setDisableBtn] = useState(true);
@@ -50,7 +52,11 @@ export default function Home() {
             Cadastrar
           </Button>
         </div>
-        <Button handle={() => console.log("pegando")} type={disabledBtn ? "disableBland" : "brand"} disable={disabledBtn}>
+        <Button
+          handle={() => console.log("pegando")}
+          type={disabledBtn ? "disableBland" : "brand"}
+          disable={disabledBtn}
+        >
           enviar
         </Button>
         <Button handle={() => console.log("pegando")} type="grey0">
@@ -77,7 +83,11 @@ export default function Home() {
         <Button handle={() => console.log("pegando")} type="negative">
           comentar
         </Button>
-        <Button handle={() => console.log("pegando")} type={disabledBtn ? "disable" : "negative"} disable={disabledBtn}>
+        <Button
+          handle={() => console.log("pegando")}
+          type={disabledBtn ? "disable" : "negative"}
+          disable={disabledBtn}
+        >
           ir para o login
         </Button>
         <div className="col-span-3">
@@ -85,9 +95,37 @@ export default function Home() {
             editar
           </Button>
         </div>
-        
       </div>
-      <Input />
+      <div className="grid grid-cols-3 gap-5 mt-4">
+        <Input label="Nome" type="text" placeholder="Input para tipo string" error="* Nome é obrigatório"/>
+        {/* Deve se usar o erro desta forma
+            error={errors?.confirmPassword && errors.confirmPassword.message} 
+        */}
+        <Input
+          label="E-mail"
+          type="email"
+          placeholder="Input para tipo email"
+        />
+        <Input label="Ano" type="number" placeholder="Input para tipo number" />
+        <Input
+          label="Quilometragem"
+          type="number"
+          placeholder="Input para tipo decimal"
+        />
+        <Input label="Preço" type="number" placeholder="Input para tipo coin" />
+        <Input label="CPF" type="cpf" placeholder="Input para tipo cpf" />
+
+        <Input label="Telefone" type="phone" placeholder="Input para tipo phone" />
+
+        <Input label="Data de nascimento" type="date" placeholder="Input para tipo data" />
+
+        <Input label="Preço" type="coin" placeholder="Input para tipo coin" />
+        
+        <TextArea label="Descrição" placeholder="Digite aqui a descrição" />
+
+        <Select label="Combustivel" />
+
+      </div>
     </main>
   );
 }

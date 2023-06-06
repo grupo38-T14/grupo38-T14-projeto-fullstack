@@ -21,6 +21,13 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: #ccc;
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
 }
 
 @layer base {
