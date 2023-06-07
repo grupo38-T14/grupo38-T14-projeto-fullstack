@@ -1,14 +1,13 @@
 import {
-    IsString,
-    IsNotEmpty,
-    MaxLength,
-    IsInt,
-    IsEnum,
-    IsDecimal,
+  IsString,
+  IsNotEmpty,
+  MaxLength,
+  IsInt,
+  IsEnum,
+  IsDecimal,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Fuel } from '@prisma/client';
-
 
 export class CreateAdvertDto {
   @ApiProperty({
@@ -45,7 +44,7 @@ export class CreateAdvertDto {
     description: 'Car fuel, is possible ["electric", "ethanol", "hybrid"]',
     type: Fuel,
     default: 'hybrid',
-    enum: Fuel
+    enum: Fuel,
   })
   @IsEnum(Fuel)
   @IsNotEmpty()
@@ -61,9 +60,9 @@ export class CreateAdvertDto {
   km: number;
 
   @ApiProperty({
-    description: "Car color",
+    description: 'Car color',
     type: String,
-    default: "Black",
+    default: 'Black',
   })
   @IsString()
   @MaxLength(10)
@@ -71,7 +70,7 @@ export class CreateAdvertDto {
   color: string;
 
   @ApiProperty({
-    description: "Car fipe table",
+    description: 'Car fipe table',
     type: Number,
     default: 95469290,
   })
@@ -81,7 +80,7 @@ export class CreateAdvertDto {
   table_fipe_price: number;
 
   @ApiProperty({
-    description: "Car price",
+    description: 'Car price',
     type: Number,
     default: 95469290,
   })
@@ -91,18 +90,19 @@ export class CreateAdvertDto {
   price: number;
 
   @ApiProperty({
-    description: "Car description",
+    description: 'Car description',
     type: String,
-    default: "this car is the fastest of its year, super economical and comfortable",
+    default:
+      'this car is the fastest of its year, super economical and comfortable',
   })
   @IsString()
   @MaxLength(255)
   description: string;
 
   @ApiProperty({
-    description: "Car image",
+    description: 'Car image',
     type: String,
-    default: "https://imgs.com.br/image-car-mustang",
+    default: 'https://imgs.com.br/image-car-mustang',
   })
   @IsString()
   image_cape: string;

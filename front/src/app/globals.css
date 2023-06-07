@@ -79,4 +79,7 @@ input::-webkit-inner-spin-button {
   .button-base {
     @apply flex justify-center items-center w-full min-w-fit rounded border-2 font-semibold;
   }
+  .input-base {
+    @apply w-full h-[3rem] bg-[#f6f6f6] hover:bg-gray-80 px-4 border-2 border-gray-70 hover:border-gray-80 rounded outline-none focus:border-brand-1 focus:text-brand-1 appearance-none ;
+  }
 }

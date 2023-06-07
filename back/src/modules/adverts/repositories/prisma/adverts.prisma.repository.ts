@@ -11,14 +11,14 @@ export class AdvertPrismaRepository implements AdvertRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateAdvertDto): Promise<Advert> {
-    const advert = new Advert()
+    const advert = new Advert();
     Object.assign(advert, {
-        ...data
-    })
+      ...data,
+    });
     const newAdvert = await this.prisma.advert.create({
-        data: {...advert}
-    })
-    return plainToInstance(Advert, newAdvert);
+      data: { ...advert },
+    });
+    return newAdvert;
   }
 
   async findAll(): Promise<Advert[]> {
@@ -35,13 +35,13 @@ export class AdvertPrismaRepository implements AdvertRepository {
 
   async findOne(id: string): Promise<Advert> {
     const advert = await this.prisma.advert.findUnique({
-        where: {id},
-        include: {
-            gallery: true,
-            comments: true,
-            user: true,
-          },
-    })
+      where: { id },
+      include: {
+        gallery: true,
+        comments: true,
+        user: true,
+      },
+    });
     return plainToInstance(Advert, advert);
   }
 
