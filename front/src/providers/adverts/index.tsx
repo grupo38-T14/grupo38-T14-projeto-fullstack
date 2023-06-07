@@ -68,6 +68,10 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     fuels.sort()
   }
 
+  const filterByKmOrPrice = async (value: number) => {
+    const adverts = await api.get<listRetrieveAdvertsType>("adverts/")
+  }
+
   useEffect(() => {
     retrieveAdvert();
     getFilters();
