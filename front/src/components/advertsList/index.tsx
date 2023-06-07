@@ -3,6 +3,7 @@
 export default function AdvertsList() {
     //Importar via contexto a lista de adverts atualizada
     //Dessa lista, fazer um map criando cada <li>
+    //Inserir função onClick em cada li para direcionar para a página do anúncio
     return (
         <section>
             <ul className="grid grid-cols-3 list-none gap-12 w-full">
