@@ -8,15 +8,16 @@ export default function AdvertsList() {
     //Inserir função onClick em cada li para direcionar para a página do anúncio
 
     //Testar a criação do anúncio e ver a estilização
-    //Ver paginação
+    //Imagens
     //ícone de produto com preço bom
+    //Ver paginação
 
     const router = useRouter();
     const { adverts } = useAdverts();
 
     return (
         <section className="max-w-5x1">
-            <ul className="grid grid-cols-3 list-none gap-12 w-full">
+            <ul className="grid grid-cols-3 list-none gap-12 w-full p-16">
                 {adverts?.map((advert) => {
                     return (
                         <>
@@ -31,12 +32,12 @@ export default function AdvertsList() {
                                     <Image className="h-8 w-8" src="" alt="imagem do perfil do anunciante" />
                                     <p className="text-base font-medium text-gray-20">{advert.user?.name}</p>
                                 </div>
-                                <div className="flex items-center justify-between w-full">
-                                    <div className="flex items-center justify-around w-5/12 gap-3">
-                                        <p className="text-base font-medium text-brand-1 px-2 py-1 bg-brand-4">{advert.km}</p>
+                                <div className="flex items-start justify-between w-full">
+                                    <div className="flex items-start w-5/12 gap-3">
+                                        <p className="text-base font-medium text-brand-1 px-2 py-1 bg-brand-4">{advert.km} KM</p>
                                         <p className="text-base font-medium text-brand-1 px-2 py-1 bg-brand-4">{advert.year}</p>
                                     </div>
-                                    <p className="text-base font-medium text-gray-10">R$ {advert.price}</p>
+                                    <p className="text-base font-medium text-gray-10">R$ {advert.price},00</p>
                                 </div>
                             </section>
                             <Image src="" alt="ícone de preço bom - ícone verde" />
