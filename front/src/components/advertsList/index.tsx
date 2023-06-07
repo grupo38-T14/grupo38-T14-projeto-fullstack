@@ -15,7 +15,7 @@ export default function AdvertsList() {
     const { adverts } = useAdverts();
 
     return (
-        <section>
+        <section className="max-w-5x1">
             <ul className="grid grid-cols-3 list-none gap-12 w-full">
                 {adverts?.map((advert) => {
                     return (
@@ -24,19 +24,19 @@ export default function AdvertsList() {
                             <div className="flex w-full">
                                 <Image className="flex w-full" src={advert.image_cape} alt="imagem do carro" />
                             </div>
-                            <section className="flex flex-col items-center justify-start gap-4 w-full">
-                                <h2 className="text-base font-semibold">{advert.brand} - {advert.model}</h2>
-                                <p className="text-sm font-normal">{advert.description}</p>
+                            <section className="flex flex-col items-start justify-start gap-4 w-full">
+                                <h2 className="text-base font-semibold text-gray-10">{advert.brand} - {advert.model}</h2>
+                                <p className="text-sm font-normal text-gray-20">{advert.description}</p>
                                 <div className="flex items-center justify-start gap-y-2 w-full">
                                     <Image className="h-8 w-8" src="" alt="imagem do perfil do anunciante" />
-                                    <p className="text-base font-medium">{advert.user?.name}</p>
+                                    <p className="text-base font-medium text-gray-20">{advert.user?.name}</p>
                                 </div>
                                 <div className="flex items-center justify-between w-full">
-                                    <div className="flex items-center justify-between w-5/12 gap-3">
-                                        <p className="text-base font-medium">{advert.km}</p>
-                                        <p className="text-base font-medium">{advert.year}</p>
+                                    <div className="flex items-center justify-around w-5/12 gap-3">
+                                        <p className="text-base font-medium text-brand-1 px-2 py-1 bg-brand-4">{advert.km}</p>
+                                        <p className="text-base font-medium text-brand-1 px-2 py-1 bg-brand-4">{advert.year}</p>
                                     </div>
-                                    <p className="text-base font-medium">R$ {advert.price}</p>
+                                    <p className="text-base font-medium text-gray-10">R$ {advert.price}</p>
                                 </div>
                             </section>
                             <Image src="" alt="ícone de preço bom - ícone verde" />
