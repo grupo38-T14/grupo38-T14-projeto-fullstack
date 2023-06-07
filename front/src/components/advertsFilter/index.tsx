@@ -1,26 +1,28 @@
 import { useAdverts } from "@/hooks/advertHook";
 import Input from "../inputs";
+import Button from "../button";
 
 export default function AdvertsFilter() {
-    //criar uma div para cada tipo de filtro
-    //criar uma função para cada filtro afim de filtrar os anúncios e renderizar na tela. Função onClick em cada item da li
-    //Tem que tratar os textos antes de salvar no banco de dados
+
+    //Tem que tratar os textos antes de salvar no banco de dados - Primeira letra maiúscula e combustível - exemplo também: branco e branca
     //Tamanho e posição dos inputs estão errados
-    //Falta input de km
+    //Posição do botão de limpar filtros
+    //Falta input de km - tipo de input
+    //Função para filtrar km e preço
 
-
-    const { brands, models, colors, years, fuels } = useAdverts();
+    const { brands, models, colors, years, fuels, setFilterAdverts } = useAdverts();
 
     return (
         <section className="flex flex-col w-2/12 py-16 px-8">
-            <div className="mb-10">
+            <Button type="brand" handle={() => {setFilterAdverts("")}}>Limpar Filtros</Button>
+            <div className="mt-10 mb-10">
                 <h2 className="text-lg font-semibold text-[#000000]">Marca</h2>
                 <ul className="pl-2.5 mt-2.5">
                     {brands.map((e) => {
                         return (
                             <>
                                 <li>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer">{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -34,7 +36,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer">{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -48,7 +50,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer">{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -62,7 +64,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer">{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -76,7 +78,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer">{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
                         )

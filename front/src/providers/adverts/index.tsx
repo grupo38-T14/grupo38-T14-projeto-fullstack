@@ -18,6 +18,7 @@ export const AdvertsContext = createContext<AdvertsContextValues>(
 
 export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [adverts, setAdverts] = useState<listRetrieveAdvertsType>([]);
+  const [filterAdverts, setFilterAdverts] = useState<string | number>("");
   const [advert, setAdvert] = useState<retrieveAdvertType>();
   const [brands, setBrands] = useState<string[]>([]);
   const [models, setModels] = useState<string[]>([]);
@@ -70,11 +71,11 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   useEffect(() => {
     retrieveAdvert();
     getFilters();
-  });
+  }, [filterAdverts, getFilters]);
 
   return (
     <AdvertsContext.Provider
-      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels }}
+      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels, filterAdverts, setFilterAdverts }}
     >
       {children}
     </AdvertsContext.Provider>
