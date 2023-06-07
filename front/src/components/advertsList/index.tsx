@@ -6,8 +6,8 @@ export default function AdvertsList() {
     //Importar via contexto a lista de adverts atualizada
     //Dessa lista, fazer um map criando cada <li>
     //Inserir função onClick em cada li para direcionar para a página do anúncio
-
     //Testar a criação do anúncio e ver a estilização
+
     //Imagens
     //ícone de produto com preço bom
     //Ver paginação
@@ -16,12 +16,12 @@ export default function AdvertsList() {
     const { adverts } = useAdverts();
 
     return (
-        <section className="max-w-5x1">
+        <section className="w-10/12">
             <ul className="grid grid-cols-3 list-none gap-12 w-full p-16">
                 {adverts?.map((advert) => {
                     return (
                         <>
-                        <li className="flex flex-col items-start gap-4 border-none cursor-pointer" key={advert.id} onClick={() => router.push(`/dashboard/${advert.id}`)}>
+                        <li className="relative flex flex-col items-start gap-4 border-none cursor-pointer" key={advert.id} onClick={() => router.push(`/dashboard/${advert.id}`)}>
                             <div className="flex w-full">
                                 <Image className="flex w-full" src={advert.image_cape} alt="imagem do carro" />
                             </div>
@@ -40,7 +40,7 @@ export default function AdvertsList() {
                                     <p className="text-base font-medium text-gray-10">R$ {advert.price},00</p>
                                 </div>
                             </section>
-                            <Image src="" alt="ícone de preço bom - ícone verde" />
+                            <Image className="absolute top-0 right-0" src="" alt="ícone de preço bom - ícone verde" />
                         </li>
                         </>
                     )

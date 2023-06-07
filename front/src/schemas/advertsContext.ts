@@ -5,6 +5,11 @@ export interface AdvertsContextValues {
   retrieveUniqueAdvert: (id: string) => void;
   adverts: listRetrieveAdvertsType | undefined;
   advert: retrieveAdvertType | undefined;
+  brands: string[] | [];
+  models: string[] | [];
+  colors: string[] | [];
+  years: number[] | [];
+  fuels: string[] | [];
 }
 
 export interface AdvertsProviderProps {

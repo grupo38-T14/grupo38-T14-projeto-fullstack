@@ -5,7 +5,7 @@ import AdvertsList from "@/components/advertsList";
 export default function DashboardPage() {
 
   return (
-    <main className="flex justify-between w-full h-fit bg-white gap-44">
+    <main className="flex justify-between w-full h-fit bg-white">
       <AdvertsFilter />
       <AdvertsList />
     </main>
