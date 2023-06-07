@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 interface iButtonProps {
@@ -18,6 +19,9 @@ interface iButtonProps {
     | "negative"
     | "light";
   disable?: boolean;
+  submit?: boolean;
+  href?: string;
+  link?: boolean;
 }
 
 const Button = ({
@@ -26,6 +30,9 @@ const Button = ({
   size = 1,
   type,
   disable = false,
+  submit,
+  href,
+  link,
 }: iButtonProps) => {
   const sizeVariants = ["h-[3rem] text-md", "h-[2.375rem] text-sm"];
 
@@ -49,32 +56,48 @@ const Button = ({
     disable: "bg-gray-50 text-white border-gray-50",
     negative:
       "bg-gray-60 hover:bg-gray-50 text-gray-20 border-gray-60 hover:border-gray-50",
-      light: "bg-gray-100 border-gray-100 text-gray-10",
+    light: "bg-gray-100 border-gray-100 text-gray-10",
   };
 
   return (
-    <button
-      onClick={handle}
-      disabled={disable}
-      className={`
-        flex 
-        justify-center 
-        items-center 
-        w-full
-        min-w-fit
+    <>
+      {!link && (
+        <button
+          onClick={handle}
+          disabled={disable}
+          type={submit ? "submit" : "button"}
+          className={`
+        button-base
         ${sizeVariants[size - 1]} 
         ${size == 1 ? "px-7" : "px-5"} 
-        rounded
-        border-2
-        font-semibold
         ${buttonVariant[type]}
+        ${disable && "cursor-not-allowed"}
         transition-colors
         ease-in-out
         duration-400
-        ${disable && "cursor-not-allowed"}`}
-    >
-      {children}
-    </button>
+        `}
+        >
+          {children}
+        </button>
+      )}
+      {link && (
+        <Link
+          href={href!}
+          className={`
+        button-base
+        ${sizeVariants[size - 1]} 
+        ${size == 1 ? "px-7" : "px-5"} 
+        ${buttonVariant[type]}
+        ${disable && "cursor-not-allowed"}
+        transition-colors
+        ease-in-out
+        duration-400
+        `}
+        >
+          {children}
+        </Link>
+      )}
+    </>
   );
 };
 

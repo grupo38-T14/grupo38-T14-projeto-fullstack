@@ -74,3 +74,9 @@ input::-webkit-inner-spin-button {
     @apply font-inter font-medium text-sm;
   }
 }
+
+@layer components {
+  .button-base {
+    @apply flex justify-center items-center w-full min-w-fit rounded border-2 font-semibold;
+  }
+}

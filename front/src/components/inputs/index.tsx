@@ -16,7 +16,7 @@ const Input = ({ type, label, placeholder, register, error}: iInputProps) => {
   const masked = {
     date: "99/99/9999",
     cpf: "999.999.999.99",
-    phone: "(999) 99999-9999",
+    phone: "(99) 99999-9999",
     coin: "R$ 999999,99"
   }
 
