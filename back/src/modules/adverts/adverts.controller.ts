@@ -31,6 +31,11 @@ export class AdvertsController {
     return this.advertsService.findAll(where, orderBy, page);
   }
 
+  @Get('/all')
+  findAllAdverts() {
+    return this.advertsService.findAllAdverts();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.advertsService.findOne(id);

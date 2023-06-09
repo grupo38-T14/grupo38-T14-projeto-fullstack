@@ -1,14 +1,13 @@
 import { useAdverts } from "@/hooks/advertHook";
 import Input from "../inputs";
 import Button from "../button";
-import { useForm } from "react-hook-form";
 
 export default function AdvertsFilter() {
 
     //Função para filtrar km e preço
     //Lógica para caso os anúncios sejam excluídos, os filtros sumirem
 
-    const { brands, models, colors, years, fuels, setFilterAdverts, filterAdverts, filterByKmOrPrice } = useAdverts();
+    const { brands, models, colors, years, fuels, setFilterAdverts, filterAdverts } = useAdverts();
 
     return (
         <section className="flex flex-col w-[20%] py-16 px-4">
@@ -18,7 +17,7 @@ export default function AdvertsFilter() {
                     {brands.map((e) => {
                         return (
                             <>
-                                <li>
+                                <li key={e}>
                                     <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
@@ -32,7 +31,7 @@ export default function AdvertsFilter() {
                     {models.map((e) => {
                         return (
                             <>
-                                <li>
+                                <li key={e}>
                                     <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
@@ -46,7 +45,7 @@ export default function AdvertsFilter() {
                     {colors.map((e) => {
                         return (
                             <>
-                                <li>
+                                <li key={e}>
                                     <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
@@ -60,7 +59,7 @@ export default function AdvertsFilter() {
                     {years.map((e) => {
                         return (
                             <>
-                                <li>
+                                <li key={e}>
                                     <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>
@@ -74,7 +73,7 @@ export default function AdvertsFilter() {
                     {fuels.map((e) => {
                         return (
                             <>
-                                <li>
+                                <li key={e}>
                                     <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
                                 </li>
                             </>

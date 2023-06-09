@@ -25,6 +25,11 @@ export class AdvertsService {
     return advertList;
   }
 
+  async findAllAdverts() {
+    const advertList = await this.advertRepository.findAllAdverts();
+    return advertList;
+  }
+
   async findOne(id: string) {
     const findAdvert = this.advertRepository.findOne(id);
     if (!findAdvert) {

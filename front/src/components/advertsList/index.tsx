@@ -2,16 +2,16 @@ import Image from "next/image"
 import { useAdverts } from "@/hooks/advertHook";
 import { useRouter } from "next/navigation";
 import Section_2 from "../../../public/Section 2.png"
+import { Pagination } from "../pagination";
 
 export default function AdvertsList() {
 
-    //Imagem perfil usuário
     //Ver paginação
 
     const router = useRouter();
-    const { adverts, filterAdverts } = useAdverts();
+    const { adverts, filterAdverts, allAdverts } = useAdverts();
 
-    const filteredAdverts = adverts?.filter((e) => filterAdverts === e.brand || filterAdverts === e.color || filterAdverts === e.model || filterAdverts === e.year || filterAdverts === e.fuel)
+    const filteredAdverts = allAdverts?.filter((e) => filterAdverts === e.brand || filterAdverts === e.color || filterAdverts === e.model || filterAdverts === e.year || filterAdverts === e.fuel)
 
     if(adverts.length > 0){
         if(!filterAdverts){
@@ -21,16 +21,18 @@ export default function AdvertsList() {
                         {adverts?.map((advert) => {
                             return (
                                 <>
-                                <li className="relative flex flex-col items-start gap-4 border-none cursor-pointer bg-red-400" key={advert.id} onClick={() => router.push(`/dashboard/${advert.id}`)}>
+                                <li className="relative flex flex-col items-start gap-4 border-none cursor-pointer" key={advert.id} onClick={() => router.push(`/dashboard/${advert.id}`)}>
                                     <div className="flex w-[100%] items-center overflow-hidden">
                                         <Image className="flex m-auto object-cover pt-2.5" src={advert.image_cape} width={250} height={250} alt="imagem do carro" />
                                     </div>
                                     <section className="flex flex-col items-start justify-start gap-4 w-full">
                                         <h2 className="text-base font-semibold text-gray-10">{advert.brand} - {advert.model}</h2>
                                         <p className="text-sm font-normal text-gray-20">{advert.description}</p>
-                                        <div className="flex items-center justify-start gap-y-2 w-full">
-                                            <Image className="h-8 w-8" src={advert.user?.name} alt="imagem do perfil do anunciante" />
-                                            <p className="text-base font-medium text-gray-20">{advert.user?.name}</p>
+                                        <div className="flex items-center justify-start gap-y-2 gap-x-2 w-full">
+                                            <div className="flex items-center justify-center w-8 h-8 bg-random-1 text-white rounded-full">
+                                                R
+                                            </div>
+                                            <p className="text-sm font-normal text-gray-20">Rafael</p>
                                         </div>
                                         <div className="flex items-center justify-between w-full">
                                             <div className="flex items-start w-5/12 gap-3">
@@ -47,6 +49,7 @@ export default function AdvertsList() {
                         })
                         }
                     </ul>
+                    <Pagination />
                 </section>
             )
         }else{
@@ -63,9 +66,11 @@ export default function AdvertsList() {
                                     <section className="flex flex-col items-start justify-start gap-4 w-full">
                                         <h2 className="text-base font-semibold text-gray-10">{advert.brand} - {advert.model}</h2>
                                         <p className="text-sm font-normal text-gray-20">{advert.description}</p>
-                                        <div className="flex items-center justify-start gap-y-2 w-full">
-                                            <Image className="h-8 w-8" src={advert.user?.name} alt="imagem do perfil do anunciante" />
-                                            <p className="text-base font-medium text-gray-20">{advert.user?.name}</p>
+                                        <div className="flex items-center justify-start gap-y-2 gap-x-2 w-full">
+                                            <div className="flex items-center justify-center w-8 h-8 bg-random-1 text-white rounded-full">
+                                                R
+                                            </div>
+                                            <p className="text-sm font-normal text-gray-20">Rafael</p>
                                         </div>
                                         <div className="flex items-center justify-between w-full">
                                             <div className="flex items-start w-5/12 gap-3">
@@ -82,6 +87,7 @@ export default function AdvertsList() {
                         })
                         }
                     </ul>
+                    <Pagination />
                 </section>
             )
         }

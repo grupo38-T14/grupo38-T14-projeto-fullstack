@@ -2,6 +2,7 @@
 import {
   createAdvertType,
   listRetrieveAdvertsType,
+  retrieveAdvertPaginationType,
   retrieveAdvertType,
   updateAdvertType,
 } from "@/schemas/advert.schema";
@@ -17,6 +18,7 @@ export const AdvertsContext = createContext<AdvertsContextValues>(
 );
 
 export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
+  const [allAdverts, setAllAdverts] = useState<listRetrieveAdvertsType>([]);
   const [adverts, setAdverts] = useState<listRetrieveAdvertsType>([]);
   const [filterAdverts, setFilterAdverts] = useState<string | number>("");
   const [advert, setAdvert] = useState<retrieveAdvertType>();
@@ -25,6 +27,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [colors, setColors] = useState<string[]>([]);
   const [years, setYears] = useState<number[]>([]);
   const [fuels, setFuels] = useState<string[]>([]);
+  const [page, setPage] = useState<retrieveAdvertPaginationType>();
 
   const createAdvert = async (data: createAdvertType) => {
     await api
@@ -45,23 +48,32 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       .catch((err) => console.error(err));
   };
 
-  const retrieveAdvert = async () => {
-    await api
-      .get("adverts/")
-      .then((res) => setAdverts(res.data))
+  const retrieveAdvert = async (page?: number) => {
+    console.log(page)
+    if(page){
+      await api
+      .get(`adverts?page=${page}`)
+      .then((res) => {setAdverts(res.data.data); setPage(res.data)})
       .catch((err) => console.error(err));
+    }else{
+      await api
+      .get("adverts")
+      .then((res) => {setAdverts(res.data.data); setPage(res.data)})
+      .catch((err) => console.error(err));
+    }
   };
 
   const retrieveUniqueAdvert = async (id: string) => {
     await api
       .get(`adverts/${id}`)
-      .then((res) => setAdvert(res.data))
+      .then((res) => setAdvert(res.data.data))
       .catch((err) => console.error(err));
   };
 
   const getFilters = async () => {
-    const adverts = await api.get<listRetrieveAdvertsType>("adverts/")
-    adverts.data.map((e) => {
+    const adverts = await api.get("adverts/all")
+    setAllAdverts(adverts.data)
+    adverts?.data.map((e: { brand: string; model: string; color: string; year: number; fuel: string; }) => {
       if(!brands.includes(e.brand)){
         setBrands([...brands, e.brand])
       }
@@ -85,31 +97,17 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     fuels.sort()
   }
 
-  const filterByKmOrPrice = async (data: {}): Promise<void> => {
-    console.log(data)
-    //const adverts = await api.get<listRetrieveAdvertsType>("adverts/")
-  }
-
   useEffect(() => {
     retrieveAdvert();
+  }, [])
+
+  useEffect(() => {
     getFilters();
   }, [filterAdverts, getFilters]);
 
   return (
     <AdvertsContext.Provider
-<<<<<<< HEAD
-      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels, filterAdverts, setFilterAdverts, filterByKmOrPrice }}
-=======
-      value={{
-        createAdvert,
-        deleteAdvert,
-        retrieveAdvert,
-        updateAdvert,
-        retrieveUniqueAdvert,
-        adverts,
-        advert,
-      }}
->>>>>>> 9c62652a07daa4bfc0690ffcfdc184eef5846fd9
+      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels, filterAdverts, setFilterAdverts, createAdvert, deleteAdvert, updateAdvert, page, allAdverts}}
     >
       {children}
     </AdvertsContext.Provider>
