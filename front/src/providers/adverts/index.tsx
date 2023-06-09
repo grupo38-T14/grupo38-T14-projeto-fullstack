@@ -20,19 +20,36 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [adverts, setAdverts] = useState<listRetrieveAdvertsType>([]);
   const [advert, setAdvert] = useState<retrieveAdvertType>();
 
-  const createAdvert = (data: createAdvertType) => {};
-  const deleteAdvert = (id: string) => {};
-  const updateAdvert = (id: string, data: updateAdvertType) => {};
+  const createAdvert = async (data: createAdvertType) => {
+    await api
+      .post(`adverts/`, data)
+      .then((res) => retrieveAdvert())
+      .catch((err) => console.error(err));
+  };
+  const deleteAdvert = async (id: string) => {
+    await api
+      .delete(`adverts/${id}`)
+      .then((res) => retrieveAdvert())
+      .catch((err) => console.error(err));
+  };
+  const updateAdvert = async (id: string, data: updateAdvertType) => {
+    await api
+      .patch(`adverts/${id}`, data)
+      .then((res) => retrieveAdvert())
+      .catch((err) => console.error(err));
+  };
+
   const retrieveAdvert = async () => {
     await api
       .get("adverts/")
-      .then((res) => setAdverts(res.data))
+      .then(({ data }) => setAdverts(data.data))
       .catch((err) => console.error(err));
   };
+
   const retrieveUniqueAdvert = async (id: string) => {
     await api
       .get(`adverts/${id}`)
-      .then((res) => setAdvert(res.data))
+      .then(({ data }) => setAdvert(data.data))
       .catch((err) => console.error(err));
   };
 
@@ -42,7 +59,15 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 
   return (
     <AdvertsContext.Provider
-      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert }}
+      value={{
+        createAdvert,
+        deleteAdvert,
+        retrieveAdvert,
+        updateAdvert,
+        retrieveUniqueAdvert,
+        adverts,
+        advert,
+      }}
     >
       {children}
     </AdvertsContext.Provider>

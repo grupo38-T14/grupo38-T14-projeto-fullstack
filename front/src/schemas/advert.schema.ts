@@ -1,34 +1,13 @@
 import { z } from "zod";
+import { retrieveUser } from "./user.schema";
+import { schemaComments } from "./comment.schema";
 
 const fuelTypes = ["ELECTRIC", "ETHANOL", "HYBRID"] as const;
 const FuelEnum = z.enum(fuelTypes);
 
-export const schemaUser = z.object({
-  id: z.string(),
-  name: z.string(),
-  email: z.string(),
-  cpf: z.string(),
-  phone: z.string(),
-  birth: z.date(),
-  description: z.string(),
-  password: z.string(),
-  account_type: z.boolean(),
-  created_at: z.date(),
-});
-
-const retrieveUser = schemaUser.omit({ password: true });
-
 export const schemaGallery = z.object({
   id: z.string(),
   image_url: z.string(),
-  advertId: z.string(),
-});
-
-export const schemaComments = z.object({
-  id: z.string(),
-  comment: z.string(),
-  created_at: z.string(),
-  userId: z.string(),
   advertId: z.string(),
 });
 
