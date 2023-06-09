@@ -35,6 +35,7 @@ model Users {
   description  String
   password     String
   account_type Boolean    @default(false)
+  avatar_url   String
   created_at   String
   address      Address?
   comments     Comments[]
