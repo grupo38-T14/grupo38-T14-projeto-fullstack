@@ -8,7 +8,7 @@ export default function DashboardPage() {
 
   return (
     <main className="h-fit">
-      <h2>Dashboard</h2>
+      <h1>Dashboard</h1>
 
       <div>
         <ul>

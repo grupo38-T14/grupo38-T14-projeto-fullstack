@@ -18,10 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <AdvertsProvider>
           <Header />
-          <div className="px-2">{children}</div>
+          <div className="h-full">{children}</div>
           <Footer />
         </AdvertsProvider>
       </body>

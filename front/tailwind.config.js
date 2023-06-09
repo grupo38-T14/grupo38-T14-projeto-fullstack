@@ -12,6 +12,9 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      gap: {
+        15: "3.75rem"
+      },
       colors: {
         white: "#FFFFFF",
         brand: {
@@ -66,11 +69,11 @@ module.exports = {
         "4xl": ["2.25rem", "2.8125rem"],
         "4.5xl": ["2.75rem", "3.5rem"],
       },
-    },
-    screens: {},
-    fontFamily: {
-      inter: "Inter, sans-serif",
-      lexend: "Lexend, sans-serif",
+      screens: {},
+      fontFamily: {
+        inter: "Inter, sans-serif",
+        lexend: "Lexend, sans-serif",
+      },
     },
   },
   plugins: [],
