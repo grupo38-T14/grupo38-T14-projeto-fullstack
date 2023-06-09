@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 export default function DashboardPage() {
   const router = useRouter();
   const { adverts } = useAdverts();
-
   return (
     <main className="h-fit">
       <h2>Dashboard</h2>

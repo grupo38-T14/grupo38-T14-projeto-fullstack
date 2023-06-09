@@ -42,14 +42,14 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const retrieveAdvert = async () => {
     await api
       .get("adverts/")
-      .then((res) => setAdverts(res.data))
+      .then(({ data }) => setAdverts(data.data))
       .catch((err) => console.error(err));
   };
 
   const retrieveUniqueAdvert = async (id: string) => {
     await api
       .get(`adverts/${id}`)
-      .then((res) => setAdvert(res.data))
+      .then(({ data }) => setAdvert(data.data))
       .catch((err) => console.error(err));
   };
 
