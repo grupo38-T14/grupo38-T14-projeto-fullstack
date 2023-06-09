@@ -13,6 +13,7 @@ export interface AdvertsContextValues {
   fuels: string[] | [];
   filterAdverts: string | number
   setFilterAdverts: Dispatch<SetStateAction<string | number>>;
+  filterByKmOrPrice: (data: {}) => Promise<void>
 }
 
 export interface AdvertsProviderProps {

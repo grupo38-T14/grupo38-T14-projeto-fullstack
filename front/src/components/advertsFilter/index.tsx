@@ -1,13 +1,14 @@
 import { useAdverts } from "@/hooks/advertHook";
 import Input from "../inputs";
 import Button from "../button";
+import { useForm } from "react-hook-form";
 
 export default function AdvertsFilter() {
 
     //Função para filtrar km e preço
-    //Lógica para caso os anúncios sejam excluídos, os filtros sumires
+    //Lógica para caso os anúncios sejam excluídos, os filtros sumirem
 
-    const { brands, models, colors, years, fuels, setFilterAdverts, filterAdverts } = useAdverts();
+    const { brands, models, colors, years, fuels, setFilterAdverts, filterAdverts, filterByKmOrPrice } = useAdverts();
 
     return (
         <section className="flex flex-col w-[20%] py-16 px-4">

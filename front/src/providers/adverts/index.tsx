@@ -68,8 +68,9 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     fuels.sort()
   }
 
-  const filterByKmOrPrice = async (value: number) => {
-    const adverts = await api.get<listRetrieveAdvertsType>("adverts/")
+  const filterByKmOrPrice = async (data: {}): Promise<void> => {
+    console.log(data)
+    //const adverts = await api.get<listRetrieveAdvertsType>("adverts/")
   }
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 
   return (
     <AdvertsContext.Provider
-      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels, filterAdverts, setFilterAdverts }}
+      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels, filterAdverts, setFilterAdverts, filterByKmOrPrice }}
     >
       {children}
     </AdvertsContext.Provider>
