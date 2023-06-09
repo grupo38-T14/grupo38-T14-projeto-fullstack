@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { AdvertsService } from './adverts.service';
 import { CreateAdvertDto } from './dto/create-advert.dto';
 import { UpdateAdvertDto } from './dto/update-advert.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('adverts')
 export class AdvertsController {
@@ -13,8 +23,12 @@ export class AdvertsController {
   }
 
   @Get()
-  findAll() {
-    return this.advertsService.findAll();
+  findAll(
+    @Query('where') where?: Prisma.UsersWhereInput,
+    @Query('orderBy') orderBy?: Prisma.UsersOrderByWithRelationInput,
+    @Query('page') page?: number,
+  ) {
+    return this.advertsService.findAll(where, orderBy, page);
   }
 
   @Get(':id')
