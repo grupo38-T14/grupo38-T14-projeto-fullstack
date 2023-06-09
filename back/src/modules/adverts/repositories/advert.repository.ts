@@ -15,6 +15,7 @@ export abstract class AdvertRepository {
     orderBy?: Prisma.UsersOrderByWithRelationInput;
     page?: number;
   }): Promise<PaginatedResult<Advert[]>>;
+  abstract findAllAdverts(): Promise<Advert[]> | Advert[];
   abstract findOne(id: string): Promise<Advert> | Advert;
   abstract update(id: string, data: UpdateAdvertDto): Promise<Advert> | Advert;
 }

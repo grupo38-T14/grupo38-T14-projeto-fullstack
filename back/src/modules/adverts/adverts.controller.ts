@@ -11,7 +11,7 @@ import {
 import { AdvertsService } from './adverts.service';
 import { CreateAdvertDto } from './dto/create-advert.dto';
 import { UpdateAdvertDto } from './dto/update-advert.dto';
-import { Prisma } from '@prisma/client';
+import { Fuel, Prisma } from '@prisma/client';
 
 @Controller('adverts')
 export class AdvertsController {
@@ -24,11 +24,24 @@ export class AdvertsController {
 
   @Get()
   findAll(
-    @Query('where') where?: Prisma.UsersWhereInput,
-    @Query('orderBy') orderBy?: Prisma.UsersOrderByWithRelationInput,
+    @Query('orderBy') orderBy?: Prisma.AdvertOrderByWithRelationInput,
     @Query('page') page?: number,
+    @Query('brand') brand?: string,
+    @Query('model') model?: string,
+    @Query('color') color?: string,
+    @Query('year') year?: number,
+    @Query('fuel') fuel?: Fuel,
   ) {
-    return this.advertsService.findAll(where, orderBy, page);
+    return this.advertsService.findAll(
+      { brand, color, fuel, model, year },
+      orderBy,
+      page,
+    );
+  }
+
+  @Get('/all')
+  findAllAdverts() {
+    return this.advertsService.findAllAdverts();
   }
 
   @Get(':id')
