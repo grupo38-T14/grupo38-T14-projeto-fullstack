@@ -12,7 +12,7 @@ import {
   paginator,
 } from '../../providers/prisma/paginator';
 
-const paginate: PaginateFunction = paginator({ perPage: 10 });
+const paginate: PaginateFunction = paginator({ perPage: 12 });
 
 @Injectable()
 export class AdvertPrismaRepository implements AdvertRepository {
