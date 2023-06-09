@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import {
+  IPageProps,
   createAdvertType,
   listRetrieveAdvertsType,
   retrieveAdvertPaginationType,
@@ -10,7 +11,7 @@ export interface AdvertsContextValues {
   createAdvert: (data: createAdvertType) => void;
   deleteAdvert: (id: string) => void;
   updateAdvert: (id: string, data: createAdvertType) => void;
-  retrieveAdvert: (page: number | 1) => void;
+  retrieveAdvert: (filter?: string, filterName?: string, page?: number) => void;
   retrieveUniqueAdvert: (id: string) => void;
   adverts: listRetrieveAdvertsType;
   advert: retrieveAdvertType | undefined;
@@ -21,7 +22,7 @@ export interface AdvertsContextValues {
   fuels: string[] | [];
   filterAdverts: string | number
   setFilterAdverts: Dispatch<SetStateAction<string | number>>;
-  page: retrieveAdvertPaginationType | undefined;
+  page: IPageProps | undefined;
   allAdverts: listRetrieveAdvertsType;
 }
 

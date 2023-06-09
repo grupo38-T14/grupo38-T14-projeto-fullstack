@@ -47,3 +47,12 @@ export type retrieveAdvertType = z.infer<typeof schemaAdvert>;
 export type retrieveAdvertPaginationType = z.infer<typeof schemaAdvertPagination>;
 export type listRetrieveAdvertsType = retrieveAdvertType[];
 export type updateAdvertType = z.infer<typeof schemaUpdateAdvert>;
+
+export interface IPageProps {
+  current: number,
+  last: number,
+  next: number,
+  prev: number,
+  filter: string,
+  filterName: string
+}

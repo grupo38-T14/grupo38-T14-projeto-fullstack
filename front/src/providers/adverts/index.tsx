@@ -1,5 +1,6 @@
 "use client";
 import {
+  IPageProps,
   createAdvertType,
   listRetrieveAdvertsType,
   retrieveAdvertPaginationType,
@@ -27,7 +28,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [colors, setColors] = useState<string[]>([]);
   const [years, setYears] = useState<number[]>([]);
   const [fuels, setFuels] = useState<string[]>([]);
-  const [page, setPage] = useState<retrieveAdvertPaginationType>();
+  const [page, setPage] = useState<IPageProps>();
 
   const createAdvert = async (data: createAdvertType) => {
     await api
@@ -48,25 +49,24 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       .catch((err) => console.error(err));
   };
 
-  const retrieveAdvert = async (page?: number) => {
-    console.log(page)
+  const retrieveAdvert = async (filter: string = "", filterName: string = "", page: number = 1) => {
     if(page){
       await api
-      .get(`adverts?page=${page}`)
-      .then((res) => {setAdverts(res.data.data); setPage(res.data)})
+      .get(`adverts?page=${page}&${filter}=${filterName}`)
+      .then(({ data }) => {setAdverts(data.data); setPage({current: data.currentPage, last: data.lastPage, next: data.next, prev: data.prev, filter: filter, filterName: filterName})})
       .catch((err) => console.error(err));
     }else{
       await api
-      .get("adverts")
+      .get(`adverts?${filterName}=${filter}`)
       .then((res) => {setAdverts(res.data.data); setPage(res.data)})
       .catch((err) => console.error(err));
     }
-  };
+  }
 
   const retrieveUniqueAdvert = async (id: string) => {
     await api
       .get(`adverts/${id}`)
-      .then((res) => setAdvert(res.data.data))
+      .then(({ data }) => setAdvert(data.data.data))
       .catch((err) => console.error(err));
   };
 
@@ -113,3 +113,4 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     </AdvertsContext.Provider>
   );
 };
+

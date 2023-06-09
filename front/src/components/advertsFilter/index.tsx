@@ -5,9 +5,8 @@ import Button from "../button";
 export default function AdvertsFilter() {
 
     //Função para filtrar km e preço
-    //Lógica para caso os anúncios sejam excluídos, os filtros sumirem
 
-    const { brands, models, colors, years, fuels, setFilterAdverts, filterAdverts } = useAdverts();
+    const { brands, models, colors, years, fuels, retrieveAdvert, page } = useAdverts();
 
     return (
         <section className="flex flex-col w-[20%] py-16 px-4">
@@ -18,7 +17,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li key={e}>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {retrieveAdvert("brand", e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -32,7 +31,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li key={e}>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {retrieveAdvert("model", e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -46,7 +45,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li key={e}>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {retrieveAdvert("color", e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -60,7 +59,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li key={e}>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {retrieveAdvert("year", String(e))}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -74,7 +73,7 @@ export default function AdvertsFilter() {
                         return (
                             <>
                                 <li key={e}>
-                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {setFilterAdverts(e)}}>{e}</p>
+                                    <p className="text-sm font-medium text-gray-30 cursor-pointer" onClick={() => {retrieveAdvert("fuel", e)}}>{e}</p>
                                 </li>
                             </>
                         )
@@ -95,7 +94,7 @@ export default function AdvertsFilter() {
                     <Input label="Preço" type="coin" placeholder="Máximo" />
                 </div>
             </div>
-            {filterAdverts && <Button type="brand" handle={() => {setFilterAdverts("")}}>Limpar Filtros</Button>}
+            {page?.filter && <Button type="brand" handle={() => {retrieveAdvert("", "", 1)}}>Limpar Filtros</Button>}
         </section>
     )
 }

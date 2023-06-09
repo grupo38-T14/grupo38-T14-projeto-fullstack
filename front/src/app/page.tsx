@@ -12,10 +12,10 @@ import { useAdverts } from "@/hooks/advertHook";
 export default function Home() {
   const [disabledBtn, setDisableBtn] = useState(true);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 gap-">
       <div className="grid grid-cols-3 gap-4 p-4 ">
         <div className="col-span-3">
-          <Button handle={() => console.log("pegando")} type="brand" >
+          <Button handle={() => console.log("pegando")} type="brand">
             Cadastrar
           </Button>
         </div>
@@ -64,7 +64,12 @@ export default function Home() {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-5 mt-4">
-        <Input label="Nome" type="text" placeholder="Input para tipo string" error="* Nome é obrigatório" />
+        <Input
+          label="Nome"
+          type="text"
+          placeholder="Input para tipo string"
+          error="* Nome é obrigatório"
+        />
         {/* Deve se usar o erro desta forma
             error={errors?.name && errors.name.message} 
         */}
