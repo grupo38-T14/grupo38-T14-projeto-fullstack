@@ -1,26 +1,18 @@
 "use client";
+import AdvertsFilter from "@/components/advertsFilter";
+import AdvertsList from "@/components/advertsList";
 import { useAdverts } from "@/hooks/advertHook";
-import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const { adverts } = useAdverts();
-  return (
-    <main className="h-fit">
-      <h2>Dashboard</h2>
 
-      <div>
-        <ul>
-          {adverts?.map((advert) => (
-            <li
-              key={advert.id}
-              onClick={() => router.push(`/dashboard/${advert.id}`)}
-            >
-              {advert.model}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </main>
-  );
+  const { adverts } = useAdverts();
+
+  if(adverts){
+    return (
+      <main className="flex justify-between w-full h-fit bg-white">
+        <AdvertsFilter />
+        <AdvertsList />
+      </main>
+    );
+  }
 }

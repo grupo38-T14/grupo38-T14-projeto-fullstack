@@ -13,8 +13,8 @@ export default function Header(){
     return (
         <header className= "flex justify-between px-2 items-center h-16">
             <figure>
-                <Image 
-                    src={motors_logo} 
+                <Image
+                    src={motors_logo}
                     alt="motors shop logo"
                     width={150}
                 />

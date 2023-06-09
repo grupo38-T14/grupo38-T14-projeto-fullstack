@@ -32,7 +32,27 @@ export const schemaAdvert = z.object({
 export const schemaCreateAdvert = schemaAdvert.omit({ id: true });
 export const schemaUpdateAdvert = schemaAdvert.omit({ id: true }).deepPartial();
 
+export const schemaAdvertPagination = z.object({
+  total: z.number(),
+  lastPage: z.number(),
+  currentPage: z.number(),
+  perPage: z.number(),
+  prev: z.number(),
+  next: z.number(),
+  data: schemaAdvert.array(),
+});
+
 export type createAdvertType = z.infer<typeof schemaCreateAdvert>;
 export type retrieveAdvertType = z.infer<typeof schemaAdvert>;
+export type retrieveAdvertPaginationType = z.infer<typeof schemaAdvertPagination>;
 export type listRetrieveAdvertsType = retrieveAdvertType[];
 export type updateAdvertType = z.infer<typeof schemaUpdateAdvert>;
+
+export interface IPageProps {
+  current: number,
+  last: number,
+  next: number,
+  prev: number,
+  filter: string,
+  filterName: string
+}

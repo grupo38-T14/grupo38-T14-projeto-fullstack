@@ -8,6 +8,7 @@ interface iInputProps {
   label: string;
   register?: UseFormRegisterReturn
   error?: string
+  handle?: () => void;
 }
 
 const Input = ({ type, label, placeholder, register, error}: iInputProps) => {
