@@ -15,8 +15,8 @@ export default function Header(){
     return (
         <header className= "h-20 pl-5 pr-5 relative flex justify-between items-center bg-white border-b-2 border-b-gray-50">
             <figure>
-                <Image 
-                    src={motors_logo} 
+                <Image
+                    src={motors_logo}
                     alt="motors shop logo"
                     width={150}
                 />

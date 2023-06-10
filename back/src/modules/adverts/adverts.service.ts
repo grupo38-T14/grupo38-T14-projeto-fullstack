@@ -13,7 +13,7 @@ export class AdvertsService {
   }
 
   async findAll(
-    where?: Prisma.UsersWhereInput,
+    where?: Prisma.AdvertWhereInput,
     orderBy?: Prisma.UsersOrderByWithRelationInput,
     page?: number,
   ) {
@@ -22,6 +22,15 @@ export class AdvertsService {
       orderBy,
       page,
     });
+    return advertList;
+  }
+  async findAllAdverts() {
+    const advertList = await this.advertRepository.findAllAdverts();
+    return advertList;
+  }
+
+  async findAllAdverts() {
+    const advertList = await this.advertRepository.findAllAdverts();
     return advertList;
   }
 

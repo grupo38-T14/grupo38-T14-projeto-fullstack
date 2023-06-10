@@ -50,6 +50,17 @@ export class AdvertPrismaRepository implements AdvertRepository {
     );
   }
 
+  async findAllAdverts(): Promise<Advert[]> {
+    const adverts = await this.prisma.advert.findMany({
+      include: {
+        gallery: true,
+        comments: true,
+        user: true,
+      },
+    });
+    return plainToInstance(Advert, adverts);
+  }
+
   async findOne(id: string): Promise<Advert> {
     const advert = await this.prisma.advert.findUnique({
       where: { id },
