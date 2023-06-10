@@ -49,6 +49,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       .catch((err) => console.error(err));
   };
 
+
   const retrieveAdvert = async (filter: string = "", filterName: string = "", page: number = 1) => {
     if(page){
       await api
@@ -66,7 +67,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const retrieveUniqueAdvert = async (id: string) => {
     await api
       .get(`adverts/${id}`)
-      .then(({ data }) => setAdvert(data.data.data))
+      .then((res) => setAdvert(res.data.data))
       .catch((err) => console.error(err));
   };
 
