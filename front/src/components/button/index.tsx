@@ -47,7 +47,7 @@ const Button = ({
       "bg-feedback-alert3 hover:bg-feedback-alert2 text-feedback-alert1 border-feedback-alert3 hover:border-feedback-alert2",
     outlineBrand1: "bg-white hover:bg-brand-4 border-brand-1 text-brand-1",
     outline1:
-      "bg-white hover:bg-gray-10 border-gray-0 hover:border-gray-10 text-gray-0 hover:text-white",
+      "bg-white hover:bg-gray-10 border-gray-40 hover:border-gray-10 text-gray-0 hover:text-white",
     outline2:
       "bg-white hover:bg-gray-10 border-gray-10 hover:border-gray-10 text-gray-0 hover:text-white",
     outlineLight:

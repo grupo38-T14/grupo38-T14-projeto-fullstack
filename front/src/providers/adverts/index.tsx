@@ -49,20 +49,36 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       .catch((err) => console.error(err));
   };
 
-
-  const retrieveAdvert = async (filter: string = "", filterName: string = "", page: number = 1) => {
-    if(page){
+  const retrieveAdvert = async (
+    filter: string = "",
+    filterName: string = "",
+    page: number = 1
+  ) => {
+    if (page) {
       await api
-      .get(`adverts?page=${page}&${filter}=${filterName}`)
-      .then(({ data }) => {setAdverts(data.data); setPage({current: data.currentPage, last: data.lastPage, next: data.next, prev: data.prev, filter: filter, filterName: filterName})})
-      .catch((err) => console.error(err));
-    }else{
+        .get(`adverts?page=${page}&${filter}=${filterName}`)
+        .then(({ data }) => {
+          setAdverts(data.data);
+          setPage({
+            current: data.currentPage,
+            last: data.lastPage,
+            next: data.next,
+            prev: data.prev,
+            filter: filter,
+            filterName: filterName,
+          });
+        })
+        .catch((err) => console.error(err));
+    } else {
       await api
-      .get(`adverts?${filterName}=${filter}`)
-      .then((res) => {setAdverts(res.data.data); setPage(res.data)})
-      .catch((err) => console.error(err));
+        .get(`adverts?${filterName}=${filter}`)
+        .then((res) => {
+          setAdverts(res.data.data);
+          setPage(res.data);
+        })
+        .catch((err) => console.error(err));
     }
-  }
+  };
 
   const retrieveUniqueAdvert = async (id: string) => {
     await api
@@ -72,46 +88,71 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   };
 
   const getFilters = async () => {
-    const adverts = await api.get("adverts/all")
-    setAllAdverts(adverts.data)
-    adverts?.data.map((e: { brand: string; model: string; color: string; year: number; fuel: string; }) => {
-      if(!brands.includes(e.brand)){
-        setBrands([...brands, e.brand])
+    const adverts = await api.get("adverts/all");
+    setAllAdverts(adverts.data);
+    adverts?.data.map(
+      (e: {
+        brand: string;
+        model: string;
+        color: string;
+        year: number;
+        fuel: string;
+      }) => {
+        if (!brands.includes(e.brand)) {
+          setBrands([...brands, e.brand]);
+        }
+        if (!models.includes(e.model)) {
+          setModels([...models, e.model]);
+        }
+        if (!colors.includes(e.color)) {
+          setColors([...colors, e.color]);
+        }
+        if (!years.includes(e.year)) {
+          setYears([...years, e.year]);
+        }
+        if (!fuels.includes(e.fuel)) {
+          setFuels([...fuels, e.fuel]);
+        }
       }
-      if(!models.includes(e.model)){
-        setModels([...models, e.model])
-      }
-      if(!colors.includes(e.color)){
-        setColors([...colors, e.color])
-      }
-      if(!years.includes(e.year)){
-        setYears([...years, e.year])
-      }
-      if(!fuels.includes(e.fuel)){
-        setFuels([...fuels, e.fuel])
-      }
-    })
-    brands.sort()
-    models.sort()
-    colors.sort()
-    years.sort()
-    fuels.sort()
-  }
+    );
+    brands.sort();
+    models.sort();
+    colors.sort();
+    years.sort();
+    fuels.sort();
+  };
 
-  useEffect(() => {
+  // I commented because of the error
+  /* useEffect(() => {
     retrieveAdvert();
-  }, [])
+  }, []);
 
   useEffect(() => {
     getFilters();
-  }, [filterAdverts, getFilters]);
+  }, [filterAdverts, getFilters]); */
 
   return (
     <AdvertsContext.Provider
-      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels, filterAdverts, setFilterAdverts, createAdvert, deleteAdvert, updateAdvert, page, allAdverts}}
+      value={{
+        retrieveAdvert,
+        retrieveUniqueAdvert,
+        adverts,
+        advert,
+        brands,
+        models,
+        colors,
+        years,
+        fuels,
+        filterAdverts,
+        setFilterAdverts,
+        createAdvert,
+        deleteAdvert,
+        updateAdvert,
+        page,
+        allAdverts,
+      }}
     >
       {children}
     </AdvertsContext.Provider>
   );
 };
-
