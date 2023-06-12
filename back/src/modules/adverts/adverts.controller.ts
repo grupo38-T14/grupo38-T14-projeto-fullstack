@@ -44,11 +44,6 @@ export class AdvertsController {
     return this.advertsService.findAllAdverts();
   }
 
-  @Get('/all')
-  findAllAdverts() {
-    return this.advertsService.findAllAdverts();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.advertsService.findOne(id);
