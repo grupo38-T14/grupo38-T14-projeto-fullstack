@@ -20,7 +20,7 @@ export default function AdvertsFilter({list}: AdvertsFilterProps) {
     const { retrieveAdvert, page, setMinKm, setMaxKm, setMinPrice, setMaxPrice } = useAdverts();
 
     return (
-        <section className="flex flex-col w-[20%] py-16 px-4">
+        <section className="flex flex-col w-[15%] py-16 px-4">
             <FilterField name={"Marca"} list={list.brands}/>
             <FilterField name={"Modelo"} list={list.models} />
             <FilterField name={"Cor"} list={list.colors} />

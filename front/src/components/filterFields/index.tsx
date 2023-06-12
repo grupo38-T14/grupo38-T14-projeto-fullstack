@@ -18,7 +18,7 @@ export const FilterField = ({ name, list }: FilterFieldProps) => {
     }
 
     return (
-        <div className="mt-10 mb-10">
+        <div className="mb-5">
             <h2 className="text-lg font-semibold text-[#000000]">{name}</h2>
             <ul className="pl-2.5 mt-2.5">
                 {list!.map((e) => {

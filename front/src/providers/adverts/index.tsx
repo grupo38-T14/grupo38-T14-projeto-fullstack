@@ -24,6 +24,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [maxKm, setMaxKm] = useState<number>(1000000.00)
   const [minPrice, setMinPrice] = useState<number>(0)
   const [maxPrice, setMaxPrice] = useState<number>(10000000)
+  const [loading, setLoading] = useState(true)
 
   const createAdvert = async (data: createAdvertType) => {
     await api
@@ -51,25 +52,36 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   };
 
   const retrieveAdvert = async (filter: string = "", filterName: string | number = "", page: number = 1) => {
-    const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`)
-    const res = req.data
+    try {
+      const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`)
+      const res = req.data
 
-    setCurrentAdverts(res.data)
-    setPage({current: res.currentPage, last: res.lastPage, next: res.next, prev: res.prev, filter: filter, filterName: filterName})
+      setCurrentAdverts(res.data)
+      setPage({current: res.currentPage, last: res.lastPage, next: res.next, prev: res.prev, filter: filter, filterName: filterName})
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setLoading(false)
+    }
   }
 
   const retrieveFilterByKmPriceAdvert = async (type: "KM" | "Price") => {
+    try {
+      const filterMin = type == "KM" ? "minKM" : "minPrice"
+      const filterMax = type == "KM" ? "maxKM" : "maxPrice"
+      const filterValueMin = type == "KM" ? minKm : minPrice
+      const filterValueMax = type == "KM" ? maxKm : maxPrice
 
-    const filterMin = type == "KM" ? "minKM" : "minPrice"
-    const filterMax = type == "KM" ? "maxKM" : "maxPrice"
-    const filterValueMin = type == "KM" ? minKm : minPrice
-    const filterValueMax = type == "KM" ? maxKm : maxPrice
+      const req = await api.get(`adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`)
+      const res = req.data
 
-    const req = await api.get(`adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`)
-    const res = req.data
-
-    setCurrentAdverts(res.data)
-    setPage({current: res.currentPage, last: res.lastPage, next: res.next, prev: res.prev, filterMin: filterMin, filterValueMin: filterValueMin, filterMax: filterMax, filterValueMax: filterValueMax})
+      setCurrentAdverts(res.data)
+      setPage({current: res.currentPage, last: res.lastPage, next: res.next, prev: res.prev, filterMin: filterMin, filterValueMin: filterValueMin, filterMax: filterMax, filterValueMax: filterValueMax})
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setLoading(false)
+    }
   }
 
   const searchAdverts = (event: ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +95,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 
   return (
     <AdvertsContext.Provider
-      value={{ retrieveAdvert, retrieveUniqueAdvert, advert, createAdvert, deleteAdvert, updateAdvert, page, setMinKm, setMaxKm, setMinPrice, setMaxPrice, currentAdverts, searchAdverts, retrieveFilterByKmPriceAdvert}}
+      value={{ retrieveAdvert, retrieveUniqueAdvert, advert, createAdvert, deleteAdvert, updateAdvert, page, setMinKm, setMaxKm, setMinPrice, setMaxPrice, currentAdverts, searchAdverts, retrieveFilterByKmPriceAdvert, loading}}
     >
       {children}
     </AdvertsContext.Provider>
