@@ -53,25 +53,14 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   };
 
   const retrieveAdvert = async (filter: string = "", filterName: string | number = "", page: number = 1) => {
-    if(minKm !== 0 || maxKm !== 10000000000){
-      const req = await api.get("adverts")
-      const res = req.data
-      const filteredKmAdverts = res.data.filter((advert: retrieveAdvertType) => advert.km >= minKm && advert.km <= maxKm)
-      setCurrentAdverts(filteredKmAdverts)
-      //setPage({current: res.currentPage, last: res.lastPage, next: res.next,prev: res.prev, filter: "KM", filterName: filterName})
-    }else if(minPrice !== 0 || maxPrice !== 10000000000){
-      const req = await api.get("adverts")
-      const res = req.data
-      const filteredPriceAdverts = res.data.filter((advert: retrieveAdvertType) => advert.price >= minPrice && advert.price <= maxPrice)
-      setCurrentAdverts(filteredPriceAdverts)
-      //setPage({current: res.currentPage, last: res.lastPage, next: res.next,prev: res.prev, filter: "Preço", filterName: filterName})
-    }else{
-      const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`)
-      const res = req.data
-      setCurrentAdverts(res.data)
-      setPage({current: res.currentPage, last: res.lastPage, next: res.next,prev: res.prev, filter: filter, filterName: filterName})
-    }
-    //PAGINAÇÃO ESTÁ COM PROBLEMA - estár retornando todo o objeto de paginação, pois não estou usando query params
+    const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`)
+    const res = req.data
+    const filteredKmAdverts = res.data.filter((advert: retrieveAdvertType) => advert.km >= minKm && advert.km <= maxKm)
+
+    const fieldFilter = filter == "KM" ? "KM" : filter == "Preço" ? "Preço" : filter
+
+    setCurrentAdverts(filteredKmAdverts)
+    setPage({current: res.currentPage, last: res.lastPage, next: res.next, prev: res.prev, filter: fieldFilter, filterName: filterName})
   }
 
   const searchAdverts = (event: ChangeEvent<HTMLInputElement>) => {

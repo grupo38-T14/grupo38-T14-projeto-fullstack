@@ -18,9 +18,9 @@ export default function AdvertsList() {
                         {currentAdverts?.map((advert) => {
                             return (
                                 <>
-                                <li className="relative flex flex-col items-start gap-4 border-none cursor-pointer" key={advert.id} onClick={() => router.push(`/dashboard/${advert.id}`)}>
-                                    <div className="flex w-[100%] items-center overflow-hidden">
-                                        <Image className="flex m-auto object-cover pt-2.5" src={advert.image_cape} width={250} height={250} alt="imagem do carro" />
+                                <li key={advert.id} className="relative flex flex-col items-start gap-4 cursor-pointer border-none" onClick={() => router.push(`/dashboard/${advert.id}`)}>
+                                    <div className="flex w-[100%] items-center overflow-hidden bg-gray-50 p-5">
+                                        <Image className="flex m-auto object-cover" src={advert.image_cape} width={250} height={250} alt="imagem do carro" />
                                     </div>
                                     <section className="flex flex-col items-start justify-start gap-4 w-full">
                                         <h2 className="text-base font-semibold text-gray-10">{advert.brand} - {advert.model}</h2>
