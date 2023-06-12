@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import {
   IPageProps,
   createAdvertType,
   listRetrieveAdvertsType,
-  retrieveAdvertPaginationType,
   retrieveAdvertType,
 } from "./advert.schema";
 
@@ -11,19 +10,16 @@ export interface AdvertsContextValues {
   createAdvert: (data: createAdvertType) => void;
   deleteAdvert: (id: string) => void;
   updateAdvert: (id: string, data: createAdvertType) => void;
-  retrieveAdvert: (filter?: string, filterName?: string, page?: number) => void;
+  retrieveAdvert: (filter?: string, filterName?: string | number, page?: number) => void;
   retrieveUniqueAdvert: (id: string) => void;
-  adverts: listRetrieveAdvertsType;
+  currentAdverts: listRetrieveAdvertsType;
   advert: retrieveAdvertType | undefined;
-  brands: string[] | [];
-  models: string[] | [];
-  colors: string[] | [];
-  years: number[] | [];
-  fuels: string[] | [];
-  filterAdverts: string | number
-  setFilterAdverts: Dispatch<SetStateAction<string | number>>;
   page: IPageProps | undefined;
-  allAdverts: listRetrieveAdvertsType;
+  setMinKm: Dispatch<SetStateAction<number>>;
+  setMaxKm: Dispatch<SetStateAction<number>>;
+  setMinPrice: Dispatch<SetStateAction<number>>;
+  setMaxPrice: Dispatch<SetStateAction<number>>;
+  searchAdverts: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface AdvertsProviderProps {

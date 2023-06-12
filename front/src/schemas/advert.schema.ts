@@ -54,5 +54,5 @@ export interface IPageProps {
   next: number,
   prev: number,
   filter: string,
-  filterName: string
+  filterName: string | number
 }

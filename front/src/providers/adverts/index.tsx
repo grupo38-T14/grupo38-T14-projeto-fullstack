@@ -12,23 +12,20 @@ import {
   AdvertsProviderProps,
 } from "@/schemas/advertsContext";
 import { api } from "@/service";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, ChangeEvent } from "react";
 
 export const AdvertsContext = createContext<AdvertsContextValues>(
   {} as AdvertsContextValues
 );
 
 export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
-  const [allAdverts, setAllAdverts] = useState<listRetrieveAdvertsType>([]);
-  const [adverts, setAdverts] = useState<listRetrieveAdvertsType>([]);
-  const [filterAdverts, setFilterAdverts] = useState<string | number>("");
+  const [currentAdverts, setCurrentAdverts] = useState([]);
   const [advert, setAdvert] = useState<retrieveAdvertType>();
-  const [brands, setBrands] = useState<string[]>([]);
-  const [models, setModels] = useState<string[]>([]);
-  const [colors, setColors] = useState<string[]>([]);
-  const [years, setYears] = useState<number[]>([]);
-  const [fuels, setFuels] = useState<string[]>([]);
   const [page, setPage] = useState<IPageProps>();
+  const [minKm, setMinKm] = useState<number>(0)
+  const [maxKm, setMaxKm] = useState<number>(10000000000)
+  const [minPrice, setMinPrice] = useState<number>(0)
+  const [maxPrice, setMaxPrice] = useState<number>(10000000000)
 
   const createAdvert = async (data: createAdvertType) => {
     await api
@@ -48,21 +45,6 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       .then((res) => retrieveAdvert())
       .catch((err) => console.error(err));
   };
-
-  const retrieveAdvert = async (filter: string = "", filterName: string = "", page: number = 1) => {
-    if(page){
-      await api
-      .get(`adverts?page=${page}&${filter}=${filterName}`)
-      .then(({ data }) => {setAdverts(data.data); setPage({current: data.currentPage, last: data.lastPage, next: data.next, prev: data.prev, filter: filter, filterName: filterName})})
-      .catch((err) => console.error(err));
-    }else{
-      await api
-      .get(`adverts?${filterName}=${filter}`)
-      .then((res) => {setAdverts(res.data.data); setPage(res.data)})
-      .catch((err) => console.error(err));
-    }
-  }
-
   const retrieveUniqueAdvert = async (id: string) => {
     await api
       .get(`adverts/${id}`)
@@ -70,47 +52,42 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       .catch((err) => console.error(err));
   };
 
-  const getFilters = async () => {
-    const adverts = await api.get("adverts/all")
-    setAllAdverts(adverts.data)
-    adverts?.data.map((e: { brand: string; model: string; color: string; year: number; fuel: string; }) => {
-      if(!brands.includes(e.brand)){
-        setBrands([...brands, e.brand])
-      }
-      if(!models.includes(e.model)){
-        setModels([...models, e.model])
-      }
-      if(!colors.includes(e.color)){
-        setColors([...colors, e.color])
-      }
-      if(!years.includes(e.year)){
-        setYears([...years, e.year])
-      }
-      if(!fuels.includes(e.fuel)){
-        setFuels([...fuels, e.fuel])
-      }
-    })
-    brands.sort()
-    models.sort()
-    colors.sort()
-    years.sort()
-    fuels.sort()
+  const retrieveAdvert = async (filter: string = "", filterName: string | number = "", page: number = 1) => {
+    if(minKm !== 0 || maxKm !== 10000000000){
+      const req = await api.get("adverts")
+      const res = req.data
+      const filteredKmAdverts = res.data.filter((advert: retrieveAdvertType) => advert.km >= minKm && advert.km <= maxKm)
+      setCurrentAdverts(filteredKmAdverts)
+      //setPage({current: res.currentPage, last: res.lastPage, next: res.next,prev: res.prev, filter: "KM", filterName: filterName})
+    }else if(minPrice !== 0 || maxPrice !== 10000000000){
+      const req = await api.get("adverts")
+      const res = req.data
+      const filteredPriceAdverts = res.data.filter((advert: retrieveAdvertType) => advert.price >= minPrice && advert.price <= maxPrice)
+      setCurrentAdverts(filteredPriceAdverts)
+      //setPage({current: res.currentPage, last: res.lastPage, next: res.next,prev: res.prev, filter: "Preço", filterName: filterName})
+    }else{
+      const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`)
+      const res = req.data
+      setCurrentAdverts(res.data)
+      setPage({current: res.currentPage, last: res.lastPage, next: res.next,prev: res.prev, filter: filter, filterName: filterName})
+    }
+    //PAGINAÇÃO ESTÁ COM PROBLEMA - estár retornando todo o objeto de paginação, pois não estou usando query params
+  }
+
+  const searchAdverts = (event: ChangeEvent<HTMLInputElement>) => {
+    const findAdverts = currentAdverts.filter((advert: retrieveAdvertType) => advert.brand == event.target.value)
+    setCurrentAdverts(findAdverts)
   }
 
   useEffect(() => {
     retrieveAdvert();
-  }, [])
-
-  useEffect(() => {
-    getFilters();
-  }, [filterAdverts, getFilters]);
+  }, [minKm, maxKm, minPrice, maxPrice])
 
   return (
     <AdvertsContext.Provider
-      value={{ retrieveAdvert, retrieveUniqueAdvert, adverts, advert, brands, models, colors, years, fuels, filterAdverts, setFilterAdverts, createAdvert, deleteAdvert, updateAdvert, page, allAdverts}}
+      value={{ retrieveAdvert, retrieveUniqueAdvert, advert, createAdvert, deleteAdvert, updateAdvert, page, setMinKm, setMaxKm, setMinPrice, setMaxPrice, currentAdverts, searchAdverts}}
     >
       {children}
     </AdvertsContext.Provider>
   );
 };
-

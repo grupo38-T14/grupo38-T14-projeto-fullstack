@@ -1,19 +1,21 @@
+"use client"
 import Image from "next/image"
-import { useAdverts } from "@/hooks/advertHook";
 import { useRouter } from "next/navigation";
 import Section_2 from "../../../public/Section 2.png"
 import { Pagination } from "../pagination";
+import { useAdverts } from "@/hooks/advertHook";
+
 
 export default function AdvertsList() {
 
     const router = useRouter();
-    const { adverts } = useAdverts();
+    const { currentAdverts } = useAdverts()
 
-    if(adverts.length > 0){
+    if(currentAdverts.length > 0){
             return (
                 <section className="w-[80%]">
                     <ul className="grid grid-cols-3 list-none gap-12 w-full p-16">
-                        {adverts?.map((advert) => {
+                        {currentAdverts?.map((advert) => {
                             return (
                                 <>
                                 <li className="relative flex flex-col items-start gap-4 border-none cursor-pointer" key={advert.id} onClick={() => router.push(`/dashboard/${advert.id}`)}>
