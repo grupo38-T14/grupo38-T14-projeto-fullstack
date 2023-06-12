@@ -31,9 +31,21 @@ export class AdvertsController {
     @Query('color') color?: string,
     @Query('year') year?: number,
     @Query('fuel') fuel?: Fuel,
+    @Query('maxPrice') maxPrice?: number,
+    @Query('minPrice') minPrice?: number,
+    @Query('maxKM') maxKM?: number,
+    @Query('minKM') minKM?: number,
   ) {
     return this.advertsService.findAll(
-      { brand, color, fuel, model, year },
+      {
+        brand,
+        color,
+        fuel,
+        model,
+        year,
+        price: { lte: maxPrice, gte: minPrice },
+        km: { lte: maxKM, gte: minKM },
+      },
       orderBy,
       page,
     );

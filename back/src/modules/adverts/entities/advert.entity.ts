@@ -13,8 +13,10 @@ export class Advert {
   price: number;
   description: string;
   image_cape: string;
+  is_active: boolean
 
   constructor() {
     this.id = randomUUID();
+    this.is_active = true
   }
 }

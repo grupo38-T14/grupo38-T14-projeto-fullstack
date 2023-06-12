@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { AdvertsProvider } from "@/providers/adverts";
+import { AuhtProvider } from "@/providers/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AdvertsProvider>
+      <body className={`${inter.className}`}>
+        <AuhtProvider>
           <Header />
-          <div className="px-2">{children}</div>
+          <div className="h-full">{children}</div>
           <Footer />
-        </AdvertsProvider>
+        </AuhtProvider>
       </body>
     </html>
   );

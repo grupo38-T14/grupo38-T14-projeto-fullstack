@@ -53,6 +53,10 @@ export interface IPageProps {
   last: number,
   next: number,
   prev: number,
-  filter: string,
-  filterName: string | number
+  filter?: string,
+  filterName?: string | number
+  filterMin?: string,
+  filterMax?: string,
+  filterValueMin?: number,
+  filterValueMax?: number
 }

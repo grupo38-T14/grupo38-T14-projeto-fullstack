@@ -26,9 +26,9 @@ export default function AdvertsFilter({list}: AdvertsFilterProps) {
             <FilterField name={"Cor"} list={list.colors} />
             <FilterField name={"Ano"} list={list.years} />
             <FilterField name={"Combustível"} list={list.fuels} />
-            <FilterInputField name={"Quilometragem"} />
-            <FilterInputField name={"Preço"} />
-            {page?.filter && <Button type="brand" handle={() => {retrieveAdvert("", "", 1); setMinKm(0); setMaxKm(10000000000); setMinPrice(0); setMaxPrice(10000000000)}}>Limpar Filtros</Button>}
+            <FilterInputField name={"Quilometragem"} type="KM"/>
+            <FilterInputField name={"Preço"} type="Price"/>
+            {(page?.filter || page?.filterMax || page?.filterMin)  && <Button type="brand" handle={() => {retrieveAdvert("", "", 1); setMinKm(0); setMaxKm(10000000); setMinPrice(0); setMaxPrice(10000000)}}>Limpar Filtros</Button>}
         </section>
 
     )

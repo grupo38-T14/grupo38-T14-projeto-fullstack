@@ -27,7 +27,8 @@ CREATE TABLE "users" (
     "description" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "account_type" BOOLEAN NOT NULL DEFAULT false,
-    "created_at" TEXT NOT NULL,
+    "avatar_url" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -39,12 +40,13 @@ CREATE TABLE "advert" (
     "model" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "fuel" "Fuel" NOT NULL,
-    "km" DECIMAL(65,30) NOT NULL,
+    "km" INTEGER NOT NULL,
     "color" TEXT NOT NULL,
     "table_fipe_price" INTEGER NOT NULL,
     "price" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
     "image_cape" TEXT NOT NULL,
+    "is_active" BOOLEAN NOT NULL DEFAULT true,
     "userId" TEXT,
 
     CONSTRAINT "advert_pkey" PRIMARY KEY ("id")
@@ -54,7 +56,7 @@ CREATE TABLE "advert" (
 CREATE TABLE "comments" (
     "id" TEXT NOT NULL,
     "comment" TEXT NOT NULL,
-    "created_at" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
     "advertId" TEXT NOT NULL,
 
@@ -72,6 +74,9 @@ CREATE TABLE "gallery" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "address_userId_key" ON "address"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- AddForeignKey
 ALTER TABLE "address" ADD CONSTRAINT "address_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
