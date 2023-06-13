@@ -12,7 +12,7 @@ const Advert = async ({ params }: IPageProps) => {
 
   return (
     <main className="body min-h-screen">
-      <Link className="btn-primary m-6" href={"/dashboard"}>
+      <Link className="btn-primary m-6" href={"/"}>
         Voltar
       </Link>
       <div className="flex items-center justify-center">
