@@ -15,11 +15,14 @@ export interface AdvertsContextValues {
   currentAdverts: listRetrieveAdvertsType;
   advert: retrieveAdvertType | undefined;
   page: IPageProps | undefined;
+  minKm: number
   setMinKm: Dispatch<SetStateAction<number>>;
+  maxKm: number
   setMaxKm: Dispatch<SetStateAction<number>>;
+  minPrice: number
   setMinPrice: Dispatch<SetStateAction<number>>;
+  maxPrice: number
   setMaxPrice: Dispatch<SetStateAction<number>>;
-  searchAdverts: (event: ChangeEvent<HTMLInputElement>) => void;
   retrieveFilterByKmPriceAdvert: (type: "KM" | "Price", value: string, setState: string) => void;
   loading: boolean
 }
