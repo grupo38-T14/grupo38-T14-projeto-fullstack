@@ -30,7 +30,19 @@ export const schemaAdvert = z.object({
   is_active: z.boolean()
 });
 
-export const schemaCreateAdvert = schemaAdvert.omit({ id: true });
+export const schemaCreateAdvert = z.object({
+  brand: z.string(),
+  model: z.string(),
+  year: z.string(),
+  fuel: FuelEnum,
+  km: z.string(),
+  color: z.string(),
+  table_fipe_price: z.string(),
+  price: z.string(),
+  description: z.string(),
+  image_cape: z.string(),
+})
+
 export const schemaUpdateAdvert = schemaAdvert.omit({ id: true }).deepPartial();
 
 export const schemaAdvertPagination = z.object({

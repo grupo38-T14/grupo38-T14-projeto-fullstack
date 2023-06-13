@@ -13,7 +13,7 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       gap: {
-        15: "3.75rem"
+        15: "3.75rem",
       },
       colors: {
         white: "#FFFFFF",
@@ -37,7 +37,7 @@ module.exports = {
           100: "#FDFDFD",
         },
         opacity: {
-          1: "#00000080"
+          1: "#00000080",
         },
         feedback: {
           alert1: "#CD2B31",
@@ -79,5 +79,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // ...
+    require("tailwind-scrollbar")({ nocompatible: true }),
+  ],
 };

@@ -34,6 +34,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       .then((res) => retrieveAdvert())
       .catch((err) => console.error(err));
   };
+  
   const deleteAdvert = async (id: string) => {
     await api
       .delete(`adverts/${id}`)
