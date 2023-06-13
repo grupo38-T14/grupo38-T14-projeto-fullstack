@@ -12,7 +12,7 @@ export const Pagination = () => {
       }
 
     return (
-        <div className="flex w-full gap-8 justify-center items-center absolute bottom-5 left-0">
+        <div className="flex flex-col lg:flex-row w-full gap-8 justify-center items-center">
             {page?.prev && <p onClick={() => {retrieveAdvert(page?.filter, page?.filterName, page?.prev), scrollToTop()}} className="text-lg font-semibold text-brand-2 cursor-pointer">{`<`} Anterior</p>}
             <p className="text-lg font-semibold text-gray-30">página {page?.current} de {page?.last}</p>
             {page?.next && <p onClick={() => {retrieveAdvert(page?.filter, page?.filterName, page?.next), scrollToTop()}} className="text-lg font-semibold text-brand-2 cursor-pointer">Seguinte {`>`}</p>}

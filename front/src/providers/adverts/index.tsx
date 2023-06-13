@@ -25,7 +25,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [minKm, setMinKm] = useState<number>(0)
   const [maxKm, setMaxKm] = useState<number>(1000000)
   const [minPrice, setMinPrice] = useState<number>(0)
-  const [maxPrice, setMaxPrice] = useState<number>(10000000)
+  const [maxPrice, setMaxPrice] = useState<number>(1000000)
   const [loading, setLoading] = useState(true)
 
   const createAdvert = async (data: createAdvertType) => {
@@ -104,18 +104,13 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   }
 
-  const searchAdverts = (event: ChangeEvent<HTMLInputElement>) => {
-    const findAdverts = currentAdverts.filter((advert: retrieveAdvertType) => advert.brand == event.target.value)
-    setCurrentAdverts(findAdverts)
-  }
-
   useEffect(() => {
     retrieveAdvert();
   }, [])
 
   return (
     <AdvertsContext.Provider
-      value={{ retrieveAdvert, retrieveUniqueAdvert, advert, createAdvert, deleteAdvert, updateAdvert, page, setMinKm, setMaxKm, setMinPrice, setMaxPrice, currentAdverts, searchAdverts, retrieveFilterByKmPriceAdvert, loading}}
+      value={{ retrieveAdvert, retrieveUniqueAdvert, advert, createAdvert, deleteAdvert, updateAdvert, page, minKm, setMinKm, maxKm, setMaxKm, minPrice, setMinPrice, maxPrice, setMaxPrice, currentAdverts, retrieveFilterByKmPriceAdvert, loading}}
     >
       {children}
     </AdvertsContext.Provider>
