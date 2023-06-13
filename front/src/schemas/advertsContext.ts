@@ -20,7 +20,7 @@ export interface AdvertsContextValues {
   setMinPrice: Dispatch<SetStateAction<number>>;
   setMaxPrice: Dispatch<SetStateAction<number>>;
   searchAdverts: (event: ChangeEvent<HTMLInputElement>) => void;
-  retrieveFilterByKmPriceAdvert: (type: "KM" | "Price") => void;
+  retrieveFilterByKmPriceAdvert: (type: "KM" | "Price", value: string, setState: string) => void;
   loading: boolean
 }
 

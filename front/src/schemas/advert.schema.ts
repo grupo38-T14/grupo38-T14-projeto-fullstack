@@ -27,6 +27,7 @@ export const schemaAdvert = z.object({
   gallery: z.array(schemaGallery),
   comments: z.array(schemaComments),
   user: retrieveUser,
+  is_active: z.boolean()
 });
 
 export const schemaCreateAdvert = schemaAdvert.omit({ id: true });

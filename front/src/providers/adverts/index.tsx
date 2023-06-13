@@ -2,6 +2,8 @@
 import {
   IPageProps,
   createAdvertType,
+  listRetrieveAdvertsType,
+  retrieveAdvertPaginationType,
   retrieveAdvertType,
   updateAdvertType,
 } from "@/schemas/advert.schema";
@@ -17,11 +19,11 @@ export const AdvertsContext = createContext<AdvertsContextValues>(
 );
 
 export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
-  const [currentAdverts, setCurrentAdverts] = useState([]);
+  const [currentAdverts, setCurrentAdverts] = useState<listRetrieveAdvertsType>([]);
   const [advert, setAdvert] = useState<retrieveAdvertType>();
   const [page, setPage] = useState<IPageProps>();
   const [minKm, setMinKm] = useState<number>(0)
-  const [maxKm, setMaxKm] = useState<number>(1000000.00)
+  const [maxKm, setMaxKm] = useState<number>(1000000)
   const [minPrice, setMinPrice] = useState<number>(0)
   const [maxPrice, setMaxPrice] = useState<number>(10000000)
   const [loading, setLoading] = useState(true)
@@ -54,9 +56,9 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const retrieveAdvert = async (filter: string = "", filterName: string | number = "", page: number = 1) => {
     try {
       const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`)
-      const res = req.data
+      const res: retrieveAdvertPaginationType = req.data
 
-      setCurrentAdverts(res.data)
+      setCurrentAdverts(res.data.filter((e) => e.is_active == true))
       setPage({current: res.currentPage, last: res.lastPage, next: res.next, prev: res.prev, filter: filter, filterName: filterName})
     } catch (error) {
       console.log(error)
@@ -65,17 +67,34 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   }
 
-  const retrieveFilterByKmPriceAdvert = async (type: "KM" | "Price") => {
+  const retrieveFilterByKmPriceAdvert = async (type: "KM" | "Price", value: string, setState: string) => {
+    const newValue = Number(value)
     try {
       const filterMin = type == "KM" ? "minKM" : "minPrice"
       const filterMax = type == "KM" ? "maxKM" : "maxPrice"
-      const filterValueMin = type == "KM" ? minKm : minPrice
-      const filterValueMax = type == "KM" ? maxKm : maxPrice
+      let filterValueMin = type == "KM" ? minKm : minPrice
+      let filterValueMax = type == "KM" ? maxKm : maxPrice
+      if(type == "KM" && setState == "min"){
+        setMinKm(newValue)
+        filterValueMin = newValue
+      }
+      if(type == "Price" && setState == "min"){
+        setMinPrice(newValue)
+        filterValueMin = newValue
+      }
+      if(type == "KM" && setState == "max"){
+        setMaxKm(newValue)
+        filterValueMax = newValue
+      }
+      if(type == "Price" && setState == "max"){
+        setMaxPrice(newValue)
+        filterValueMax = newValue
+      }
 
       const req = await api.get(`adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`)
-      const res = req.data
+      const res: retrieveAdvertPaginationType = req.data
 
-      setCurrentAdverts(res.data)
+      setCurrentAdverts(res.data.filter((e) => e.is_active == true))
       setPage({current: res.currentPage, last: res.lastPage, next: res.next, prev: res.prev, filterMin: filterMin, filterValueMin: filterValueMin, filterMax: filterMax, filterValueMax: filterValueMax})
     } catch (error) {
       console.log(error)
