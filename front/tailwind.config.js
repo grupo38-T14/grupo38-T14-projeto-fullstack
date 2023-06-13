@@ -36,6 +36,9 @@ module.exports = {
           90: "#F8F9FA",
           100: "#FDFDFD",
         },
+        opacity: {
+          1: "#00000080"
+        },
         feedback: {
           alert1: "#CD2B31",
           alert2: "#FDD8D8",
