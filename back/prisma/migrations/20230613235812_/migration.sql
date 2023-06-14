@@ -23,10 +23,11 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
-    "birth" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
+    "birth" TEXT,
+    "description" TEXT,
     "password" TEXT NOT NULL,
     "account_type" BOOLEAN NOT NULL DEFAULT false,
+    "is_active" BOOLEAN NOT NULL DEFAULT true,
     "avatar_url" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -77,6 +78,9 @@ CREATE UNIQUE INDEX "address_userId_key" ON "address"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_cpf_key" ON "users"("cpf");
 
 -- AddForeignKey
 ALTER TABLE "address" ADD CONSTRAINT "address_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
