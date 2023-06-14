@@ -14,10 +14,12 @@ import {
 
 export class CreateUserDto {
   @IsString()
+  @Max(127)
   @IsNotEmpty()
   name: string;
 
   @IsEmail()
+  @Max(127)
   email: string;
 
   @IsNumberString()
@@ -30,24 +32,26 @@ export class CreateUserDto {
   @IsNotEmpty()
   phone: string;
 
-  @IsString()
+  @IsDate()
   @IsOptional()
   birth: string;
 
   @IsString()
+  @Max(255)
   @IsOptional()
   description: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: { value: string }) => hashSync(value, 10), {
-    groups: ['transform'],
-  })
-  password: string;
 
   @IsBoolean()
   @IsNotEmpty()
   account_type: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  @Max(127)
+  @Transform(({ value }: { value: string }) => hashSync(value, 10), {
+    groups: ['transform'],
+  })
+  password: string;
 
   @IsString()
   @IsOptional()
