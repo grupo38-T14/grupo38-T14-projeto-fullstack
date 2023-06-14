@@ -10,7 +10,6 @@ interface iInputProps {
   label: string;
   register?: UseFormRegisterReturn;
   error?: string;
-  handle?: () => void;
 }
 
 const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
@@ -50,7 +49,7 @@ const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
                   : masked["coin"]
               }
               type="text"
-              maskPlaceholder={placeholder}
+              placeholder={placeholder}
               {...register}
               className="
                 input-base
@@ -61,7 +60,7 @@ const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
           )}
         </>
         {error && (
-          <span className="absolute bottom-0 text-xs text-feedback-alert1">
+          <span className="absolute -bottom-4 text-xs text-feedback-alert1">
             {error}
           </span>
         )}

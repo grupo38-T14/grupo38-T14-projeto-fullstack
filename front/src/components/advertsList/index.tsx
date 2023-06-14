@@ -30,13 +30,13 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
       )}
       {currentAdverts.length > 0 && (
         <>
-          <ul className="flex overflow-x-auto lg:overflow-hidden lg:grid lg:grid-cols-3 list-none gap-12 w-full">
+          <ul className="flex overflow-x-auto lg:overflow-hidden lg:grid lg:grid-cols-2 xl:grid-cols-3 list-none gap-12 w-full">
             {currentAdverts?.map((advert) => {
               return (
                 <>
                   <li
                     key={advert.id}
-                    className="relative flex flex-col min-w-[300px] lg:w-fit items-start gap-4 cursor-pointer border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
+                    className="relative flex flex-col max-w-[300px] lg:w-fit items-start gap-4 cursor-pointer border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
                     onClick={() => router.push(`/${advert.id}`)}
                   >
                     <div className="flex w-[100%] items-center overflow-hidden p-5 rounded">

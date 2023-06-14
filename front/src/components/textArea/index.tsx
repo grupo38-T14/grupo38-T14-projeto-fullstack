@@ -11,7 +11,7 @@ interface iTextAreaProps {
 
 const TextArea = ({label, placeholder, register, error}: iTextAreaProps) => {
   return (
-    <fieldset className="relative flex flex-col gap-2 pb-6">
+    <fieldset className="relative flex flex-col gap-2">
       <label htmlFor={label} className="input-label">
         {label}
       </label>
