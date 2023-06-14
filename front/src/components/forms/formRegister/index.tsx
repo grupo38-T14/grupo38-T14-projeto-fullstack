@@ -13,8 +13,7 @@ import TextArea from "@/components/textArea";
 
 const RegisterForm = () => {
 	//Precisa do schema para o confirm password -> Precisa testar
-	//Tipo de conta precisa incluir o register nos botões
-	//Botão do tipo de conta com "brand" está sem hover
+	//E se usar um select no lugar de botões
 	const { btnLoading, registerFunction } = useAuth();
 
 	const {
@@ -73,7 +72,7 @@ const RegisterForm = () => {
 				register={register("description")}
 			/>
 			<h4 className="text-sm font-medium text-black">Tipo de conta</h4>
-			<div className="flex gap-2">
+			<div className="flex flex-col lg:flex gap-2">
 				<Button type="brand">Comprador</Button>
 				<Button type="outline1">Anunciante</Button>
 			</div>
@@ -86,61 +85,11 @@ const RegisterForm = () => {
 			/>
 			<Input
 				label="Confirmar Senha"
-				placeholder="Confirme sua senha..."
+				placeholder="Digite novamente sua senha..."
 				type="password"
 				error={errors.confirmPassword && errors.confirmPassword.message}
+				register={register("confirmPassword")}
 			/>
-			<div>
-				<h4 className="text-sm font-medium text-black mb-5 mt-3">
-					Informações de endereço
-				</h4>
-				<Input
-					label="CEP"
-					placeholder="Digite seu CEP..."
-					type="text"
-					error={errors.cep && errors.cep.message}
-					register={register("cep")}
-				/>
-				<div>
-					<Input
-						label="Estado"
-						placeholder="Digite seu Estado..."
-						type="text"
-						error={errors.state && errors.state.message}
-						register={register("state")}
-					/>
-					<Input
-						label="Cidade"
-						placeholder="Digite sua cidade..."
-						type="text"
-						error={errors.city && errors.city.message}
-						register={register("city")}
-					/>
-				</div>
-				<Input
-					label="Rua"
-					placeholder="Digite a rua ou avenida..."
-					type="text"
-					error={errors.street && errors.street.message}
-					register={register("street")}
-				/>
-				<div>
-					<Input
-						label="Número"
-						placeholder="Digite o número da sua residência..."
-						type="text"
-						error={errors.number && errors.number.message}
-						register={register("number")}
-					/>
-					<Input
-						label="Complemento"
-						placeholder="Digite o complemento..."
-						type="text"
-						error={errors.complement && errors.complement.message}
-						register={register("complement")}
-					/>
-				</div>
-			</div>
 			<Button
 				type={!isDirty || !isValid ? "disableBland" : "brand"}
 				submit
@@ -157,3 +106,55 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
+//div>
+//				<h4 className="text-sm font-medium text-black mb-1 mt-3">
+//					Informações de endereço
+//				</h4>
+//				<Input
+//					label="CEP"
+//					placeholder="Digite seu CEP..."
+//					type="text"
+//					error={errors.cep && errors.cep.message}
+//					register={register("cep")}
+//				/>
+//				<div>
+//					<Input
+//						label="Estado"
+//						placeholder="Digite seu Estado..."
+//						type="text"
+//						error={errors.state && errors.state.message}
+//						register={register("state")}
+//					/>
+//					<Input
+//						label="Cidade"
+//						placeholder="Digite sua cidade..."
+//						type="text"
+//						error={errors.city && errors.city.message}
+//						register={register("city")}
+//					/>
+//				</div>
+//				<Input
+//					label="Rua"
+//					placeholder="Digite a rua ou avenida..."
+//					type="text"
+//					error={errors.street && errors.street.message}
+//					register={register("street")}
+//				/>
+//				<div>
+//					<Input
+//						label="Número"
+//						placeholder="Digite o número da sua residência..."
+//						type="text"
+//						error={errors.number && errors.number.message}
+//						register={register("number")}
+//					/>
+//					<Input
+//						label="Complemento"
+//						placeholder="Digite o complemento..."
+//						type="text"
+//						error={errors.complement && errors.complement.message}
+//						register={register("complement")}
+//					/>
+//				</div>
+//			</div>

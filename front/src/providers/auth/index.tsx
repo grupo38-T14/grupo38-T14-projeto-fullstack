@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { AuhtProviderProps, AuthContextProps } from '@/schemas/authContext';
-import { LoginData } from '@/schemas/login.schema';
-import { api } from '@/service';
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/router';
-import { createContext, useState } from 'react';
-import { AdvertsProvider } from '../adverts';
-import { RegisterData } from '@/schemas/register.schema';
+import { AuhtProviderProps, AuthContextProps } from "@/schemas/authContext";
+import { LoginData } from "@/schemas/login.schema";
+import { api } from "@/service";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
+import { createContext, useState } from "react";
+import { AdvertsProvider } from "../adverts";
+import { RegisterData } from "@/schemas/register.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
@@ -37,16 +37,29 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 	};
 
 	const registerFunction = async (data: RegisterData) => {
-		//try {
-		//  setBtnLoading(true)
-		//  const response = await.post("register/", data)
-		//  router.push("/login")
-		//} catch (error) {
-		//  const err = error as AxiosError
-		//  console.log(err)
-		//}finally{
-		//  setBtnLoading(false)
-		//}
+		const re = /\W+/g;
+		const phone = data.phone.split(re).join("");
+		try {
+			const newUserData = {
+				name: data.name,
+				email: data.email,
+				cpf: data.cpf.split(".").join(""),
+				phone: phone,
+				birth: data.birth ? data.birth : null,
+				description: data.description,
+				password: data.password,
+				//account_type: data.account_type,
+			};
+			console.log(newUserData);
+			setBtnLoading(true);
+			await api.post("users/", newUserData).then((res) => res.data);
+			//router.push("/login");
+		} catch (error) {
+			const err = error as AxiosError;
+			console.log(err);
+		} finally {
+			setBtnLoading(false);
+		}
 	};
 
 	return (
