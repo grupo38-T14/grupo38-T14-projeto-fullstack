@@ -29,12 +29,13 @@ model Users {
   id           String     @id
   name         String
   email        String     @unique
-  cpf          String
+  cpf          String     @unique
   phone        String
-  birth        String
-  description  String
+  birth        String?
+  description  String?
   password     String
   account_type Boolean    @default(false)
+  is_active    Boolean    @default(true)
   avatar_url   String?
   created_at   DateTime   @default(now())
   address      Address?
