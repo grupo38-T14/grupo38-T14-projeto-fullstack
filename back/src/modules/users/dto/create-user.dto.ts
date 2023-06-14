@@ -1,55 +1,55 @@
+import { hashSync } from 'bcryptjs';
+import { Transform } from 'class-transformer';
 import {
-    IsString,
-    IsBoolean,
-    Length,
-    Max,
-    IsEmail,
-    IsNumberString,
-    IsDate,
-    IsOptional,
-    IsNotEmpty,
-
-} from "class-validator"
+  IsString,
+  IsBoolean,
+  Length,
+  Max,
+  IsEmail,
+  IsNumberString,
+  IsDate,
+  IsOptional,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class CreateUserDto {
-    
-    @IsString()
-    @Max(127)
-    @IsNotEmpty()
-    name: string
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsEmail()
-    @Max(127)
-    email: string
+  @IsEmail()
+  email: string;
 
-    @IsNumberString()
-    @Length(11, 11)
-    @IsNotEmpty()
-    cpf: string
+  @IsNumberString()
+  @Length(11, 11)
+  @IsNotEmpty()
+  cpf: string;
 
-    @IsNumberString()
-    @Length(11, 11)
-    @IsNotEmpty()
-    phone: string
+  @IsNumberString()
+  @Length(11, 11)
+  @IsNotEmpty()
+  phone: string;
 
-    @IsDate()
-    @IsOptional()
-    birth: string
+  @IsString()
+  @IsOptional()
+  birth: string;
 
-    @IsString()
-    @Max(255)
-    @IsOptional()
-    description: string
+  @IsString()
+  @IsOptional()
+  description: string;
 
-    @IsString()
-    @Max(127)
-    @IsNotEmpty()
-    password: string
+  @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }: { value: string }) => hashSync(value, 10), {
+    groups: ['transform'],
+  })
+  password: string;
 
-    @IsBoolean()
-    @IsNotEmpty()
-    account_type: boolean
+  @IsBoolean()
+  @IsNotEmpty()
+  account_type: boolean;
 
-    @IsString()
-    avatar_url: string
+  @IsString()
+  @IsOptional()
+  avatar_url?: string;
 }
