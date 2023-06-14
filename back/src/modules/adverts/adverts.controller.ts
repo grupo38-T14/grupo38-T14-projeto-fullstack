@@ -7,19 +7,24 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { AdvertsService } from './adverts.service';
 import { CreateAdvertDto } from './dto/create-advert.dto';
 import { UpdateAdvertDto } from './dto/update-advert.dto';
 import { Fuel, Prisma } from '@prisma/client';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import { User } from '../users/entities/user.entity';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @Controller('adverts')
 export class AdvertsController {
   constructor(private readonly advertsService: AdvertsService) {}
 
-  @Post()
-  create(@Body() createAdvertDto: CreateAdvertDto) {
-    return this.advertsService.create(createAdvertDto);
+  @Post('')
+  @UseGuards(JwtAuthGuard)
+  create(@Body() createAdvertDto: CreateAdvertDto, @CurrentUser() user: User) {
+    return this.advertsService.create(createAdvertDto, user.id);
   }
 
   @Get()
@@ -62,6 +67,7 @@ export class AdvertsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateAdvertDto: UpdateAdvertDto) {
     return this.advertsService.update(id, updateAdvertDto);
   }

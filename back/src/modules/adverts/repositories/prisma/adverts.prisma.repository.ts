@@ -18,13 +18,13 @@ const paginate: PaginateFunction = paginator({ perPage: 12 });
 export class AdvertPrismaRepository implements AdvertRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateAdvertDto): Promise<Advert> {
+  async create(data: CreateAdvertDto, userId: string): Promise<Advert> {
     const advert = new Advert();
     Object.assign(advert, {
       ...data,
     });
     const newAdvert = await this.prisma.advert.create({
-      data: { ...advert },
+      data: { ...advert, userId },
     });
     return newAdvert;
   }
