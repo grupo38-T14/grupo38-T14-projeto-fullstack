@@ -9,25 +9,24 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
   background: #ccc;
-
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0; 
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 @layer base {
@@ -80,6 +79,23 @@ input::-webkit-inner-spin-button {
     @apply flex justify-center items-center w-full min-w-fit rounded border-2 font-semibold;
   }
   .input-base {
-    @apply w-full h-[3rem] bg-[#f6f6f6] hover:bg-gray-80 px-4 border-2 border-gray-70 hover:border-gray-80 rounded outline-none focus:border-brand-1 focus:text-brand-1 appearance-none ;
+    @apply w-full h-[3rem] bg-[#f6f6f6] hover:bg-gray-80 px-4 border-2 border-gray-70 hover:border-gray-80 rounded outline-none focus:border-brand-1 focus:text-brand-1 appearance-none;
+  }
+
+  .bg-gradient-mobile {
+    background: linear-gradient(
+      180deg,
+      #4529e6 17.25%,
+      #f1f3f5 17.26%,
+      #f1f3f5 100%
+    );
+  }
+  .bg-gradient {
+    background: linear-gradient(
+      180deg,
+      #4529e6 41.25%,
+      #f1f3f5 41.26%,
+      #f1f3f5 100%
+    );
   }
 }
