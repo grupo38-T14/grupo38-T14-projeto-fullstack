@@ -5,10 +5,8 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 interface iSelectProps {
   label: string;
-  options: {
-    name: string,
-    valueOption: string
-  }[] | string[]
+  options: string[]
+  optionsValue?: string[]
   optionDefault: string;
   register?: UseFormRegisterReturn;
   error?: string;
@@ -18,10 +16,11 @@ const Select = ({
   label,
   optionDefault,
   options,
+  optionsValue,
   register,
   error,
 }: iSelectProps) => {
-  const [selectValue, setSelectValue] = useState(optionDefault);
+  const [selectValue, setSelectValue] = useState("");
 
   return (
     <fieldset className="relative flex flex-col gap-2">
@@ -37,17 +36,17 @@ const Select = ({
           `px-4 py-2 input-base input-placeholder resize-none ${selectValue == optionDefault && "text-gray-40"}`
         }
       >
-        <option value={optionDefault} disabled>
+        <option value={""} disabled>
           {optionDefault}
         </option>
         {options.map((opt, index) => (
-          <option value={opt.valueOption ? opt.valueOption : opt} key={index}>
-            {opt.name ? opt.name : opt}
+          <option value={optionsValue ? optionsValue[index] : opt} key={index}>
+            {opt}
           </option>
         ))}
       </select>
       {error && (
-        <span className="absolute bottom-0 text-xs text-feedback-alert1">
+        <span className="absolute -bottom-4 text-xs text-feedback-alert1">
           {error}
         </span>
       )}

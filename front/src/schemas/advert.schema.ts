@@ -3,7 +3,7 @@ import { retrieveUser } from "./user.schema";
 import { schemaComments } from "./comment.schema";
 
 const fuelTypes = ["ELECTRIC", "ETHANOL", "HYBRID"] as const;
-const FuelEnum = z.enum(fuelTypes);
+const FuelEnum = z.enum(fuelTypes, {errorMap: (issue, ctx) => ({ message: 'o campo Combustível é obrigatório' })});
 
 export const schemaGallery = z.object({
   id: z.string(),
@@ -30,17 +30,20 @@ export const schemaAdvert = z.object({
   is_active: z.boolean()
 });
 
+
+const brand = z.string().refine((str) => str == "Selecione a Marca", {message: "Marca é obrigatória"})
+
 export const schemaCreateAdvert = z.object({
-  brand: z.string(),
-  model: z.string(),
-  year: z.string(),
+  brand: z.string().nonempty("o campo Marca é obrigatório"),
+  model: z.string().nonempty("o campo Modelo é obrigatório"),
+  year: z.string().nonempty("o campo Ano é obrigatório"),
   fuel: FuelEnum,
-  km: z.string(),
-  color: z.string(),
-  table_fipe_price: z.string(),
-  price: z.string(),
+  km: z.string().nonempty("o campo Quilometragem é obrigatório"),
+  color: z.string().nonempty("o campo Cor é obrigatório"),
+  table_fipe_price: z.string().nonempty("o campo de Tabela FIPE é obrigatório"),
+  price: z.string().nonempty("o campo Preço é obrigatório"),
   description: z.string(),
-  image_cape: z.string(),
+  image_cape: z.string().nonempty("o campo Imagem de Capa é obrigatório"),
 })
 
 export const schemaUpdateAdvert = schemaAdvert.omit({ id: true }).deepPartial();

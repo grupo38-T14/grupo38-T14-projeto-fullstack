@@ -60,7 +60,7 @@ const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
           )}
         </>
         {error && (
-          <span className="absolute bottom-0 text-xs text-feedback-alert1">
+          <span className="absolute -bottom-4 text-xs text-feedback-alert1">
             {error}
           </span>
         )}

@@ -32,7 +32,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
       <span className="body-2">Infomações do veículo</span>
       <form
         noValidate
-        className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[600px] pr-2"
+        className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px] pr-2"
         onSubmit={handleSubmit(handleCreateAdvert)}
       >
         <Select
@@ -54,8 +54,8 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
           register={register("model")}
           error={errors.model && errors.model.message}
         />
-        <div className="grid grid-cols-2 gap-3">
-          <Input
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
+          <Input  
             label="Ano"
             placeholder="2018"
             type="number"
@@ -65,12 +65,13 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
           <Select
             label="Combustível"
             optionDefault="Selecione uma opção"
-            options={["ELECTRIC", "ETHANOL", "HYBRID"]}
+            options={["Eletrico", "Etanol", "Hibrido"]}
+            optionsValue={["ELECTRIC", "ETHANOL", "HYBRID"]}
             register={register("fuel")}
             error={errors.fuel && errors.fuel.message}
           />
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
           <Input
             label="Quilometragem"
             placeholder="30.000"
@@ -80,13 +81,13 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
           />
           <Select
             label="Cor"
-            optionDefault="Branco"
+            optionDefault="Selecione uma cor"
             options={["Branco", "Vermelho", "Amarelo", "Prata"]}
             register={register("color")}
             error={errors.color && errors.color.message}
           />
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
           <Input
             label="Preço tabela FIPE"
             placeholder="R$ 30.000,00"
@@ -127,7 +128,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
           {numImageGallery.length <= 3 && (
             <Button
               type="outlineBrand1"
-              size={2}
+              size={1}
               handle={() =>
                 numImageGallery.length <= 3 &&
                 setNumImageGallery([
@@ -140,13 +141,13 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             </Button>
           )}
         </div>
-        <div className="flex justify-end gap-2">
-          <div className="w-fit">
+        <div className="flex flex-col lg:flex-row justify-end gap-2">
+          <div className="lg:w-fit">
             <Button type="negative" handle={() => setOpenModal(false)}>
               Cancelar
             </Button>
           </div>
-          <div className="w-[40%]">
+          <div className="lg:w-[40%]">
             <Button type="brand" submit>
               Criar anúncio
             </Button>
