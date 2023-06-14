@@ -10,10 +10,11 @@ import { RegisterData, registerSchema } from "@/schemas/register.schema";
 import { useAuth } from "@/hooks/authHook";
 import { RiLoader4Line } from "react-icons/ri";
 import TextArea from "@/components/textArea";
+import Select from "@/components/select";
 
 const RegisterForm = () => {
-	//Precisa do schema para o confirm password -> Precisa testar
-	//E se usar um select no lugar de botões
+	//Ao selecionar ele não habilita o botão, somente após clicar fora do select
+	//incluir input de avatar
 	const { btnLoading, registerFunction } = useAuth();
 
 	const {
@@ -71,10 +72,62 @@ const RegisterForm = () => {
 				error={errors.description && errors.description.message}
 				register={register("description")}
 			/>
-			<h4 className="text-sm font-medium text-black">Tipo de conta</h4>
-			<div className="flex flex-col lg:flex gap-2">
-				<Button type="brand">Comprador</Button>
-				<Button type="outline1">Anunciante</Button>
+			<Select
+				label="Tipo de conta"
+				options={["Comprador", "Anunciante"]}
+				register={register("account_type")}
+				optionDefault="Selecione uma opção"
+			/>
+			<div className="flex flex-col gap-6">
+				<h4 className="text-sm font-medium text-black mb-3 mt-3">
+					Informações de endereço
+				</h4>
+				<Input
+					label="CEP"
+					placeholder="Digite seu CEP..."
+					type="text"
+					error={errors.cep && errors.cep.message}
+					register={register("cep")}
+				/>
+				<div className="flex gap-6">
+					<Input
+						label="Estado"
+						placeholder="Digite seu Estado..."
+						type="text"
+						error={errors.state && errors.state.message}
+						register={register("state")}
+					/>
+					<Input
+						label="Cidade"
+						placeholder="Digite sua cidade..."
+						type="text"
+						error={errors.city && errors.city.message}
+						register={register("city")}
+					/>
+				</div>
+				<Input
+					label="Rua"
+					placeholder="Digite a rua ou avenida..."
+					type="text"
+					error={errors.street && errors.street.message}
+					register={register("street")}
+				/>
+				<div className="flex gap-6">
+					<Input
+						label="Número"
+						placeholder="Digite o número da sua residência..."
+						type="text"
+						error={errors.number && errors.number.message}
+						register={register("number")}
+					/>
+					<Input
+						label="Complemento"
+						placeholder="Digite o complemento..."
+						type="text"
+						error={errors.complement && errors.complement.message}
+						register={register("complement")}
+					/>
+				</div>
 			</div>
 			<Input
 				label="Senha"
@@ -106,55 +159,3 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
-
-//div>
-//				<h4 className="text-sm font-medium text-black mb-1 mt-3">
-//					Informações de endereço
-//				</h4>
-//				<Input
-//					label="CEP"
-//					placeholder="Digite seu CEP..."
-//					type="text"
-//					error={errors.cep && errors.cep.message}
-//					register={register("cep")}
-//				/>
-//				<div>
-//					<Input
-//						label="Estado"
-//						placeholder="Digite seu Estado..."
-//						type="text"
-//						error={errors.state && errors.state.message}
-//						register={register("state")}
-//					/>
-//					<Input
-//						label="Cidade"
-//						placeholder="Digite sua cidade..."
-//						type="text"
-//						error={errors.city && errors.city.message}
-//						register={register("city")}
-//					/>
-//				</div>
-//				<Input
-//					label="Rua"
-//					placeholder="Digite a rua ou avenida..."
-//					type="text"
-//					error={errors.street && errors.street.message}
-//					register={register("street")}
-//				/>
-//				<div>
-//					<Input
-//						label="Número"
-//						placeholder="Digite o número da sua residência..."
-//						type="text"
-//						error={errors.number && errors.number.message}
-//						register={register("number")}
-//					/>
-//					<Input
-//						label="Complemento"
-//						placeholder="Digite o complemento..."
-//						type="text"
-//						error={errors.complement && errors.complement.message}
-//						register={register("complement")}
-//					/>
-//				</div>
-//			</div>

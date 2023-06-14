@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
 	IPageProps,
 	createAdvertType,
@@ -6,13 +6,13 @@ import {
 	retrieveAdvertPaginationType,
 	retrieveAdvertType,
 	updateAdvertType,
-} from '@/schemas/advert.schema';
+} from "@/schemas/advert.schema";
 import {
 	AdvertsContextValues,
 	AdvertsProviderProps,
-} from '@/schemas/advertsContext';
-import { api } from '@/service';
-import { createContext, useEffect, useState, ChangeEvent } from 'react';
+} from "@/schemas/advertsContext";
+import { api } from "@/service";
+import { createContext, useEffect, useState, ChangeEvent } from "react";
 
 export const AdvertsContext = createContext<AdvertsContextValues>(
 	{} as AdvertsContextValues
@@ -54,10 +54,9 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			.then(({ data }) => setAdvert(data.data.data))
 			.catch((err) => console.error(err));
 	};
-
 	const retrieveAdvert = async (
-		filter: string = '',
-		filterName: string | number = '',
+		filter: string = "",
+		filterName: string | number = "",
 		page: number = 1
 	) => {
 		try {
@@ -81,29 +80,29 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 	};
 
 	const retrieveFilterByKmPriceAdvert = async (
-		type: 'KM' | 'Price',
+		type: "KM" | "Price",
 		value: string,
 		setState: string
 	) => {
 		const newValue = Number(value);
 		try {
-			const filterMin = type == 'KM' ? 'minKM' : 'minPrice';
-			const filterMax = type == 'KM' ? 'maxKM' : 'maxPrice';
-			let filterValueMin = type == 'KM' ? minKm : minPrice;
-			let filterValueMax = type == 'KM' ? maxKm : maxPrice;
-			if (type == 'KM' && setState == 'min') {
+			const filterMin = type == "KM" ? "minKM" : "minPrice";
+			const filterMax = type == "KM" ? "maxKM" : "maxPrice";
+			let filterValueMin = type == "KM" ? minKm : minPrice;
+			let filterValueMax = type == "KM" ? maxKm : maxPrice;
+			if (type == "KM" && setState == "min") {
 				setMinKm(newValue);
 				filterValueMin = newValue;
 			}
-			if (type == 'Price' && setState == 'min') {
+			if (type == "Price" && setState == "min") {
 				setMinPrice(newValue);
 				filterValueMin = newValue;
 			}
-			if (type == 'KM' && setState == 'max') {
+			if (type == "KM" && setState == "max") {
 				setMaxKm(newValue);
 				filterValueMax = newValue;
 			}
-			if (type == 'Price' && setState == 'max') {
+			if (type == "Price" && setState == "max") {
 				setMaxPrice(newValue);
 				filterValueMax = newValue;
 			}

@@ -48,9 +48,16 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 				birth: data.birth ? data.birth : null,
 				description: data.description,
 				password: data.password,
-				//account_type: data.account_type,
+				account_type: data.account_type === "Comprador" ? false : true,
 			};
-			console.log(newUserData);
+			const newUserAddres = {
+				cdp: data.cep.split(".").join(""),
+				state: data.state,
+				city: data.city,
+				street: data.street,
+				number: data.number,
+				complement: data.complement,
+			};
 			setBtnLoading(true);
 			await api.post("users/", newUserData).then((res) => res.data);
 			//router.push("/login");

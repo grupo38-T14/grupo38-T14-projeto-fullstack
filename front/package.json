@@ -29,6 +29,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@types/react-input-mask": "^3.0.2"
+    "@types/react-input-mask": "^3.0.2",
+    "tailwind-scrollbar": "^3.0.4"
   }
 }

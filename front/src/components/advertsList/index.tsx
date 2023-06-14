@@ -1,10 +1,10 @@
-'use client';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import Section_2 from '../../../public/Section 2.png';
-import { Pagination } from '../pagination';
-import { useAdverts } from '@/hooks/advertHook';
-import Button from '../button';
+"use client";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Section_2 from "../../../public/Section 2.png";
+import { Pagination } from "../pagination";
+import { useAdverts } from "@/hooks/advertHook";
+import Button from "../button";
 
 interface AdvertsListProps {
 	hidden: boolean;
@@ -18,7 +18,7 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
 	return (
 		<section
 			className={`flex flex-col h-full gap-10 w-full lg:w-[85%] lg:gap-12 mt-20 lg:m-0 lg:p-16 px-3 mb-14 ${
-				!hidden && 'hidden'
+				!hidden && "hidden"
 			} lg:flex`}
 		>
 			{loading && (
@@ -65,9 +65,9 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
 											</div>
 											<div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4">
 												<p className="text-sm lg:text-base font-medium text-gray-10">
-													{advert.price.toLocaleString('pt-BR', {
-														style: 'currency',
-														currency: 'BRL',
+													{advert.price?.toLocaleString("pt-BR", {
+														style: "currency",
+														currency: "BRL",
 													})}
 												</p>
 												<div className="flex items-start gap-2">
@@ -80,7 +80,9 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
 												</div>
 											</div>
 										</section>
-										{advert.price <= 0.95 * advert.table_fipe_price ? (
+										{advert.price &&
+										advert.table_fipe_price &&
+										advert.price <= 0.95 * advert.table_fipe_price ? (
 											<Image
 												className="flex absolute top-0 right-0"
 												src={Section_2}
