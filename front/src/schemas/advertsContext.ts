@@ -4,12 +4,13 @@ import {
   createAdvertType,
   listRetrieveAdvertsType,
   retrieveAdvertType,
+  updateAdvertType,
 } from "./advert.schema";
 
 export interface AdvertsContextValues {
-  createAdvert: (data: createAdvertType) => void;
+  createAdvert: (data: createAdvertType, setOpenModal: React.Dispatch<React.SetStateAction<boolean>>) => void;
   deleteAdvert: (id: string) => void;
-  updateAdvert: (id: string, data: createAdvertType) => void;
+  updateAdvert: (id: string, data: updateAdvertType) => void;
   retrieveAdvert: (filter?: string, filterName?: string | number, page?: number) => void;
   retrieveUniqueAdvert: (id: string) => void;
   currentAdverts: listRetrieveAdvertsType;

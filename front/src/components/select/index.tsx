@@ -8,19 +8,23 @@ interface iSelectProps {
   options: string[]
   optionsValue?: string[]
   optionDefault: string;
+  optionValueSelected?: string;
   register?: UseFormRegisterReturn;
   error?: string;
+  handle?: (brand: string) => void
 }
 
 const Select = ({
   label,
   optionDefault,
+  optionValueSelected,
   options,
   optionsValue,
   register,
   error,
+  handle
 }: iSelectProps) => {
-  const [selectValue, setSelectValue] = useState("");
+  const [selectValue, setSelectValue] = useState(optionValueSelected ? optionValueSelected : "");
 
   return (
     <fieldset className="relative flex flex-col gap-2">
@@ -30,10 +34,10 @@ const Select = ({
       <select
         id={label}
         {...register}
-        value={selectValue}
-        onChange={(e) => setSelectValue(e.target.value)}
+        value={optionValueSelected ? optionValueSelected : selectValue}
+        onChange={(e) => (setSelectValue(e.target.value), handle && handle(e.target.value))}
         className={
-          `px-4 py-2 input-base input-placeholder resize-none ${selectValue == optionDefault && "text-gray-40"}`
+          `px-4 py-2 input-base input-placeholder resize-none ${selectValue == "" && !optionValueSelected && "text-gray-40"}`
         }
       >
         <option value={""} disabled>

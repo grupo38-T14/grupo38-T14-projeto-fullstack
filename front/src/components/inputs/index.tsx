@@ -10,9 +10,10 @@ interface iInputProps {
   label: string;
   register?: UseFormRegisterReturn;
   error?: string;
+  valueInput?: string | number
 }
 
-const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
+const Input = ({ type, label, placeholder, register, error, valueInput }: iInputProps) => {
   const maskedTypes = ["cpf", "phone", "coin"];
   const masked = {
     cpf: "999.999.999.99",
@@ -33,6 +34,7 @@ const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
               id={label}
               placeholder={placeholder}
               {...register}
+              value={valueInput && valueInput}
               className="
                 input-base
                 input-placeholder
@@ -51,6 +53,7 @@ const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
               type="text"
               placeholder={placeholder}
               {...register}
+              value={valueInput && valueInput}
               className="
                 input-base
                 input-placeholder

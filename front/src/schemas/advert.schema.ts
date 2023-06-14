@@ -36,14 +36,18 @@ const brand = z.string().refine((str) => str == "Selecione a Marca", {message: "
 export const schemaCreateAdvert = z.object({
   brand: z.string().nonempty("o campo Marca é obrigatório"),
   model: z.string().nonempty("o campo Modelo é obrigatório"),
-  year: z.string().nonempty("o campo Ano é obrigatório"),
-  fuel: FuelEnum,
+  year: z.string(),
+  fuel: z.optional(z.string()),
   km: z.string().nonempty("o campo Quilometragem é obrigatório"),
   color: z.string().nonempty("o campo Cor é obrigatório"),
-  table_fipe_price: z.string().nonempty("o campo de Tabela FIPE é obrigatório"),
+  table_fipe_price: z.string(),
   price: z.string().nonempty("o campo Preço é obrigatório"),
   description: z.string(),
   image_cape: z.string().nonempty("o campo Imagem de Capa é obrigatório"),
+  image_gallery1: z.string().optional(),
+  image_gallery2: z.string().optional(),
+  image_gallery3: z.string().optional(),
+  image_gallery4: z.string().optional(),
 })
 
 export const schemaUpdateAdvert = schemaAdvert.omit({ id: true }).deepPartial();
