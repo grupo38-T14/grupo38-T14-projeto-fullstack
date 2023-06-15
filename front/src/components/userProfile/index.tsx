@@ -11,12 +11,18 @@ interface UserProps {
 export const UserProfile = ({ user }: UserProps) => {
 	return (
 		<section className="flex flex-col bg-white w-[75%] items-start gap-6 p-10">
-			<Image
-				src={user.avatar_url}
-				alt="avatar do usuário"
-				width={104}
-				height={104}
-			/>
+			{user.avatar_url ? (
+				<Image
+					src={user.avatar_url}
+					alt="avatar do usuário"
+					width={104}
+					height={104}
+				/>
+			) : (
+				<div className="flex items-center justify-center w-24 h-24 bg-random-1 text-white rounded-full">
+					{user.name[0].toUpperCase()}
+				</div>
+			)}
 			<div className="flex flex-col items-start gap-2.5 md:flex-row lg:flex-row md:items-center lg:items-center">
 				<p className="text-xl font-semibold">{user.name}</p>
 				<p className="text-smfont-medium p-2 text-brand-1 bg-brand-4 rounded">

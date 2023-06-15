@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import AdvertsFilter from '../advertsFilter';
-import AdvertsList from '../advertsList';
+import React, { useState } from "react";
+import AdvertsFilter from "../advertsFilter";
+import AdvertsList from "../advertsList";
 
 interface AdvertsProps {
 	filtersAdverts: {

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useAdverts } from '@/hooks/advertHook';
-import Button from '../button';
-import { FilterField } from '../filterFields';
-import { FilterInputField } from '../filterInputFields';
+import { useAdverts } from "@/hooks/advertHook";
+import Button from "../button";
+import { FilterField } from "../filterFields";
+import { FilterInputField } from "../filterInputFields";
 
 interface AdvertsFilterProps {
 	list: {
@@ -28,17 +28,17 @@ export default function AdvertsFilter({
 	return (
 		<section
 			className={`flex flex-col gap-10 lg:w-[21%] py-16 px-4 ${
-				hidden && 'hidden'
+				hidden && "hidden"
 			} lg:flex`}
 		>
 			<div>
-				<FilterField name={'Marca'} list={list.brands} />
-				<FilterField name={'Modelo'} list={list.models} />
-				<FilterField name={'Cor'} list={list.colors} />
-				<FilterField name={'Ano'} list={list.years} />
-				<FilterField name={'Combustível'} list={list.fuels} />
-				<FilterInputField name={'Quilometragem'} type="KM" />
-				<FilterInputField name={'Preço'} type="Price" />
+				<FilterField name={"Marca"} list={list.brands} />
+				<FilterField name={"Modelo"} list={list.models} />
+				<FilterField name={"Cor"} list={list.colors} />
+				<FilterField name={"Ano"} list={list.years} />
+				<FilterField name={"Combustível"} list={list.fuels} />
+				<FilterInputField name={"Quilometragem"} type="KM" />
+				<FilterInputField name={"Preço"} type="Price" />
 			</div>
 			<div className="w-full self-center lg:hidden">
 				<Button type="outlineBrand1" handle={() => setHidden(true)}>
@@ -49,7 +49,7 @@ export default function AdvertsFilter({
 				<Button
 					type="brand"
 					handle={() => {
-						retrieveAdvert('', '', 1);
+						retrieveAdvert("", "", 1);
 						setMinKm(0);
 						setMaxKm(1000000);
 						setMinPrice(0);

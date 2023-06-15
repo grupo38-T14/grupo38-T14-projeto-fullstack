@@ -38,10 +38,11 @@ export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
 	};
 
 	const registerFunction = async (data: CreateRegisterData) => {
-		console.log(data);
 		try {
-			setBtnLoading(true);
-			await api.post("users/", data).then((res) => res.data);
+			//Está dando problema nesse set -> setBtnLoading(true);
+			const req = await api.post("users/", data);
+			const res = req.data;
+			console.log(res);
 			router.push("/login");
 		} catch (error) {
 			const err = error as AxiosError;

@@ -15,7 +15,6 @@ import { useAuth } from "@/hooks/authHook";
 import { RiLoader4Line } from "react-icons/ri";
 import TextArea from "@/components/textArea";
 import Select from "@/components/select";
-import { apiLocation } from "@/service";
 
 const RegisterForm = () => {
 	//Data de nascimento está com o formato diferente da validação do zod
@@ -23,13 +22,13 @@ const RegisterForm = () => {
 	//API de estado e cidade -> achei mas é uma API muito pesada
 	const { btnLoading, registerFunction } = useAuth();
 
-	let location = {};
+	/* let location = {};
 
 	const getLocation = async (cep: string) => {
 		const req = await apiLocation.get(`${cep}/json/`);
 		const res = req.data;
 		location = res;
-	};
+	}; */
 
 	const {
 		register,
@@ -53,7 +52,6 @@ const RegisterForm = () => {
 			account_type: account_type,
 			cep: cep,
 		};
-		console.log(newUserData);
 		registerFunction(newUserData);
 	};
 
@@ -185,7 +183,7 @@ const RegisterForm = () => {
 			<Button
 				type={!isDirty || !isValid ? "disableBland" : "brand"}
 				submit
-				/* disable={!isDirty || !isValid} */
+				disable={!isDirty || !isValid}
 			>
 				{!btnLoading ? (
 					"Finalizar Cadastro"
