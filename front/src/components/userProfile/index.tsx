@@ -1,19 +1,34 @@
-import { useAuth } from "@/hooks/authHook";
+"use client";
 
-export const userProfile = () => {
-	//preciso chamar a função passando o id que vem do token
+import Image from "next/image";
+import Button from "../button";
+import { retrieveUser } from "@/schemas/user.schema";
 
-	const { user } = useAuth();
+interface UserProps {
+	user: retrieveUser;
+}
 
+export const UserProfile = ({ user }: UserProps) => {
 	return (
-		<section className="flex flex-col">
-			<img src={user.avatar_url} alt="avatar do usuário" />
-			<div className="flex">
-				<p>{user.name}</p>
-				<p>{user.account_type}</p>
+		<section className="flex flex-col bg-white w-[75%] items-start gap-6 p-10">
+			<Image
+				src={user.avatar_url}
+				alt="avatar do usuário"
+				width={104}
+				height={104}
+			/>
+			<div className="flex flex-col items-start gap-2.5 md:flex-row lg:flex-row md:items-center lg:items-center">
+				<p className="text-xl font-semibold">{user.name}</p>
+				<p className="text-smfont-medium p-2 text-brand-1 bg-brand-4 rounded">
+					{user.account_type ? "Anunciante" : "Comprador"}
+				</p>
 			</div>
-			<p>{user.description}</p>
-			<button>Criar Anúncio</button>
+			<p className="text-base font-normal">{user.description}</p>
+			<div className="w-30%">
+				<Button size={1} type="outlineBrand1">
+					Criar anúncio
+				</Button>
+			</div>
 		</section>
 	);
 };

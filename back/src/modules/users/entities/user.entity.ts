@@ -11,7 +11,7 @@ export class User {
   birth?: string;
   description?: string;
   account_type: boolean;
-  // is_active?:     boolean
+  is_active?: boolean;
   avatar_url: string;
 
   @Exclude()

@@ -6,18 +6,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import Button from "@/components/button";
 import Input from "@/components/inputs";
-import { RegisterData, registerSchema } from "@/schemas/register.schema";
+import {
+	CreateRegisterData,
+	RegisterData,
+	registerSchema,
+} from "@/schemas/register.schema";
 import { useAuth } from "@/hooks/authHook";
 import { RiLoader4Line } from "react-icons/ri";
 import TextArea from "@/components/textArea";
 import Select from "@/components/select";
+import { apiLocation } from "@/service";
 
 const RegisterForm = () => {
 	//Data de nascimento está com o formato diferente da validação do zod
-	//Ao selecionar no select ele não habilita o botão, somente após clicar fora do select
-	//tratamento de erros (unique constraints, etc) -> Usar um toast para mostrar se o email ou cpf já existem
+	//Tratamento de erros (unique constraints, etc) -> Usar um toast para mostrar se o email ou cpf já existem
 	//API de estado e cidade -> achei mas é uma API muito pesada
 	const { btnLoading, registerFunction } = useAuth();
+
+	let location = {};
+
+	const getLocation = async (cep: string) => {
+		const req = await apiLocation.get(`${cep}/json/`);
+		const res = req.data;
+		location = res;
+	};
 
 	const {
 		register,
@@ -25,7 +37,25 @@ const RegisterForm = () => {
 		formState: { errors, isDirty, isValid },
 	} = useForm<RegisterData>({ resolver: zodResolver(registerSchema) });
 
-	const handleRegister = (data: RegisterData) => registerFunction(data);
+	const handleRegister = (data: RegisterData) => {
+		const re = /\W+/g;
+		const phone = data.phone.split(re).join("");
+		const cpf = data.cpf.split(".").join("");
+		const account_type = data.account_type === "Comprador" ? false : true;
+		const cep = data.cep.split(".").join("");
+
+		const { confirmPassword, ...rest } = data;
+
+		const newUserData: CreateRegisterData = {
+			...rest,
+			phone: phone,
+			cpf: cpf,
+			account_type: account_type,
+			cep: cep,
+		};
+		console.log(newUserData);
+		registerFunction(newUserData);
+	};
 
 	return (
 		<form
@@ -155,7 +185,7 @@ const RegisterForm = () => {
 			<Button
 				type={!isDirty || !isValid ? "disableBland" : "brand"}
 				submit
-				disable={!isDirty || !isValid}
+				/* disable={!isDirty || !isValid} */
 			>
 				{!btnLoading ? (
 					"Finalizar Cadastro"
