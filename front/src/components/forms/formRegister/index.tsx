@@ -14,7 +14,7 @@ import Select from "@/components/select";
 
 const RegisterForm = () => {
 	//Ao selecionar ele não habilita o botão, somente após clicar fora do select
-	//incluir input de avatar
+	//tratamento de erros (unique constraints, etc)
 	const { btnLoading, registerFunction } = useAuth();
 
 	const {
@@ -65,6 +65,13 @@ const RegisterForm = () => {
 				type="date"
 				error={errors.birth && errors.birth.message}
 				register={register("birth")}
+			/>
+			<Input
+				label="Avatar"
+				placeholder="Cole aqui a url do seu avatar..."
+				type="text"
+				error={errors.avatar_url && errors.avatar_url.message}
+				register={register("avatar_url")}
 			/>
 			<TextArea
 				label="Descrição"
