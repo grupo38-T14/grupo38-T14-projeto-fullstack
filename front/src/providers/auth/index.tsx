@@ -4,17 +4,22 @@ import { AuhtProviderProps, AuthContextProps } from "@/schemas/authContext";
 import { LoginData } from "@/schemas/login.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
 import { RegisterData } from "@/schemas/register.schema";
+import { retrieveUser } from "@/schemas/user.schema";
+import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
-export const AuhtProvider = ({ children }: AuhtProviderProps) => {
-	//   const router = useRouter();
+export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
+	const router = useRouter();
 
 	const [btnLoading, setBtnLoading] = useState(false);
+	const [user, setUser] = useState({} as retrieveUser);
+	const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
+	const [loading, setLoading] = useState(true);
 
 	const login = async (data: LoginData) => {
 		console.log(data);
@@ -37,6 +42,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 	};
 
 	const registerFunction = async (data: RegisterData) => {
+		console.log(data.birth);
 		const re = /\W+/g;
 		const phone = data.phone.split(re).join("");
 		try {
@@ -60,7 +66,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 			};
 			setBtnLoading(true);
 			await api.post("users/", newUserData).then((res) => res.data);
-			//router.push("/login");
+			router.push("/login");
 		} catch (error) {
 			const err = error as AxiosError;
 			console.log(err);
@@ -69,8 +75,39 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		}
 	};
 
+	const getProfile = async (id: string) => {
+		//preciso chamar a função passando o id que vem do token
+		try {
+			const req = await api.get(`users/${id}`);
+			const res: retrieveUser = req.data;
+			setUser(res);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	//getProfile()
+
+	const getUserAdverts = async (userId: string) => {
+		try {
+			const req = await api.get(`adverts/${userId}`);
+			const res: listRetrieveAdvertsType = req.data;
+			setUserAdverts(res);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
-		<AuthContext.Provider value={{ btnLoading, login, registerFunction }}>
+		<AuthContext.Provider
+			value={{
+				btnLoading,
+				login,
+				registerFunction,
+				user,
+				userAdverts,
+				loading,
+			}}
+		>
 			<AdvertsProvider>{children}</AdvertsProvider>
 		</AuthContext.Provider>
 	);

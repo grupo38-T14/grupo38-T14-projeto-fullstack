@@ -13,8 +13,10 @@ import TextArea from "@/components/textArea";
 import Select from "@/components/select";
 
 const RegisterForm = () => {
-	//Ao selecionar ele não habilita o botão, somente após clicar fora do select
-	//tratamento de erros (unique constraints, etc)
+	//Data de nascimento está com o formato diferente da validação do zod
+	//Ao selecionar no select ele não habilita o botão, somente após clicar fora do select
+	//tratamento de erros (unique constraints, etc) -> Usar um toast para mostrar se o email ou cpf já existem
+	//API de estado e cidade -> achei mas é uma API muito pesada
 	const { btnLoading, registerFunction } = useAuth();
 
 	const {
@@ -33,49 +35,49 @@ const RegisterForm = () => {
 		>
 			<Input
 				label="Nome"
-				placeholder="Digite seu nome..."
+				placeholder="Digitar nome"
 				type="text"
 				error={errors.name && errors.name.message}
 				register={register("name")}
 			/>
 			<Input
 				label="Email"
-				placeholder="Digite seu email..."
+				placeholder="Digitar email"
 				type="email"
 				error={errors.email && errors.email.message}
 				register={register("email")}
 			/>
 			<Input
 				label="CPF"
-				placeholder="Digite seu CPF..."
+				placeholder="Digitar CPF"
 				type="cpf"
 				error={errors.cpf && errors.cpf.message}
 				register={register("cpf")}
 			/>
 			<Input
 				label="Celular"
-				placeholder="Digite seu celular..."
+				placeholder="Digitar celular"
 				type="phone"
 				error={errors.phone && errors.phone.message}
 				register={register("phone")}
 			/>
 			<Input
 				label="Data de Nascimento"
-				placeholder="Digite sua data de nascimento..."
+				placeholder="Digitar data de nascimento"
 				type="date"
 				error={errors.birth && errors.birth.message}
 				register={register("birth")}
 			/>
 			<Input
 				label="Avatar"
-				placeholder="Cole aqui a url do seu avatar..."
+				placeholder="Colar a url do seu avatar"
 				type="text"
 				error={errors.avatar_url && errors.avatar_url.message}
 				register={register("avatar_url")}
 			/>
 			<TextArea
 				label="Descrição"
-				placeholder="Digite uma descrição..."
+				placeholder="Digitar descrição"
 				error={errors.description && errors.description.message}
 				register={register("description")}
 			/>
@@ -91,7 +93,7 @@ const RegisterForm = () => {
 				</h4>
 				<Input
 					label="CEP"
-					placeholder="Digite seu CEP..."
+					placeholder="Digitar CEP"
 					type="text"
 					error={errors.cep && errors.cep.message}
 					register={register("cep")}
@@ -99,14 +101,14 @@ const RegisterForm = () => {
 				<div className="flex gap-6">
 					<Input
 						label="Estado"
-						placeholder="Digite seu Estado..."
+						placeholder="Digitar Estado"
 						type="text"
 						error={errors.state && errors.state.message}
 						register={register("state")}
 					/>
 					<Input
 						label="Cidade"
-						placeholder="Digite sua cidade..."
+						placeholder="Digitar cidade"
 						type="text"
 						error={errors.city && errors.city.message}
 						register={register("city")}
@@ -114,7 +116,7 @@ const RegisterForm = () => {
 				</div>
 				<Input
 					label="Rua"
-					placeholder="Digite a rua ou avenida..."
+					placeholder="Digitar a rua ou avenida"
 					type="text"
 					error={errors.street && errors.street.message}
 					register={register("street")}
@@ -122,14 +124,14 @@ const RegisterForm = () => {
 				<div className="flex gap-6">
 					<Input
 						label="Número"
-						placeholder="Digite o número da sua residência..."
+						placeholder="Digitar o número da residência"
 						type="text"
 						error={errors.number && errors.number.message}
 						register={register("number")}
 					/>
 					<Input
 						label="Complemento"
-						placeholder="Digite o complemento..."
+						placeholder="Digitar o complemento"
 						type="text"
 						error={errors.complement && errors.complement.message}
 						register={register("complement")}
@@ -138,14 +140,14 @@ const RegisterForm = () => {
 			</div>
 			<Input
 				label="Senha"
-				placeholder="Digite sua senha..."
+				placeholder="Digitar senha"
 				type="password"
 				error={errors.password && errors.password.message}
 				register={register("password")}
 			/>
 			<Input
 				label="Confirmar Senha"
-				placeholder="Digite novamente sua senha..."
+				placeholder="Digitar novamente senha"
 				type="password"
 				error={errors.confirmPassword && errors.confirmPassword.message}
 				register={register("confirmPassword")}

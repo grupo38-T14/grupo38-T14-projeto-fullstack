@@ -2,25 +2,26 @@ import { z } from "zod";
 
 export const registerSchema = z
 	.object({
-		name: z.string().nonempty("Nome é obrigatório"),
+		name: z.string().max(127).nonempty("Nome é obrigatório"),
 		email: z
 			.string()
+			.max(127)
 			.nonempty("Email é obrigatório")
 			.email("Deve ser um e-mail válido"),
 		cpf: z.string().nonempty("CPF é obrigatório"),
 		phone: z.string().nonempty("Celular é obrigatório"),
-		birth: z.date().optional(),
-		description: z.string().optional(),
+		birth: z.string().optional(),
+		description: z.string().max(255).optional(),
 		account_type: z.string().nonempty("Escolha um opção"),
-		password: z.string().nonempty("Senha é obrigatória"),
-		confirmPassword: z.string(),
+		password: z.string().max(127).nonempty("Senha é obrigatória"),
+		confirmPassword: z.string().max(127),
 		avatar_url: z.string().optional(),
-		cep: z.string().nonempty("CEP é obrigatório"),
-		state: z.string().nonempty("Estado é obrigatório"),
-		city: z.string().nonempty("Cidade é obrigatória"),
-		street: z.string().nonempty("Rua é obrigatória"),
-		number: z.string().nonempty("Número é obrigatório"),
-		complement: z.string().optional(),
+		cep: z.string().max(127).nonempty("CEP é obrigatório"),
+		state: z.string().max(127).nonempty("Estado é obrigatório"),
+		city: z.string().max(127).nonempty("Cidade é obrigatória"),
+		street: z.string().max(127).nonempty("Rua é obrigatória"),
+		number: z.string().max(127).nonempty("Número é obrigatório"),
+		complement: z.string().max(127).optional(),
 	})
 	.refine((data) => (data.password === data.confirmPassword ? true : false), {
 		message: "As senhas devem ser iguais",
