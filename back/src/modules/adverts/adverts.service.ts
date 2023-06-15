@@ -8,8 +8,8 @@ import { Prisma } from '@prisma/client';
 export class AdvertsService {
   constructor(private advertRepository: AdvertRepository) {}
 
-  async create(createAdvertDto: CreateAdvertDto, user_id: string) {
-    return await this.advertRepository.create(createAdvertDto, user_id);
+  async create(createAdvertDto: CreateAdvertDto, /* user_id: string */) {
+    return await this.advertRepository.create(createAdvertDto,/*  user_id */);
   }
 
   async findAll(

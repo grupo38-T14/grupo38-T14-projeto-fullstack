@@ -1,4 +1,5 @@
 "use client";
+
 import {
 	IPageProps,
 	createAdvertType,
@@ -13,6 +14,7 @@ import {
 } from "@/schemas/advertsContext";
 import { api } from "@/service";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState, ChangeEvent } from "react";
 
 export const AdvertsContext = createContext<AdvertsContextValues>(
@@ -32,6 +34,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
 
+  const router = useRouter()
+
   const createAdvert = async (data: createAdvertType, setOpenModal: React.Dispatch<React.SetStateAction<boolean>>) => {
     const {
       image_gallery1,
@@ -47,6 +51,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       setBtnLoading(true)
       const {data} = await api.post("adverts", rest)
       setOpenModal(false)
+      router.refresh()
       // falta um toast de resposta
     } catch (error) {
       const err = error as AxiosError
@@ -175,6 +180,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         currentAdverts,
         retrieveFilterByKmPriceAdvert,
         loading,
+        btnLoading,
+        setBtnLoading
       }}
     >
       {children}

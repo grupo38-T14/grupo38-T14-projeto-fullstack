@@ -13,7 +13,7 @@ import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
-export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
+export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 	const router = useRouter();
 
 	const [btnLoading, setBtnLoading] = useState(false);

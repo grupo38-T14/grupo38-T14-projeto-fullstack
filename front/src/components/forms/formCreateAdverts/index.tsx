@@ -3,11 +3,16 @@ import Input from "@/components/inputs";
 import Select from "@/components/select";
 import TextArea from "@/components/textArea";
 import { useAdverts } from "@/hooks/advertHook";
-import { createAdvertType, schemaCreateAdvert } from "@/schemas/advert.schema";
+import {
+  createAdvertType,
+  requestAdvertType,
+  schemaRequestAdvert,
+} from "@/schemas/advert.schema";
 import { Car, getBrands, getCarsByBrands } from "@/service/kenzieCarts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { RiLoader4Line } from "react-icons/ri";
 
 interface FormCreateAdvertsProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,18 +26,31 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 
   const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
-  const { createAdvert } = useAdverts();
+  const { createAdvert, btnLoading } = useAdverts();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<createAdvertType>({
-    resolver: zodResolver(schemaCreateAdvert),
+    formState: { errors, isDirty, isValid },
+  } = useForm<requestAdvertType>({
+    resolver: zodResolver(schemaRequestAdvert),
   });
 
-  const handleCreateAdvert = async (data: any) => {
-    createAdvert(data, setOpenModal)
+  const handleCreateAdvert = async (data: requestAdvertType) => {
+    const price = Number(data.price.replace(/[^0-9]+/g, ""));
+    const km = Number(data.km.replace(".", ""));
+
+    createAdvert(
+      {
+        ...data,
+        fuel: fuelsFields[selectCar.fuel],
+        table_fipe_price: selectCar.value,
+        price: price,
+        year: +selectCar.year,
+        km: km,
+      },
+      setOpenModal
+    );
   };
 
   const handleGetCars = async (brand: string) => {
@@ -198,8 +216,20 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             </Button>
           </div>
           <div className="lg:w-[40%]">
-            <Button type="brand" submit>
-              Criar anúncio
+            <Button
+              type={!isDirty || !isValid ? "disableBland" : "brand"}
+              submit
+              disable={!isDirty || !isValid}
+            >
+              {!btnLoading ? (
+                "Criar anúncio"
+              ) : (
+                <RiLoader4Line
+                  size={30}
+                  color="#fff"
+                  className="animate-spin"
+                />
+              )}
             </Button>
           </div>
         </div>

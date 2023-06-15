@@ -7,7 +7,7 @@ import { PaginatedResult } from '../providers/prisma/paginator';
 export abstract class AdvertRepository {
   abstract create(
     data: CreateAdvertDto,
-    user_id: string,
+    /* user_id: string, */
   ): Promise<Advert> | Advert;
   abstract findAll({
     where,
