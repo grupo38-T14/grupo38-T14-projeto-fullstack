@@ -10,24 +10,25 @@ import {
   IsDate,
   IsOptional,
   IsNotEmpty,
+  MaxLength,
 } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
-  @Max(127)
+  @MaxLength(127)
   @IsNotEmpty()
   name: string;
 
   @IsEmail()
-  @Max(127)
+  @MaxLength(127)
   email: string;
 
-  @IsNumberString()
+  @IsString()
   @Length(11, 11)
   @IsNotEmpty()
   cpf: string;
 
-  @IsNumberString()
+  @IsString()
   @Length(11, 11)
   @IsNotEmpty()
   phone: string;
@@ -37,17 +38,16 @@ export class CreateUserDto {
   birth: string;
 
   @IsString()
-  @Max(255)
+  @MaxLength(255)
   @IsOptional()
   description: string;
 
   @IsBoolean()
-  @IsNotEmpty()
   account_type: boolean;
 
   @IsString()
   @IsNotEmpty()
-  @Max(127)
+  @MaxLength(127)
   @Transform(({ value }: { value: string }) => hashSync(value, 10), {
     groups: ['transform'],
   })
