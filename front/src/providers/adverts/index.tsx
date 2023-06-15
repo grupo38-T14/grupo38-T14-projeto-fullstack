@@ -1,22 +1,22 @@
 "use client";
 import {
-  IPageProps,
-  createAdvertType,
-  listRetrieveAdvertsType,
-  retrieveAdvertPaginationType,
-  retrieveAdvertType,
-  updateAdvertType,
+	IPageProps,
+	createAdvertType,
+	listRetrieveAdvertsType,
+	retrieveAdvertPaginationType,
+	retrieveAdvertType,
+	updateAdvertType,
 } from "@/schemas/advert.schema";
 import {
-  AdvertsContextValues,
-  AdvertsProviderProps,
+	AdvertsContextValues,
+	AdvertsProviderProps,
 } from "@/schemas/advertsContext";
 import { api } from "@/service";
 import { AxiosError } from "axios";
 import { createContext, useEffect, useState, ChangeEvent } from "react";
 
 export const AdvertsContext = createContext<AdvertsContextValues>(
-  {} as AdvertsContextValues
+	{} as AdvertsContextValues
 );
 
 export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
@@ -129,10 +129,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         filterValueMax = newValue;
       }
 
-      const req = await api.get(
-        `adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`
-      );
-      const res: retrieveAdvertPaginationType = req.data;
+      const req = await api.get(`adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`)
+      const res: retrieveAdvertPaginationType = req.data
 
       setCurrentAdverts(res.data.filter((e) => e.is_active == true));
       setPage({
