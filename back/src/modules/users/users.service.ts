@@ -16,17 +16,20 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const user = await this.usersRepository.findByEmail(createUserDto.email);
     if (user) {
-      throw new ConflictException('Email already exists!');
+      throw new ConflictException('Email already in use!');
     }
 
-    const newUser = await this.usersRepository.create(createUserDto);
+    const userCpf = await this.usersRepository.findByCpf(createUserDto.cpf);
+    if (userCpf) {
+      throw new ConflictException('CPF Unavailable!');
+    }
 
-    return newUser;
+    return await this.usersRepository.create(createUserDto);
   }
 
   async findAll(): Promise<User[]> {
-    const users = await this.usersRepository.findAll();
-    return users;
+    return await this.usersRepository.findAll();
+    
   }
 
   async findOne(id: string) {
@@ -49,6 +52,20 @@ export class UsersService {
     const user = await this.usersRepository.findOne(id);
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+
+    if (updateUserDto.email) {
+      const newEmail = await this.usersRepository.findByEmail(updateUserDto.email);
+      if (newEmail) {
+        throw new ConflictException('Email already in use!');
+      }
+    }
+
+    if (updateUserDto.cpf) {
+      const newCpf = await this.usersRepository.findByCpf(updateUserDto.cpf);
+      if (newCpf) {
+        throw new ConflictException('CPF Unavailable!');
+      }
     }
     return await this.usersRepository.update(id, updateUserDto);
   }

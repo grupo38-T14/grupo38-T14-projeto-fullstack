@@ -5,6 +5,7 @@ import { CreateUserDto } from '../../dto/create-user.dto';
 import { User } from '../../entities/user.entity';
 import { UpdateUserDto } from '../../dto/update-user.dto';
 import { plainToInstance } from 'class-transformer';
+import { Address } from 'src/modules/addresses/entities/address.entity';
 
 @Injectable()
 export class UsersPrismaRepository implements UsersRepository {
@@ -15,10 +16,16 @@ export class UsersPrismaRepository implements UsersRepository {
     Object.assign(user, {
       ...createUserDto,
     });
+    
+    const address = new Address()
+    Object.assign(address,{
+      ...createUserDto.address
+    })
 
     const newUser = await this.prisma.users.create({
-      data: { ...user },
+      data: { ...user, address:{ create: {...address} } },
     });
+
     return plainToInstance(User, newUser);
   }
 
@@ -50,13 +57,22 @@ export class UsersPrismaRepository implements UsersRepository {
     return user;
   }
 
+  async findByCpf(cpf: string): Promise<User> {
+    const user = await this.prisma.users.findUnique({
+      where: { cpf },
+    });
+    return user;
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const address = new Address()
+    Object.assign(address,{
+      ...updateUserDto.address
+    })
+
     const updatedUser = await this.prisma.users.update({
       where: { id },
-      data: { ...updateUserDto },
-      include: {
-        address: true,
-      },
+      data: { ...updateUserDto, address: { create: {...address} }}
     });
     return plainToInstance(User, updatedUser);
   }
