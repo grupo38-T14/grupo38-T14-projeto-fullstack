@@ -105,7 +105,7 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
 			{currentAdverts.length <= 0 && (
 				<div className="h-[500px] flex justify-center items-center">
 					<p className="text-2xl lg:text-5xl font-medium text-gray-30">
-						Não há nenhum anúncio :(
+						Não há nenhum anúncio...
 					</p>
 				</div>
 			)}

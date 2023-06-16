@@ -11,13 +11,16 @@ import { CreateRegisterData } from "@/schemas/register.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
-export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
+export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 	const router = useRouter();
 
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [loading, setLoading] = useState(true);
 
-	const login = async (data: LoginData) => {
+	const login = async (
+		data: LoginData,
+		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+	) => {
 		console.log(data);
 		// try {
 		//     setBtnLoading(true)
@@ -48,7 +51,7 @@ export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
 			const err = error as AxiosError;
 			console.log(err);
 		} finally {
-			setBtnLoading(false);
+			// setBtnLoading(false);
 		}
 	};
 

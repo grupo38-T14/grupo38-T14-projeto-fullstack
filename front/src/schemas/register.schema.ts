@@ -14,12 +14,6 @@ export const registerDataSchema = z.object({
 	account_type: z.boolean(),
 	password: z.string().max(127).nonempty("Senha é obrigatória"),
 	avatar_url: z.string().optional(),
-	cep: z.string().max(127).nonempty("CEP é obrigatório"),
-	state: z.string().max(127).nonempty("Estado é obrigatório"),
-	city: z.string().max(127).nonempty("Cidade é obrigatória"),
-	street: z.string().max(127).nonempty("Rua é obrigatória"),
-	number: z.string().max(127).nonempty("Número é obrigatório"),
-	complement: z.string().max(127).optional(),
 });
 
 export const registerSchema = registerDataSchema
@@ -29,11 +23,28 @@ export const registerSchema = registerDataSchema
 	.extend({
 		account_type: z.string().nonempty("Escolha um opção"),
 		confirmPassword: z.string().max(127),
+		cep: z.string().max(127).nonempty("CEP é obrigatório"),
+		state: z.string().max(127).nonempty("Estado é obrigatório"),
+		city: z.string().max(127).nonempty("Cidade é obrigatória"),
+		street: z.string().max(127).nonempty("Rua é obrigatória"),
+		number: z.string().max(127).nonempty("Número é obrigatório"),
+		complement: z.string().max(127).optional(),
 	})
 	.refine((data) => (data.password === data.confirmPassword ? true : false), {
 		message: "As senhas devem ser iguais",
 		path: ["confirmPassword"],
 	});
 
+export const registerUserAddressSchema = registerDataSchema.extend({
+	address: z.object({
+		cep: z.string().max(127).nonempty("CEP é obrigatório"),
+		state: z.string().max(127).nonempty("Estado é obrigatório"),
+		city: z.string().max(127).nonempty("Cidade é obrigatória"),
+		street: z.string().max(127).nonempty("Rua é obrigatória"),
+		number: z.string().max(127).nonempty("Número é obrigatório"),
+		complement: z.string().max(127).optional(),
+	}),
+});
+
 export type RegisterData = z.infer<typeof registerSchema>;
-export type CreateRegisterData = z.infer<typeof registerDataSchema>;
+export type CreateRegisterData = z.infer<typeof registerUserAddressSchema>;

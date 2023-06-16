@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginData, loginSchema } from '@/schemas/login.schema';
@@ -11,7 +11,8 @@ import { useAuth } from '@/hooks/authHook';
 import { RiLoader4Line } from 'react-icons/ri';
 
 const FormLogin = () => {
-	const { btnLoading, login } = useAuth();
+	const {  login } = useAuth();
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	const {
 		register,

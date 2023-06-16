@@ -6,6 +6,6 @@ export const api = axios.create({
 });
 
 export const apiLocation = axios.create({
-	baseURL: "viacep.com.br/ws/",
+	baseURL: "http://viacep.com.br/ws/",
 	timeout: 10000,
 });

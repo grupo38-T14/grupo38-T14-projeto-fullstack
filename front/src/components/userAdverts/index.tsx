@@ -12,7 +12,7 @@ interface UserAdvertsProps {
 }
 
 export const UserAdverts = ({ userAdverts }: UserAdvertsProps) => {
-	//paginação
+	//Componente de paginação e será feita através de outra rota.
 	const router = useRouter();
 	const { loading } = useAuth();
 
