@@ -2,13 +2,14 @@
 
 import { UserAdverts } from "@/components/userAdverts";
 import { UserProfile } from "@/components/userProfile";
-import { retrieveUser } from "@/schemas/user.schema";
+import { IPageProfileAdvertsProps, retrieveUser } from "@/schemas/user.schema";
 import { api } from "@/service";
 import { useState } from "react";
 
 const Profile = () => {
 	const [user, setUser] = useState({} as retrieveUser);
 	const [userAdverts, setUserAdverts] = useState([]);
+	const [page, setPage] = useState<IPageProfileAdvertsProps>();
 
 	const getProfile = async (userId: string) => {
 		try {
@@ -25,6 +26,12 @@ const Profile = () => {
 			const req = await api.get(`users/${userId}/adverts`);
 			const res = req.data;
 			setUserAdverts(res);
+			setPage({
+				current: res.currentPage,
+				last: res.lastPage,
+				next: res.next,
+				prev: res.prev,
+			});
 		} catch (error) {
 			console.log(error);
 		}

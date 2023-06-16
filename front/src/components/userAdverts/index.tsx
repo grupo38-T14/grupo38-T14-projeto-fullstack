@@ -5,7 +5,8 @@ import Image from "next/image";
 import Button from "../button";
 import { useRouter } from "next/navigation";
 import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
-import { Pagination } from "../pagination";
+import { UserAdvertsPagination } from "../userAdvertsPagination";
+import { IPageProfileAdvertsProps } from "@/schemas/user.schema";
 
 interface UserAdvertsProps {
 	userAdverts: listRetrieveAdvertsType;
@@ -94,7 +95,7 @@ export const UserAdverts = ({ userAdverts }: UserAdvertsProps) => {
 					})}
 				</>
 			</ul>
-			<Pagination />
+			<UserAdvertsPagination />
 			{userAdverts.length <= 0 && (
 				<div className="h-[500px] flex justify-center items-center">
 					<p className="text-2xl lg:text-5xl font-medium text-gray-30">
