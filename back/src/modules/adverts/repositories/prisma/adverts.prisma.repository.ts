@@ -85,4 +85,12 @@ export class AdvertPrismaRepository implements AdvertRepository {
     });
     return;
   }
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.advert.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

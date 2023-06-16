@@ -50,4 +50,12 @@ export class AdvertsService {
 
     return advertUpdate;
   }
+
+  async remove(id: string) {
+    const advert = await this.advertRepository.findOne(id);
+    if (!advert) {
+      throw new NotFoundException('Advert not found');
+    }
+    await this.advertRepository.delete(id);
+  }
 }
