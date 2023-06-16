@@ -5,13 +5,11 @@ import {
   IsString,
   IsBoolean,
   Length,
-  Max,
   IsEmail,
-  IsNumberString,
-  IsDate,
   IsOptional,
   IsNotEmpty,
   MaxLength,
+  IsDateString,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -34,7 +32,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   phone: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   birth: string;
 
@@ -59,5 +57,5 @@ export class CreateUserDto {
   avatar_url?: string;
 
   @IsOptional()
-  address?: Address
+  address?: Address;
 }
