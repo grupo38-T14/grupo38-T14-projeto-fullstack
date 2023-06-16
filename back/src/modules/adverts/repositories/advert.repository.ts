@@ -21,4 +21,5 @@ export abstract class AdvertRepository {
   abstract findAllAdverts(): Promise<Advert[]> | Advert[];
   abstract findOne(id: string): Promise<Advert> | Advert;
   abstract update(id: string, data: UpdateAdvertDto): Promise<Advert> | Advert;
+  abstract delete(id: string): Promise<void>;
 }

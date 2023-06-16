@@ -5,9 +5,10 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   Query,
   UseGuards,
+  HttpCode,
+  Delete,
 } from '@nestjs/common';
 import { AdvertsService } from './adverts.service';
 import { CreateAdvertDto } from './dto/create-advert.dto';
@@ -16,6 +17,7 @@ import { Fuel, Prisma } from '@prisma/client';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { User } from '../users/entities/user.entity';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('adverts')
 export class AdvertsController {
@@ -70,5 +72,13 @@ export class AdvertsController {
   @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateAdvertDto: UpdateAdvertDto) {
     return this.advertsService.update(id, updateAdvertDto);
+  }
+
+  @HttpCode(204)
+  @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  remove(@Param('id') id: string) {
+    return this.advertsService.remove(id);
   }
 }

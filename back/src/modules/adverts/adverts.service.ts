@@ -30,7 +30,7 @@ export class AdvertsService {
   }
 
   async findOne(id: string) {
-    const findAdvert = this.advertRepository.findOne(id);
+    const findAdvert = await this.advertRepository.findOne(id);
     if (!findAdvert) {
       throw new NotFoundException('Advert not found!');
     }
@@ -49,5 +49,13 @@ export class AdvertsService {
     );
 
     return advertUpdate;
+  }
+
+  async remove(id: string) {
+    const advert = await this.advertRepository.findOne(id);
+    if (!advert) {
+      throw new NotFoundException('Advert not found');
+    }
+    await this.advertRepository.delete(id);
   }
 }
