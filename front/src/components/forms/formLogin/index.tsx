@@ -22,7 +22,7 @@ const FormLogin = () => {
 		resolver: zodResolver(loginSchema),
 	});
 
-	const handleLogin = (data: LoginData) => login(data);
+	const handleLogin = (data: LoginData) => login(data, setBtnLoading);
 
 	return (
 		<form
