@@ -20,7 +20,8 @@ import Link from "next/link";
 
 const RegisterForm = () => {
 	//Verificar formato da data que vem do formulário.
-	const { btnLoading, registerFunction } = useAuth();
+	const { registerFunction } = useAuth();
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	const [location, setLocation] = useState({} as LocationData);
 
@@ -61,6 +62,7 @@ const RegisterForm = () => {
 		const cpf = data.cpf.split(".").join("");
 		const account_type = data.account_type === "Comprador" ? false : true;
 		const cepData = data.cep.split(".").join("");
+		const birth = data.birth ? data.birth : null;
 
 		const {
 			confirmPassword,
@@ -78,9 +80,10 @@ const RegisterForm = () => {
 			phone: phone,
 			cpf: cpf,
 			account_type: account_type,
+			birth: birth,
 			address: { cep: cepData, state, city, street, number, complement },
 		};
-		registerFunction(newUserData);
+		registerFunction(newUserData, setBtnLoading);
 	};
 
 	return (

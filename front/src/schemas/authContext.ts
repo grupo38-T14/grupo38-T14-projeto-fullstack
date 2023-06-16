@@ -11,7 +11,10 @@ export interface AuthContextProps {
 		data: LoginData,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => void;
-	registerFunction: (data: CreateRegisterData) => void;
+	registerFunction: (
+		data: CreateRegisterData,
+		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+	) => void;
 	oldPath: string;
 	setOldPath: React.Dispatch<React.SetStateAction<string>>;
 }

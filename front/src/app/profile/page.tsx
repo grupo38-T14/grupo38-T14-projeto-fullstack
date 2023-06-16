@@ -4,8 +4,8 @@ import { api } from "@/service";
 import { parseCookies } from "nookies";
 
 const getProfile = async () => {
-	const {} = parseCookies();
-	const userId = "";
+	const cookies = parseCookies();
+	const userId = cookies["user.id"];
 	try {
 		const req = await api.get(`users/${userId}`);
 		const res = req.data;
@@ -16,8 +16,8 @@ const getProfile = async () => {
 };
 
 const getProfileAdverts = async () => {
-	const {} = parseCookies();
-	const userId = "";
+	const cookies = parseCookies();
+	const userId = cookies["user.id"];
 	try {
 		const req = await api.get(`users/${userId}/adverts`);
 		const res = req.data;

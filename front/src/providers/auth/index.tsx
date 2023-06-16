@@ -12,9 +12,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
 import { CreateRegisterData } from "@/schemas/register.schema";
-import { RegisterData } from "@/schemas/register.schema";
-import { retrieveUser } from "@/schemas/user.schema";
-import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 import Notify from "@/components/notify";
 import { setCookie } from "nookies";
 import jwtDecode from "jwt-decode";
@@ -25,8 +22,6 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 	const router = useRouter();
 	const path = usePathname();
 
-	const [user, setUser] = useState({} as retrieveUser);
-	const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
 	const [loading, setLoading] = useState(true);
 	const [oldPath, setOldPath] = useState("");
 
@@ -34,7 +29,6 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		data: LoginData,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => {
-		console.log(data);
 		try {
 			setBtnLoading(true);
 			const response = await api.post("login/", data);
@@ -68,59 +62,24 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		}
 	};
 
-	const registerFunction = async (data: RegisterData) => {
-		console.log(data.birth);
-		const re = /\W+/g;
-		const phone = data.phone.split(re).join("");
+	const registerFunction = async (
+		data: CreateRegisterData,
+		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+	) => {
+		console.log(data);
 		try {
-			const newUserData = {
-				name: data.name,
-				email: data.email,
-				cpf: data.cpf.split(".").join(""),
-				phone: phone,
-				birth: data.birth ? data.birth : null,
-				description: data.description,
-				password: data.password,
-				account_type: data.account_type === "Comprador" ? false : true,
-			};
-			const newUserAddres = {
-				cdp: data.cep.split(".").join(""),
-				state: data.state,
-				city: data.city,
-				street: data.street,
-				number: data.number,
-				complement: data.complement,
-			};
-			// setBtnLoading(true);
-			await api.post("users/", newUserData).then((res) => res.data);
+			setBtnLoading(true);
+			await api.post("users/", data).then((res) => res.data);
+			Notify({ type: "success", message: "Cadastro feito com sucesso!" });
 			router.push("/login");
 		} catch (error) {
 			const err = error as AxiosError;
 			console.log(err);
+			if (err.message === "Request failed with status code 409") {
+				Notify({ type: "error", message: "Email ou CPF já existe!" });
+			}
 		} finally {
-			// setBtnLoading(false);
-		}
-	};
-
-	const getProfile = async (id: string) => {
-		//preciso chamar a função passando o id que vem do token
-		try {
-			const req = await api.get(`users/${id}`);
-			const res: retrieveUser = req.data;
-			setUser(res);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	//getProfile()
-
-	const getUserAdverts = async (userId: string) => {
-		try {
-			const req = await api.get(`adverts/${userId}`);
-			const res: listRetrieveAdvertsType = req.data;
-			setUserAdverts(res);
-		} catch (error) {
-			console.log(error);
+			setBtnLoading(false);
 		}
 	};
 
