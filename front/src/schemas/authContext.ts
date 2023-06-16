@@ -9,9 +9,8 @@ export interface AuhtProviderProps {
 
 export interface AuthContextProps {
 	btnLoading: boolean;
-	login: (data: LoginData) => void;
+	login: (data: LoginData, setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>) => void;
 	registerFunction: (data: RegisterData) => void;
 	user: retrieveUser;
 	userAdverts: listRetrieveAdvertsType;
-	loading: boolean;
 }

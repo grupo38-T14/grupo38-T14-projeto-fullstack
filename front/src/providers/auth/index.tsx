@@ -13,15 +13,14 @@ import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
-export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
+export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 	const router = useRouter();
 
-	const [btnLoading, setBtnLoading] = useState(false);
 	const [user, setUser] = useState({} as retrieveUser);
 	const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
 	const [loading, setLoading] = useState(true);
 
-	const login = async (data: LoginData) => {
+	const login = async (data: LoginData, setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
 		console.log(data);
 		// try {
 		//     setBtnLoading(true)
@@ -64,14 +63,14 @@ export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
 				number: data.number,
 				complement: data.complement,
 			};
-			setBtnLoading(true);
+			// setBtnLoading(true);
 			await api.post("users/", newUserData).then((res) => res.data);
 			router.push("/login");
 		} catch (error) {
 			const err = error as AxiosError;
 			console.log(err);
 		} finally {
-			setBtnLoading(false);
+			// setBtnLoading(false);
 		}
 	};
 
@@ -100,7 +99,6 @@ export const AuhtProvider = async ({ children }: AuhtProviderProps) => {
 	return (
 		<AuthContext.Provider
 			value={{
-				btnLoading,
 				login,
 				registerFunction,
 				user,

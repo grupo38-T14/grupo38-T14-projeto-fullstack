@@ -2,10 +2,17 @@ import Button from "@/components/button";
 import Input from "@/components/inputs";
 import Select from "@/components/select";
 import TextArea from "@/components/textArea";
-import { createAdvertType, schemaCreateAdvert } from "@/schemas/advert.schema";
+import { useAdverts } from "@/hooks/advertHook";
+import {
+  createAdvertType,
+  requestAdvertType,
+  schemaRequestAdvert,
+} from "@/schemas/advert.schema";
+import { Car, getBrands, getCarsByBrands } from "@/service/kenzieCarts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { RiLoader4Line } from "react-icons/ri";
 
 interface FormCreateAdvertsProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,18 +20,55 @@ interface FormCreateAdvertsProps {
 
 const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
   const [numImageGallery, setNumImageGallery] = useState([1, 2]);
+  const [cars, setCars] = useState<Car[]>([]);
+  const [selectCar, setSelectCar] = useState<Car>({} as Car);
+  const [brands, setBrands] = useState<string[]>([]);
+  const [btnLoading, setBtnLoading] = useState(false);
+
+  const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
+
+  const { createAdvert } = useAdverts();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<createAdvertType>({
-    resolver: zodResolver(schemaCreateAdvert),
+    formState: { errors, isDirty, isValid },
+  } = useForm<requestAdvertType>({
+    resolver: zodResolver(schemaRequestAdvert),
   });
 
-  const handleCreateAdvert = (data: any) => {
-    console.log(data);
+  const handleCreateAdvert = async (data: requestAdvertType) => {
+    const price = Number(data.price.replace(/[^0-9]+/g, ""));
+    const km = Number(data.km.replace(".", ""));
+
+    createAdvert(
+      {
+        ...data,
+        fuel: fuelsFields[selectCar.fuel],
+        table_fipe_price: selectCar.value,
+        price: price,
+        year: +selectCar.year,
+        km: km,
+      },
+      setOpenModal,
+      setBtnLoading
+    );
   };
+
+  const handleGetCars = async (brand: string) => {
+    setCars(await getCarsByBrands(brand));
+  };
+
+  const handleSelectCar = (name: string) => {
+    setSelectCar(cars.find((car) => car.name == name)!);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const retrieveBrand = await getBrands();
+      setBrands(retrieveBrand);
+    })();
+  }, []);
 
   return (
     <div className="flex flex-col gap-4">
@@ -38,35 +82,36 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
         <Select
           label="Marca"
           optionDefault="Selecione a Marca"
-          options={["Mercedes Benz", "Fiat", "Ford", "BMW"]}
+          options={brands}
           register={register("brand")}
           error={errors.brand && errors.brand.message}
+          handle={handleGetCars}
         />
         <Select
           label="Modelo"
           optionDefault="Selecione o Modelo"
-          options={[
-            "A 200 CGI ADVANCE SEDAN",
-            "A 200 CGI ADVANCE SEDAN",
-            "A 200 CGI ADVANCE SEDAN",
-            "A 200 CGI ADVANCE SEDAN",
-          ]}
+          options={cars.map((car) => car.name)}
           register={register("model")}
           error={errors.model && errors.model.message}
+          handle={handleSelectCar}
         />
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-          <Input  
+          <Input
             label="Ano"
             placeholder="2018"
             type="number"
             register={register("year")}
             error={errors.year && errors.year.message}
+            valueInput={selectCar.year}
           />
           <Select
             label="Combustível"
-            optionDefault="Selecione uma opção"
             options={["Eletrico", "Etanol", "Hibrido"]}
-            optionsValue={["ELECTRIC", "ETHANOL", "HYBRID"]}
+            optionDefault={"Selecione uma opção"}
+            optionsValue={fuelsFields}
+            optionValueSelected={
+              !selectCar ? "ELECTRIC" : fuelsFields[selectCar.fuel]
+            }
             register={register("fuel")}
             error={errors.fuel && errors.fuel.message}
           />
@@ -94,6 +139,13 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             type="coin"
             register={register("table_fipe_price")}
             error={errors.table_fipe_price && errors.table_fipe_price.message}
+            valueInput={
+              selectCar.value &&
+              selectCar.value.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })
+            }
           />
           <Input
             label="Preço"
@@ -117,14 +169,32 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
           error={errors.image_cape && errors.image_cape.message}
         />
         <div className="flex flex-col gap-5">
-          {numImageGallery.map((num, index) => (
-            <Input
-              label={`${num}° Imagem da galeria`}
-              placeholder="https://image.com"
-              type="url"
-              key={index}
-            />
-          ))}
+          {numImageGallery.map((num, index) => {
+            let registerName:
+              | "image_gallery1"
+              | "image_gallery2"
+              | "image_gallery3"
+              | "image_gallery4" = "image_gallery1";
+            if (num == 1) {
+              registerName = "image_gallery1";
+            } else if (num == 2) {
+              registerName = "image_gallery2";
+            } else if (num == 3) {
+              registerName = "image_gallery3";
+            } else if (num == 4) {
+              registerName = "image_gallery4";
+            }
+
+            return (
+              <Input
+                label={`${num}° Imagem da galeria`}
+                placeholder="https://image.com"
+                type="url"
+                key={index}
+                register={register(registerName)}
+              />
+            );
+          })}
           {numImageGallery.length <= 3 && (
             <Button
               type="outlineBrand1"
@@ -148,8 +218,20 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             </Button>
           </div>
           <div className="lg:w-[40%]">
-            <Button type="brand" submit>
-              Criar anúncio
+            <Button
+              type={!isDirty || !isValid ? "disableBland" : "brand"}
+              submit
+              disable={!isDirty || !isValid}
+            >
+              {!btnLoading ? (
+                "Criar anúncio"
+              ) : (
+                <RiLoader4Line
+                  size={30}
+                  color="#fff"
+                  className="animate-spin"
+                />
+              )}
             </Button>
           </div>
         </div>
