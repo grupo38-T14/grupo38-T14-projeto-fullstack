@@ -8,12 +8,14 @@ import {
   Delete,
   UseGuards,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
@@ -32,6 +34,15 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
+  }
+
+  @Get(':id/adverts')
+  findUserAdvert(
+    @Param('id') userId: string,
+    @Query('orderBy') orderBy?: Prisma.AdvertOrderByWithRelationInput,
+    @Query('page') page?: number,
+  ) {
+    return this.usersService.findUserAdvert({ userId }, orderBy, page);
   }
 
   @Patch(':id')

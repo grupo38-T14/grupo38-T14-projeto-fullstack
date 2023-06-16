@@ -6,7 +6,15 @@ import { User } from '../../entities/user.entity';
 import { UpdateUserDto } from '../../dto/update-user.dto';
 import { plainToInstance } from 'class-transformer';
 import { Address } from 'src/modules/addresses/entities/address.entity';
+import {
+  PaginateFunction,
+  PaginatedResult,
+  paginator,
+} from '../../providers/prisma/paginator';
+import { Advert } from 'src/modules/adverts/entities/advert.entity';
+import { Prisma } from '@prisma/client';
 
+const paginate: PaginateFunction = paginator({ perPage: 12 });
 @Injectable()
 export class UsersPrismaRepository implements UsersRepository {
   constructor(private prisma: PrismaService) {}
@@ -16,14 +24,14 @@ export class UsersPrismaRepository implements UsersRepository {
     Object.assign(user, {
       ...createUserDto,
     });
-    
-    const address = new Address()
-    Object.assign(address,{
-      ...createUserDto.address
-    })
+
+    const address = new Address();
+    Object.assign(address, {
+      ...createUserDto.address,
+    });
 
     const newUser = await this.prisma.users.create({
-      data: { ...user, address:{ create: {...address} } },
+      data: { ...user, address: { create: { ...address } } },
     });
 
     return plainToInstance(User, newUser);
@@ -37,6 +45,27 @@ export class UsersPrismaRepository implements UsersRepository {
     });
 
     return plainToInstance(User, users);
+  }
+
+  async findUserAdverts({
+    where,
+    orderBy,
+    page,
+  }: {
+    where?: Prisma.AddressWhereInput;
+    orderBy?: Prisma.AddressOrderByWithRelationInput;
+    page?: number;
+  }): Promise<PaginatedResult<Advert[]>> {
+    return paginate(
+      this.prisma.advert,
+      {
+        where,
+        orderBy,
+      },
+      {
+        page,
+      },
+    );
   }
 
   async findOne(id: string): Promise<User> {
@@ -65,14 +94,14 @@ export class UsersPrismaRepository implements UsersRepository {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const address = new Address()
-    Object.assign(address,{
-      ...updateUserDto.address
-    })
+    const address = new Address();
+    Object.assign(address, {
+      ...updateUserDto.address,
+    });
 
     const updatedUser = await this.prisma.users.update({
       where: { id },
-      data: { ...updateUserDto, address: { create: {...address} }}
+      data: { ...updateUserDto, address: { create: { ...address } } },
     });
     return plainToInstance(User, updatedUser);
   }
