@@ -12,7 +12,7 @@ import {
   PaginateFunction,
   PaginatedResult,
   paginator,
-} from 'src/modules/adverts/providers/prisma/paginator';
+} from '../../providers/prisma/paginator';
 
 const paginate: PaginateFunction = paginator({ perPage: 12 });
 @Injectable()
