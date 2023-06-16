@@ -3,6 +3,7 @@ import { retrieveUser } from "@/schemas/user.schema";
 import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { api } from "@/service";
 import Image from "next/image";
+import TextArea from "@/components/textArea";
 
 interface IPageProps {
   params: { id: string };
@@ -60,17 +61,25 @@ const Advert = async ({ params }: IPageProps) => {
             </div>
           </div>
           <div className="flex flex-col gap-12 md:gap-8 ">
-            <div className=" min-h-[359px] max-h-[377px] max-w-[440px] w-full bg-white p-8 rounded">
+            <div className=" min-h-[377px] max-w-[440px] w-full bg-white p-8 rounded">
               <h6 className="text-gray-10">Fotos</h6>
-              {advert.gallery?.map((pic) => (
-                <Image
-                  key={pic.id}
-                  src={pic.image_url}
-                  alt={`Imagem do anúncio ${pic.advertId}`}
-                  width={90}
-                  height={90}
-                />
-              ))}
+              <div className="flex flex-wrap gap-[5.5px] sm:gap-4 mt-8 justify-center">
+                {advert.gallery?.map((pic) => (
+                  <div
+                    key={pic.id}
+                    className="w-[90px] sm:w-[108px] h-[90px] sm:h-[108px] bg-gray-70 flex items-center justify-center"
+                  >
+                    <Image
+                      key={pic.id}
+                      src={pic.image_url}
+                      alt={`Imagem do anúncio ${pic.advertId}`}
+                      width={90}
+                      height={90}
+                      className=""
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex flex-col max-w-[440px] w-full gap-7 items-center bg-white p-8 rounded">
               {advert.user.avatar_url ? (
@@ -161,7 +170,52 @@ const Advert = async ({ params }: IPageProps) => {
           </div>
         </div>
       </section>
-      <section className="flex flex-col gap-4 w-full"></section>
+      <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
+        <header className="flex gap-2 items-center">
+          <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
+            JL
+          </p>
+          <p className="text-gray-10 body-2 font-medium">Julia Lima</p>
+        </header>
+        <div className="md:relative">
+          <textarea
+            placeholder="Carro muito confortável, foi uma ótima experiência de compra..."
+            className="  
+            body-1
+            w-full
+            h-32
+            px-4
+            py-2
+            border-2 
+            border-gray-70 
+            hover:border-gray-80 
+            rounded 
+            input-placeholder
+            outline-none
+            focus:border-brand-1
+            focus:text-brand-1
+            resize-none
+            mb-6
+            md:mb-0
+            
+          "
+          />
+          <button className='mb-6 bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-[38px] text-md" button-base w-24 px-5 md:absolute right-3 bottom-0'>
+            Comentar
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
+            Gostei muito!
+          </p>
+          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
+            Incrível
+          </p>
+          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
+            Recomendarei para meus amigos
+          </p>
+        </div>
+      </section>
     </main>
   );
 };
