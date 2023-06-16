@@ -5,6 +5,7 @@ import {
   IsInt,
   IsEnum,
   IsDecimal,
+  IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Fuel } from '@prisma/client';
@@ -106,4 +107,7 @@ export class CreateAdvertDto {
   })
   @IsString()
   image_cape: string;
+
+  @IsOptional()
+  imagesGallery: string[]
 }

@@ -6,11 +6,18 @@ export interface AuhtProviderProps {
 }
 
 export interface AuthContextProps {
-	btnLoading: boolean;
+	loading: boolean;
 	login: (
 		data: LoginData,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => void;
 	registerFunction: (data: CreateRegisterData) => void;
-	loading: boolean;
+	oldPath: string;
+	setOldPath: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface tokenDecode {
+	iat: number;
+	exp: number;
+	sub: string;
 }

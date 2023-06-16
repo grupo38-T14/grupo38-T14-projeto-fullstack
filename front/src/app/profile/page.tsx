@@ -1,45 +1,35 @@
-"use client";
-
 import { UserAdverts } from "@/components/userAdverts";
 import { UserProfile } from "@/components/userProfile";
-import { IPageProfileAdvertsProps, retrieveUser } from "@/schemas/user.schema";
 import { api } from "@/service";
-import { useState } from "react";
+import { parseCookies } from "nookies";
 
-const Profile = () => {
-	const [user, setUser] = useState({} as retrieveUser);
-	const [userAdverts, setUserAdverts] = useState([]);
-	const [page, setPage] = useState<IPageProfileAdvertsProps>();
+const getProfile = async () => {
+	const {} = parseCookies();
+	const userId = "";
+	try {
+		const req = await api.get(`users/${userId}`);
+		const res = req.data;
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+};
 
-	const getProfile = async (userId: string) => {
-		try {
-			const req = await api.get(`users/${userId}`);
-			const res = req.data;
-			setUser(res);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+const getProfileAdverts = async () => {
+	const {} = parseCookies();
+	const userId = "";
+	try {
+		const req = await api.get(`users/${userId}/adverts`);
+		const res = req.data;
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+};
 
-	const getProfileAdverts = async (userId: string) => {
-		try {
-			const req = await api.get(`users/${userId}/adverts`);
-			const res = req.data;
-			setUserAdverts(res);
-			setPage({
-				current: res.currentPage,
-				last: res.lastPage,
-				next: res.next,
-				prev: res.prev,
-			});
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	//Precisa recuperar o id do token
-	//getProfile(userId);
-	//getProfileAdverts(userId);
+const Profile = async () => {
+	const user = await getProfile();
+	const userAdverts = await getProfileAdverts();
 
 	return (
 		<main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile md:bg-gradient">

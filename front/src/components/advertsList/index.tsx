@@ -52,9 +52,11 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
 											<h2 className="text-base font-semibold text-gray-10">
 												{advert.brand} - {advert.model}
 											</h2>
-											<p className="text-sm font-normal text-gray-20 w-[240px] text-ellipsis overflow-hidden">
-												{advert.description}
-											</p>
+											<div className="w-[240px] h-6">
+												<p className="text-sm font-normal text-gray-20 truncate">
+													{advert.description}
+												</p>
+											</div>
 											<div className="flex items-center justify-start gap-y-2 gap-x-2 w-full border-t-2 border-solid border-gray-50 pt-4">
 												<div className="flex items-center justify-center w-8 h-8 bg-random-1 text-white rounded-full">
 													{advert.user?.name[0].toUpperCase()}

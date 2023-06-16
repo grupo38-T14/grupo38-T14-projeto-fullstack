@@ -49,6 +49,15 @@ export const paginator = (
         },
         take: perPage,
         skip,
+        include: {
+          user: {
+            select: {
+              name: true,
+              avatar_url: true,
+              description: true,
+            },
+          },
+        },
       }),
     ]);
     const lastPage = Math.ceil(total / perPage);
