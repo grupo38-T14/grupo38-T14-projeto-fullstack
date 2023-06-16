@@ -8,28 +8,38 @@ import {
 } from "./advert.schema";
 
 export interface AdvertsContextValues {
-  createAdvert: (data: createAdvertType, setOpenModal: React.Dispatch<React.SetStateAction<boolean>>) => void;
+  createAdvert: (
+    data: createAdvertType,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => void;
   deleteAdvert: (id: string) => void;
   updateAdvert: (id: string, data: updateAdvertType) => void;
-  retrieveAdvert: (filter?: string, filterName?: string | number, page?: number) => void;
+  retrieveAdvert: (
+    filter?: string,
+    filterName?: string | number,
+    page?: number
+  ) => void;
   retrieveUniqueAdvert: (id: string) => void;
   currentAdverts: listRetrieveAdvertsType;
   advert: retrieveAdvertType | undefined;
   page: IPageProps | undefined;
-  minKm: number
+  minKm: number;
   setMinKm: Dispatch<SetStateAction<number>>;
-  maxKm: number
+  maxKm: number;
   setMaxKm: Dispatch<SetStateAction<number>>;
-  minPrice: number
+  minPrice: number;
   setMinPrice: Dispatch<SetStateAction<number>>;
-  maxPrice: number
+  maxPrice: number;
   setMaxPrice: Dispatch<SetStateAction<number>>;
-  retrieveFilterByKmPriceAdvert: (type: "KM" | "Price", value: string, setState: string) => void;
-  loading: boolean
-  btnLoading: boolean
-  setBtnLoading: Dispatch<SetStateAction<boolean>>;
+  retrieveFilterByKmPriceAdvert: (
+    type: "KM" | "Price",
+    value: string,
+    setState: string
+  ) => void;
+  loading: boolean;
 }
 
 export interface AdvertsProviderProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }

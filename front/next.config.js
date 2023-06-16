@@ -11,7 +11,6 @@ const nextConfig = {
         hostname: "*.com",
       }
     ],
-   /*  domains: ["s2.glbimg.com", "quatrorodas.abril.com.br", "cdn.motor1.com"], */
   },
 };
 

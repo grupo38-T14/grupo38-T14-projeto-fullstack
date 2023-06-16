@@ -22,9 +22,9 @@ export class AdvertsController {
   constructor(private readonly advertsService: AdvertsService) {}
 
   @Post('')
-  /* @UseGuards(JwtAuthGuard) */
-  create(@Body() createAdvertDto: CreateAdvertDto, /* @CurrentUser() user: User */) {
-    return this.advertsService.create(createAdvertDto, /* user.id */);
+  @UseGuards(JwtAuthGuard)
+  create(@Body() createAdvertDto: CreateAdvertDto, @CurrentUser() user: User) {
+    return this.advertsService.create(createAdvertDto, user.id);
   }
 
   @Get()

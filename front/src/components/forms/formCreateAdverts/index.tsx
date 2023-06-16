@@ -23,10 +23,11 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
   const [cars, setCars] = useState<Car[]>([]);
   const [selectCar, setSelectCar] = useState<Car>({} as Car);
   const [brands, setBrands] = useState<string[]>([]);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
-  const { createAdvert, btnLoading } = useAdverts();
+  const { createAdvert } = useAdverts();
 
   const {
     register,
@@ -49,7 +50,8 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
         year: +selectCar.year,
         km: km,
       },
-      setOpenModal
+      setOpenModal,
+      setBtnLoading
     );
   };
 

@@ -32,11 +32,10 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(1000000);
   const [loading, setLoading] = useState(true);
-  const [btnLoading, setBtnLoading] = useState(false);
 
   const router = useRouter()
 
-  const createAdvert = async (data: createAdvertType, setOpenModal: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const createAdvert = async (data: createAdvertType, setOpenModal: React.Dispatch<React.SetStateAction<boolean>>, setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
     const {
       image_gallery1,
       image_gallery2,
@@ -179,9 +178,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         setMaxPrice,
         currentAdverts,
         retrieveFilterByKmPriceAdvert,
-        loading,
-        btnLoading,
-        setBtnLoading
+        loading
       }}
     >
       {children}
