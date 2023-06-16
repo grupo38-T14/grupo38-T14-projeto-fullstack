@@ -55,7 +55,13 @@ export class AdvertPrismaRepository implements AdvertRepository {
       include: {
         gallery: true,
         comments: true,
-        user: true,
+        user: {
+          select: {
+            name: true,
+            avatar_url: true,
+            description: true,
+          },
+        },
       },
     });
     return plainToInstance(Advert, adverts);
@@ -67,10 +73,16 @@ export class AdvertPrismaRepository implements AdvertRepository {
       include: {
         gallery: true,
         comments: true,
-        user: true,
+        user: {
+          select: {
+            name: true,
+            avatar_url: true,
+            description: true,
+          },
+        },
       },
     });
-    return plainToInstance(Advert, advert);
+    return advert;
   }
 
   async update(id: string, data: UpdateAdvertDto): Promise<Advert> {
@@ -80,10 +92,16 @@ export class AdvertPrismaRepository implements AdvertRepository {
       include: {
         gallery: true,
         comments: true,
-        user: true,
+        user: {
+          select: {
+            name: true,
+            avatar_url: true,
+            description: true,
+          },
+        },
       },
     });
-    return;
+    return advert;
   }
 
   async delete(id: string): Promise<void> {

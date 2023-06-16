@@ -30,7 +30,7 @@ export class AdvertsService {
   }
 
   async findOne(id: string) {
-    const findAdvert = this.advertRepository.findOne(id);
+    const findAdvert = await this.advertRepository.findOne(id);
     if (!findAdvert) {
       throw new NotFoundException('Advert not found!');
     }
