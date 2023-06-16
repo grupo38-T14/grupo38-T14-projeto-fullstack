@@ -5,10 +5,7 @@ import {
   IsString,
   IsBoolean,
   Length,
-  Max,
   IsEmail,
-  IsNumberString,
-  IsDate,
   IsOptional,
   IsNotEmpty,
   MaxLength,
@@ -60,5 +57,5 @@ export class CreateUserDto {
   avatar_url?: string;
 
   @IsOptional()
-  address?: Address
+  address?: Address;
 }

@@ -8,6 +8,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repositories/users.repository';
 import { plainToInstance } from 'class-transformer';
 import { User } from './entities/user.entity';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -29,7 +30,6 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return await this.usersRepository.findAll();
-    
   }
 
   async findOne(id: string) {
@@ -38,6 +38,19 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     return user;
+  }
+
+  async findUserAdvert(
+    where?: Prisma.AdvertWhereInput,
+    orderBy?: Prisma.UsersOrderByWithRelationInput,
+    page?: number,
+  ) {
+    const advertList = await this.usersRepository.findUserAdverts({
+      where,
+      orderBy,
+      page,
+    });
+    return advertList;
   }
 
   async findByEmail(email: string) {
@@ -55,7 +68,9 @@ export class UsersService {
     }
 
     if (updateUserDto.email) {
-      const newEmail = await this.usersRepository.findByEmail(updateUserDto.email);
+      const newEmail = await this.usersRepository.findByEmail(
+        updateUserDto.email,
+      );
       if (newEmail) {
         throw new ConflictException('Email already in use!');
       }
