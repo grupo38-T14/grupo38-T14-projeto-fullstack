@@ -1,16 +1,17 @@
 "use client";
 
+import Notify from "@/components/notify";
 import {
-	IPageProps,
-	createAdvertType,
-	listRetrieveAdvertsType,
-	retrieveAdvertPaginationType,
-	retrieveAdvertType,
-	updateAdvertType,
+  IPageProps,
+  createAdvertType,
+  listRetrieveAdvertsType,
+  retrieveAdvertPaginationType,
+  retrieveAdvertType,
+  updateAdvertType,
 } from "@/schemas/advert.schema";
 import {
-	AdvertsContextValues,
-	AdvertsProviderProps,
+  AdvertsContextValues,
+  AdvertsProviderProps,
 } from "@/schemas/advertsContext";
 import { api } from "@/service";
 import { AxiosError } from "axios";
@@ -18,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState, ChangeEvent } from "react";
 
 export const AdvertsContext = createContext<AdvertsContextValues>(
-	{} as AdvertsContextValues
+  {} as AdvertsContextValues
 );
 
 export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
@@ -33,9 +34,13 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [maxPrice, setMaxPrice] = useState<number>(1000000);
   const [loading, setLoading] = useState(true);
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const createAdvert = async (data: createAdvertType, setOpenModal: React.Dispatch<React.SetStateAction<boolean>>, setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const createAdvert = async (
+    data: createAdvertType,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     const {
       image_gallery1,
       image_gallery2,
@@ -43,21 +48,32 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       image_gallery4,
       ...rest
     } = data;
-    console.log(rest)
-    /* create images in gallery route */
+
+    const newData = {
+      ...rest,
+      imagesGallery: [
+        image_gallery1,
+        image_gallery2,
+        image_gallery3,
+        image_gallery4,
+      ],
+    };
 
     try {
-      setBtnLoading(true)
-      const {data} = await api.post("adverts", rest)
-      setOpenModal(false)
-      router.refresh()
-      // falta um toast de resposta
+      setBtnLoading(true);
+      const { data } = await api.post("adverts", newData);
+      setOpenModal(false);
+      router.refresh();
+      Notify({ type: "success", message: "Anúncio criado com sucesso!" });
     } catch (error) {
-      const err = error as AxiosError
-      console.log(err)
-      // falta um toast de resposta
+      const err = error as AxiosError;
+      console.log(err);
+      Notify({
+        type: "error",
+        message: "Ops! algo deu errado. Tente novamente!",
+      });
     } finally {
-      setBtnLoading(false)
+      setBtnLoading(false);
     }
   };
 
@@ -133,8 +149,10 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         filterValueMax = newValue;
       }
 
-      const req = await api.get(`adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`)
-      const res: retrieveAdvertPaginationType = req.data
+      const req = await api.get(
+        `adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`
+      );
+      const res: retrieveAdvertPaginationType = req.data;
 
       setCurrentAdverts(res.data.filter((e) => e.is_active == true));
       setPage({
@@ -178,7 +196,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         setMaxPrice,
         currentAdverts,
         retrieveFilterByKmPriceAdvert,
-        loading
+        loading,
       }}
     >
       {children}
