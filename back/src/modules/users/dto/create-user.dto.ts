@@ -11,6 +11,7 @@ import {
   IsOptional,
   IsNotEmpty,
   MaxLength,
+  IsDateString,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -33,7 +34,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   phone: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   birth: string;
 

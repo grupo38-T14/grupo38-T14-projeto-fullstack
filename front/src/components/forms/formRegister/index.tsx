@@ -15,20 +15,20 @@ import { useAuth } from "@/hooks/authHook";
 import { RiLoader4Line } from "react-icons/ri";
 import TextArea from "@/components/textArea";
 import Select from "@/components/select";
+import { apiLocation } from "@/service";
 
 const RegisterForm = () => {
-	//Data de nascimento está com o formato diferente da validação do zod
-	//Tratamento de erros (unique constraints, etc) -> Usar um toast para mostrar se o email ou cpf já existem
-	//API de estado e cidade -> achei mas é uma API muito pesada
+	//Verificar formato da data que vem do formulário.
+	//Testar API CEP
 	const { btnLoading, registerFunction } = useAuth();
 
-	/* let location = {};
+	let location = {};
 
 	const getLocation = async (cep: string) => {
 		const req = await apiLocation.get(`${cep}/json/`);
 		const res = req.data;
 		location = res;
-	}; */
+	};
 
 	const {
 		register,
