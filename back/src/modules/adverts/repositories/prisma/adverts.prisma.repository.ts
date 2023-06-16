@@ -11,6 +11,7 @@ import {
   PaginatedResult,
   paginator,
 } from '../../providers/prisma/paginator';
+import { Gallery } from 'src/modules/gallery/entities/gallery.entity';
 
 const paginate: PaginateFunction = paginator({ perPage: 12 });
 
@@ -19,12 +20,26 @@ export class AdvertPrismaRepository implements AdvertRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateAdvertDto, userId: string): Promise<Advert> {
+    let imagesGalleryData = [];
+    if (data.imagesGallery) {
+      imagesGalleryData = data.imagesGallery.map((image) => {
+        return Object.assign(new Gallery(), { image_url: image });
+      });
+    }
+    const { imagesGallery, ...rest } = data;
     const advert = new Advert();
     Object.assign(advert, {
-      ...data,
+      ...rest,
     });
     const newAdvert = await this.prisma.advert.create({
-      data: { ...advert, userId },
+      data: {
+        ...advert,
+        userId,
+        gallery: { createMany: { data: imagesGalleryData } },
+      },
+      include: {
+        gallery: true
+      }
     });
     return newAdvert;
   }
