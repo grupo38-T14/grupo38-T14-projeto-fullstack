@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
-import { PaginatedResult } from '../providers/prisma/paginator';
+import { PaginatedResult } from 'src/modules/adverts/providers/prisma/paginator';
 import { Advert } from 'src/modules/adverts/entities/advert.entity';
 
 export abstract class UsersRepository {

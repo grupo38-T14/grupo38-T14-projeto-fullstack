@@ -6,13 +6,13 @@ import { User } from '../../entities/user.entity';
 import { UpdateUserDto } from '../../dto/update-user.dto';
 import { plainToInstance } from 'class-transformer';
 import { Address } from 'src/modules/addresses/entities/address.entity';
+import { Advert } from 'src/modules/adverts/entities/advert.entity';
+import { Prisma } from '@prisma/client';
 import {
   PaginateFunction,
   PaginatedResult,
   paginator,
-} from '../../providers/prisma/paginator';
-import { Advert } from 'src/modules/adverts/entities/advert.entity';
-import { Prisma } from '@prisma/client';
+} from 'src/modules/adverts/providers/prisma/paginator';
 
 const paginate: PaginateFunction = paginator({ perPage: 12 });
 @Injectable()
