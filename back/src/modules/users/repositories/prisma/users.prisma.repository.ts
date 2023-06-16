@@ -6,7 +6,15 @@ import { User } from '../../entities/user.entity';
 import { UpdateUserDto } from '../../dto/update-user.dto';
 import { plainToInstance } from 'class-transformer';
 import { Address } from 'src/modules/addresses/entities/address.entity';
+import {
+  PaginateFunction,
+  PaginatedResult,
+  paginator,
+} from '../../providers/prisma/paginator';
+import { Advert } from 'src/modules/adverts/entities/advert.entity';
+import { Prisma } from '@prisma/client';
 
+const paginate: PaginateFunction = paginator({ perPage: 12 });
 @Injectable()
 export class UsersPrismaRepository implements UsersRepository {
   constructor(private prisma: PrismaService) {}
@@ -37,6 +45,27 @@ export class UsersPrismaRepository implements UsersRepository {
     });
 
     return plainToInstance(User, users);
+  }
+
+  async findUserAdverts({
+    where,
+    orderBy,
+    page,
+  }: {
+    where?: Prisma.AddressWhereInput;
+    orderBy?: Prisma.AddressOrderByWithRelationInput;
+    page?: number;
+  }): Promise<PaginatedResult<Advert[]>> {
+    return paginate(
+      this.prisma.advert,
+      {
+        where,
+        orderBy,
+      },
+      {
+        page,
+      },
+    );
   }
 
   async findOne(id: string): Promise<User> {
