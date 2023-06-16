@@ -35,11 +35,11 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       const response = await api.post("login/", data);
       api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
       let decoded: tokenDecode = jwtDecode(response.data.token);
-      setCookie(null, "client.token", response.data.token, {
+      setCookie(null, "user.token", response.data.token, {
         maxAge: 60 * 30,
         path: "/",
       });
-      setCookie(null, "client.id", decoded.sub, {
+      setCookie(null, "user.id", decoded.sub, {
         maxAge: 60 * 30,
         path: "/",
       });
