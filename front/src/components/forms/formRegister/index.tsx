@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -22,12 +22,25 @@ const RegisterForm = () => {
 	//Testar API CEP
 	const { btnLoading, registerFunction } = useAuth();
 
-	let location = {};
+	const [location, setLocation] = useState({} as LocationData);
+
+	interface LocationData {
+		cep: string;
+		logradouro: string;
+		complemento: string;
+		bairro: string;
+		localidade: string;
+		uf: string;
+		ibge: string;
+		gia: string;
+		ddd: string;
+		siafi: string;
+	}
 
 	const getLocation = async (cep: string) => {
 		const req = await apiLocation.get(`${cep}/json/`);
 		const res = req.data;
-		location = res;
+		setLocation(res);
 	};
 
 	const {
@@ -133,6 +146,7 @@ const RegisterForm = () => {
 						type="text"
 						error={errors.state && errors.state.message}
 						register={register("state")}
+						/* value={location.uf} */
 					/>
 					<Input
 						label="Cidade"
@@ -140,6 +154,7 @@ const RegisterForm = () => {
 						type="text"
 						error={errors.city && errors.city.message}
 						register={register("city")}
+						/* value={location.localidade} */
 					/>
 				</div>
 				<Input

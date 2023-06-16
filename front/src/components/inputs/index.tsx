@@ -47,35 +47,35 @@ const Input = ({ type, label, placeholder, register, error }: iInputProps) => {
                 input-placeholder
                 reset-appearence
                 "
-            />
-          ) : (
-            <MaskedInput
-              mask={
-                type == "cpf"
-                  ? masked["cpf"]
-                  : type == "phone"
-                  ? masked["phone"]
-                  : masked["coin"]
-              }
-              type="text"
-              placeholder={placeholder}
-              {...register}
-              className="
+						/>
+					) : (
+						<MaskedInput
+							mask={
+								type == "cpf"
+									? masked["cpf"]
+									: type == "phone"
+									? masked["phone"]
+									: masked["coin"]
+							}
+							type="text"
+							placeholder={placeholder}
+							{...register}
+							className="
                 input-base
                 input-placeholder
                 reset-appearence
                 "
-            />
-          )}
-        </>
-        {error && (
-          <span className="absolute -bottom-4 text-xs text-feedback-alert1">
-            {error}
-          </span>
-        )}
-      </fieldset>
-    </>
-  );
+						/>
+					)}
+				</>
+				{error && (
+					<span className="absolute -bottom-4 text-xs text-feedback-alert1">
+						{error}
+					</span>
+				)}
+			</fieldset>
+		</>
+	);
 };
 
 export default Input;

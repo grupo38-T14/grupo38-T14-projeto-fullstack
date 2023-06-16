@@ -11,16 +11,16 @@ datasource db {
 }
 
 model Address {
-  id         String @id
+  id         String   @id
   cep        String
   state      String
   city       String
   street     String
   number     String
-  complement String
-  created_at String
-  user       Users  @relation(fields: [userId], references: [id])
-  userId     String @unique
+  complement String?  @default("none")
+  created_at String   
+  user       Users    @relation(fields: [userId], references: [id])
+  userId     String   @unique
 
   @@map("address")
 }
@@ -37,7 +37,7 @@ model Users {
   account_type Boolean    @default(false)
   is_active    Boolean    @default(true)
   avatar_url   String?
-  created_at   DateTime   @default(now())
+  created_at   String   
   address      Address?
   comments     Comments[]
   adverts      Advert[]
@@ -69,7 +69,7 @@ model Advert {
 model Comments {
   id         String   @id
   comment    String
-  created_at DateTime @default(now())
+  created_at String 
   user       Users    @relation(fields: [userId], references: [id])
   userId     String
   advert     Advert   @relation(fields: [advertId], references: [id])
