@@ -1,3 +1,4 @@
+import { Address } from '@prisma/client';
 import { hashSync } from 'bcryptjs';
 import { Transform } from 'class-transformer';
 import {
@@ -56,4 +57,7 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   avatar_url?: string;
+
+  @IsOptional()
+  address?: Address
 }
