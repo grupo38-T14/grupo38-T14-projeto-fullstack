@@ -1,26 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAddressDto } from './dto/create-address.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateAddressDto } from './dto/update-address.dto';
+import { AddressesRepository } from './repositories/addresses.repository';
+
 
 @Injectable()
 export class AddressesService {
-  create(createAddressDto: CreateAddressDto) {
-    return 'This action adds a new address';
-  }
+  constructor(private addressesRepository: AddressesRepository) {}
 
-  findAll() {
-    return `This action returns all addresses`;
-  }
+  async update(id: string, updateAddressDto: UpdateAddressDto, userId: string) {
+    const isUser = await this.addressesRepository.findOne(id, userId)
+    if (!isUser) {
+      throw new NotFoundException("Address not found.")
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} address`;
-  }
+    const newAddress = await this.addressesRepository.update(id, updateAddressDto)
 
-  update(id: number, updateAddressDto: UpdateAddressDto) {
-    return `This action updates a #${id} address`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} address`;
+    return newAddress;
   }
 }

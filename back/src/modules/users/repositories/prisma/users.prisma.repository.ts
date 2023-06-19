@@ -94,14 +94,9 @@ export class UsersPrismaRepository implements UsersRepository {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const address = new Address();
-    Object.assign(address, {
-      ...updateUserDto.address,
-    });
-
     const updatedUser = await this.prisma.users.update({
       where: { id },
-      data: { ...updateUserDto, address: { create: { ...address } } },
+      data: { ...updateUserDto },
     });
     return plainToInstance(User, updatedUser);
   }
