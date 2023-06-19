@@ -20,8 +20,27 @@ export interface AuthContextProps {
 	) => void;
 	oldPath: string;
 	setOldPath: React.Dispatch<React.SetStateAction<string>>;
-	setLoading: Dispatch<SetStateAction<boolean>>;
-	loggedUser: retrieveUser | undefined;
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+	/* loggedUser: retrieveUser | undefined;
+	setLoggedUser: Dispatch<
+		SetStateAction<
+			| {
+					email: string;
+					name: string;
+					cpf: string;
+					phone: string;
+					birth: Date;
+					description: string;
+					account_type: boolean;
+					address: {};
+					id: string;
+					is_active: boolean;
+					created_at: Date;
+					avatar_url?: string | undefined;
+			  }
+			| undefined
+		>
+	>; */
 	loggedUserAdverts: retrieveAdvertPaginationType | undefined;
 	getProfileAdverts: (pageNumber: number) => Promise<void>;
 }

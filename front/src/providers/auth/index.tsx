@@ -26,7 +26,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 
 	const [loading, setLoading] = useState(true);
 	const [oldPath, setOldPath] = useState("");
-	const [loggedUser, setLoggedUser] = useState<retrieveUser | undefined>();
+	/* const [loggedUser, setLoggedUser] = useState<retrieveUser | undefined>(); */
 	const [loggedUserAdverts, setLoggedUserAdverts] = useState<
 		retrieveAdvertPaginationType | undefined
 	>();
@@ -88,7 +88,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		}
 	};
 
-	const getProfile = async () => {
+	/* const getProfile = async () => {
 		const cookies = parseCookies();
 		try {
 			const req = await api.get(`users/${cookies["user.id"]}`);
@@ -99,7 +99,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}; */
 
 	const getProfileAdverts = async (pageNumber?: number) => {
 		const cookies = parseCookies();
@@ -123,7 +123,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 	};
 
 	useEffect(() => {
-		getProfile();
+		/* getProfile(); */
 		getProfileAdverts();
 	}, []);
 
@@ -136,7 +136,8 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 				oldPath,
 				setOldPath,
 				setLoading,
-				loggedUser,
+				/* loggedUser,
+				setLoggedUser, */
 				loggedUserAdverts,
 				getProfileAdverts,
 			}}
