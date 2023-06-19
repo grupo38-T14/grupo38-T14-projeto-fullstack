@@ -9,12 +9,14 @@ import { LoginData } from "@/schemas/login.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { AdvertsProvider } from "../adverts";
 import { CreateRegisterData } from "@/schemas/register.schema";
 import Notify from "@/components/notify";
-import { setCookie } from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import jwtDecode from "jwt-decode";
+import { retrieveUser } from "@/schemas/user.schema";
+import { retrieveAdvertPaginationType } from "@/schemas/advert.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
@@ -24,6 +26,10 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 
 	const [loading, setLoading] = useState(true);
 	const [oldPath, setOldPath] = useState("");
+	const [loggedUser, setLoggedUser] = useState<retrieveUser | undefined>();
+	const [loggedUserAdverts, setLoggedUserAdverts] = useState<
+		retrieveAdvertPaginationType | undefined
+	>();
 
 	const login = async (
 		data: LoginData,
@@ -66,7 +72,6 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		data: CreateRegisterData,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => {
-		console.log(data);
 		try {
 			setBtnLoading(true);
 			await api.post("users/", data).then((res) => res.data);
@@ -83,6 +88,45 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		}
 	};
 
+	const getProfile = async () => {
+		const cookies = parseCookies();
+		try {
+			const req = await api.get(`users/${cookies["user.id"]}`);
+			const res: retrieveUser = req.data;
+			setLoggedUser(res);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const getProfileAdverts = async (pageNumber?: number) => {
+		const cookies = parseCookies();
+		try {
+			if (!pageNumber || pageNumber < 2) {
+				const req = await api.get(`users/${cookies["user.id"]}/adverts`);
+				const res: retrieveAdvertPaginationType = req.data;
+				setLoggedUserAdverts(res);
+			} else {
+				const req = await api.get(
+					`users/${cookies["user.id"]}/adverts?page=${pageNumber}`
+				);
+				const res: retrieveAdvertPaginationType = req.data;
+				setLoggedUserAdverts(res);
+			}
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		getProfile();
+		getProfileAdverts();
+	}, []);
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -91,6 +135,10 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 				loading,
 				oldPath,
 				setOldPath,
+				setLoading,
+				loggedUser,
+				loggedUserAdverts,
+				getProfileAdverts,
 			}}
 		>
 			<AdvertsProvider>{children}</AdvertsProvider>

@@ -48,9 +48,9 @@ const FormLogin = () => {
 				Esqueci minha senha
 			</span>
 			<Button
-				type={!isDirty || !isValid ? "disableBland" : "brand"}
+				type={/* !isDirty || !isValid ? "disableBland" :  */"brand"}
 				submit
-				disable={!isDirty || !isValid}
+				/* disable={!isDirty || !isValid} */
 			>
 				{!btnLoading ? (
 					"Entrar"

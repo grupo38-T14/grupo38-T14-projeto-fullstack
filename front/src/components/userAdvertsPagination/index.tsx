@@ -1,8 +1,9 @@
-import { useAdverts } from "@/hooks/advertHook";
+"use client";
 
-export const UserAdvertsPagination = () => {
-	const { page, retrieveAdvert } = useAdverts();
+import { useAuth } from "@/hooks/authHook";
 
+export default function UserAdvertsPagination() {
+	const { loggedUserAdverts, getProfileAdverts } = useAuth();
 	const scrollToTop = () => {
 		window.scrollTo({
 			top: 0,
@@ -12,11 +13,10 @@ export const UserAdvertsPagination = () => {
 
 	return (
 		<div className="flex flex-col lg:flex-row w-full gap-8 justify-center items-center">
-			{page?.prev && (
+			{loggedUserAdverts?.prev && (
 				<p
 					onClick={() => {
-						retrieveAdvert(page?.filter, page?.filterName, page?.prev),
-							scrollToTop();
+						getProfileAdverts(loggedUserAdverts?.prev), scrollToTop();
 					}}
 					className="text-lg font-semibold text-brand-2 cursor-pointer"
 				>
@@ -24,13 +24,12 @@ export const UserAdvertsPagination = () => {
 				</p>
 			)}
 			<p className="text-lg font-semibold text-gray-30">
-				página {page?.current} de {page?.last}
+				página {loggedUserAdverts?.currentPage} de {loggedUserAdverts?.lastPage}
 			</p>
-			{page?.next && (
+			{loggedUserAdverts?.next && (
 				<p
 					onClick={() => {
-						retrieveAdvert(page?.filter, page?.filterName, page?.next),
-							scrollToTop();
+						getProfileAdverts(loggedUserAdverts?.next), scrollToTop();
 					}}
 					className="text-lg font-semibold text-brand-2 cursor-pointer"
 				>
@@ -39,4 +38,4 @@ export const UserAdvertsPagination = () => {
 			)}
 		</div>
 	);
-};
+}
