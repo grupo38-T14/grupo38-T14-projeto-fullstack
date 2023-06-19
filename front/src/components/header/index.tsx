@@ -6,18 +6,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { GrFormClose } from "react-icons/gr";
+import { useUser } from "@/hooks/userHook";
+import Button from "../button";
+import Modal from "../Modal";
+import FormEditUser from "../forms/formEditUser";
 
 export default function Header() {
   const [menuDrop, setmenuDrop] = useState(false);
-  const { setOldPath } = useAuth();
+  const { cookieToken, user, getInitials } = useUser();
+  const [modalEdit, setModalEdit] = useState(false);
 
+  const { setOldPath } = useAuth();
   const path = usePathname();
 
   const menuDropButton = `h-1 w-6 my-1 rounded-full bg-black transition ease transform duration-300 sm:hidden`;
+
   return (
     <header className="h-20 pl-5 pr-5 relative flex justify-between items-center bg-white border-b-2 border-b-gray-50">
+      {modalEdit && (
+        <Modal setOpenModal={setModalEdit}>
+          <FormEditUser setOpenModal={setModalEdit}></FormEditUser>
+        </Modal>
+      )}
       <figure>
         <Image src={motors_logo} alt="motors shop logo" width={150} />
       </figure>
@@ -57,53 +67,68 @@ export default function Header() {
                 sm:flex sm:flex-row sm:justify-center sm:gap-4 sm:border-l-2
                 `}
       >
-        {path == "/login" && (
-          <Link href={"/"} onClick={() => setOldPath(path)}>
-            Voltar
-          </Link>
-        )}
-        {path != "/login" && (
-          <Link
-            onClick={() => setOldPath(path)}
-            href="/login"
-            className="
+        {cookieToken && user ? (
+          <p className="flex gap-2 items-center">
+            <span className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
+              {getInitials(user.name)}
+            </span>
+
+            {user.name}
+          </p>
+        ) : (
+          <>
+            {path == "/login" && (
+              <Link href={"/"} onClick={() => setOldPath(path)}>
+                Voltar
+              </Link>
+            )}
+            {path != "/login" && (
+              <Link
+                onClick={() => setOldPath(path)}
+                href="/login"
+                className="
                     pl-4 text-gray-20 self-start duration-300
                     hover:text-brand-1
                     sm:pl-0 sm:self-auto"
-          >
-            Fazer Login
-          </Link>
-        )}
-        {path != "/register" && (
-          <Link
-            onClick={() => setOldPath(path)}
-            href="/register"
-            className="
+              >
+                Fazer Login
+              </Link>
+            )}
+            {path != "/register" && (
+              <Link
+                onClick={() => setOldPath(path)}
+                href="/register"
+                className="
                     max-sm:w-11/12 pt-2 pb-2 
                     border-2 border-gray-30 
                     rounded-md text-center duration-300
                     hover:border-brand-1 hover:text-brand-1
                     sm:w-24
                     "
-          >
-            Cadastrar
-          </Link>
-        )}
-        {path == "/register" && (
-          <Link
-            onClick={() => setOldPath(path)}
-            href="/"
-            className="
+              >
+                Cadastrar
+              </Link>
+            )}
+            {path == "/register" && (
+              <Link
+                onClick={() => setOldPath(path)}
+                href="/"
+                className="
                     max-sm:w-11/12 pt-2 pb-2 
                     border-2 border-gray-30 
                     rounded-md text-center duration-300
                     hover:border-brand-1 hover:text-brand-1
                     sm:w-24
                     "
-          >
-            Voltar
-          </Link>
+              >
+                Voltar
+              </Link>
+            )}
+          </>
         )}
+        <Button type={"outlineBrand1"} handle={() => setModalEdit(true)}>
+          Editar Perfil
+        </Button>
       </span>
     </header>
   );

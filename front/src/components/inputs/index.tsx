@@ -4,16 +4,33 @@ import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import MaskedInput from "react-input-mask";
 
-interface iInputProps {
-  type: "text" | "email" | "url" | "number" | "date" | "cpf" | "phone" | "coin" | "password";
+interface iInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  type:
+    | "text"
+    | "email"
+    | "url"
+    | "number"
+    | "date"
+    | "cpf"
+    | "phone"
+    | "coin"
+    | "password";
   placeholder: string;
   label: string;
   register?: UseFormRegisterReturn;
   error?: string;
-  valueInput?: string | number
+  valueInput?: string | number;
 }
 
-const Input = ({ type, label, placeholder, register, error, valueInput }: iInputProps) => {
+const Input = ({
+  type,
+  label,
+  placeholder,
+  register,
+  error,
+  valueInput,
+  ...rest
+}: iInputProps) => {
   const maskedTypes = ["cpf", "phone", "coin"];
   const masked = {
     cpf: "999.999.999.99",
@@ -40,6 +57,7 @@ const Input = ({ type, label, placeholder, register, error, valueInput }: iInput
                 input-placeholder
                 reset-appearence
                 "
+              {...rest}
             />
           ) : (
             <MaskedInput

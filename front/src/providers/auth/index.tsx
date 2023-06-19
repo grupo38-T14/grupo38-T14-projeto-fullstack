@@ -1,6 +1,10 @@
 "use client";
 
-import { AuhtProviderProps, AuthContextProps, tokenDecode } from "@/schemas/authContext";
+import {
+  AuhtProviderProps,
+  AuthContextProps,
+  tokenDecode,
+} from "@/schemas/authContext";
 import { LoginData } from "@/schemas/login.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
@@ -13,6 +17,7 @@ import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 import Notify from "@/components/notify";
 import { setCookie } from "nookies";
 import jwtDecode from "jwt-decode";
+import { UserContext, UserProvider } from "../users";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
@@ -29,7 +34,6 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
     data: LoginData,
     setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
-    console.log(data);
     try {
       setBtnLoading(true);
       const response = await api.post("login/", data);
@@ -64,7 +68,6 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
   };
 
   const registerFunction = async (data: RegisterData) => {
-    console.log(data.birth);
     const re = /\W+/g;
     const phone = data.phone.split(re).join("");
     try {
@@ -131,7 +134,9 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         setOldPath,
       }}
     >
-      <AdvertsProvider>{children}</AdvertsProvider>
+      <AdvertsProvider>
+        <UserProvider>{children}</UserProvider>
+      </AdvertsProvider>
     </AuthContext.Provider>
   );
 };
