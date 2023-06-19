@@ -19,7 +19,6 @@ import { apiLocation } from "@/service";
 import Link from "next/link";
 
 const RegisterForm = () => {
-	//Verificar formato da data que vem do formulário.
 	const { registerFunction } = useAuth();
 	const [btnLoading, setBtnLoading] = useState(false);
 
@@ -102,7 +101,7 @@ const RegisterForm = () => {
 				/>
 				<Input
 					label="Email"
-					placeholder="Digitar email"
+					placeholder="Digitar e-mail"
 					type="email"
 					error={errors.email && errors.email.message}
 					register={register("email")}
