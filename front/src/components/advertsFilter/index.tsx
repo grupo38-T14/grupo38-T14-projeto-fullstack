@@ -32,11 +32,16 @@ export default function AdvertsFilter({
 			} lg:flex`}
 		>
 			<div>
-				<FilterField name={"Marca"} list={list.brands} />
-				<FilterField name={"Modelo"} list={list.models} />
-				<FilterField name={"Cor"} list={list.colors} />
-				<FilterField name={"Ano"} list={list.years} />
-				<FilterField name={"Combustível"} list={list.fuels} />
+				<FilterField name={"Marca"} list={list.brands} key={"Marca"} />
+				<FilterField name={"Modelo"} list={list.models} key={"Modelo"} />
+				<FilterField name={"Cor"} list={list.colors} key={"Cor"} />
+				<FilterField name={"Ano"} list={list.years} key={"Ano"} />
+				<FilterField
+					name={"Combustível"}
+					list={list.fuels}
+					key={"Combusível"}
+				/>
+
 				<FilterInputField name={"Quilometragem"} type="KM" />
 				<FilterInputField name={"Preço"} type="Price" />
 			</div>

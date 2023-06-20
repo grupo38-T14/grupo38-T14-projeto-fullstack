@@ -3,13 +3,25 @@
 import Image from "next/image";
 import Button from "../button";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/authHook";
 import UserAdvertsPagination from "../userAdvertsPagination";
+import { retrieveAdvertPaginationType } from "@/schemas/advert.schema";
 
-export default function UserAdverts() {
+interface UserIdProps {
+	hidden: boolean;
+	profileUserAdverts: retrieveAdvertPaginationType | undefined;
+	loading: boolean;
+	getProfileAdverts: (id: string, pageNumber?: number) => void;
+	userId: string;
+}
+
+export default function UserAdverts({
+	hidden,
+	profileUserAdverts,
+	loading,
+	getProfileAdverts,
+	userId,
+}: UserIdProps) {
 	const router = useRouter();
-	const { loggedUserAdverts, loading } = useAuth();
-
 	return (
 		<section
 			className={`flex flex-col h-full gap-10 w-full lg:w-full lg:gap-12 mt-20 lg:m-0 lg:p-16 px-3 mb-14 lg:flex`}
@@ -21,11 +33,11 @@ export default function UserAdverts() {
 					</p>
 				</div>
 			)}
-			{loggedUserAdverts && loggedUserAdverts.data.length > 0 && (
+			{profileUserAdverts && profileUserAdverts.data.length > 0 && (
 				<>
 					<ul className="flex overflow-x-auto lg:overflow-hidden lg:grid lg:grid-cols-4 list-none gap-16 w-full">
 						<>
-							{loggedUserAdverts?.data.map((advert) => {
+							{profileUserAdverts?.data.map((advert) => {
 								return (
 									<li
 										key={advert.id}
@@ -66,18 +78,20 @@ export default function UserAdverts() {
 												</div>
 											</div>
 										</section>
-										<div className="w-[65%] flex gap-3">
-											<Button size={2} type="outline1">
-												Editar
-											</Button>
-											<Button
-												size={2}
-												type="outline1"
-												handle={() => router.push(`/${advert.id}`)}
-											>
-												Ver Detalhes
-											</Button>
-										</div>
+										{!hidden && (
+											<div className="w-[65%] flex gap-3">
+												<Button size={2} type="outline1">
+													Editar
+												</Button>
+												<Button
+													size={2}
+													type="outline1"
+													handle={() => router.push(`/${advert.id}`)}
+												>
+													Ver Detalhes
+												</Button>
+											</div>
+										)}
 										{advert.is_active ? (
 											<p className="absolute left-5 top-5 bg-brand-1 text-white text-sm font-medium px-2 py-1 rounded">
 												Ativo
@@ -92,10 +106,14 @@ export default function UserAdverts() {
 							})}
 						</>
 					</ul>
-					<UserAdvertsPagination />
+					<UserAdvertsPagination
+						profileUserAdverts={profileUserAdverts}
+						getProfileAdverts={getProfileAdverts}
+						userId={userId}
+					/>
 				</>
 			)}
-			{loggedUserAdverts && loggedUserAdverts.data.length <= 0 && (
+			{profileUserAdverts && profileUserAdverts.data.length <= 0 && (
 				<div className="h-[500px] flex justify-center items-center">
 					<p className="text-2xl lg:text-5xl font-medium text-gray-30">
 						Você não possui nenhum anúncio ainda...

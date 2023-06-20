@@ -1,9 +1,18 @@
 "use client";
 
-import { useAuth } from "@/hooks/authHook";
+import { retrieveAdvertPaginationType } from "@/schemas/advert.schema";
 
-export default function UserAdvertsPagination() {
-	const { loggedUserAdverts, getProfileAdverts } = useAuth();
+interface UserIdProps {
+	getProfileAdverts: (id: string, pageNumber?: number) => void;
+	profileUserAdverts: retrieveAdvertPaginationType | undefined;
+	userId: string;
+}
+
+export default function UserAdvertsPagination({
+	getProfileAdverts,
+	profileUserAdverts,
+	userId,
+}: UserIdProps) {
 	const scrollToTop = () => {
 		window.scrollTo({
 			top: 0,
@@ -13,10 +22,10 @@ export default function UserAdvertsPagination() {
 
 	return (
 		<div className="flex flex-col lg:flex-row w-full gap-8 justify-center items-center">
-			{loggedUserAdverts?.prev && (
+			{profileUserAdverts?.prev && (
 				<p
 					onClick={() => {
-						getProfileAdverts(loggedUserAdverts?.prev), scrollToTop();
+						getProfileAdverts(userId, profileUserAdverts?.prev), scrollToTop();
 					}}
 					className="text-lg font-semibold text-brand-2 cursor-pointer"
 				>
@@ -24,12 +33,13 @@ export default function UserAdvertsPagination() {
 				</p>
 			)}
 			<p className="text-lg font-semibold text-gray-30">
-				página {loggedUserAdverts?.currentPage} de {loggedUserAdverts?.lastPage}
+				página {profileUserAdverts?.currentPage} de{" "}
+				{profileUserAdverts?.lastPage}
 			</p>
-			{loggedUserAdverts?.next && (
+			{profileUserAdverts?.next && (
 				<p
 					onClick={() => {
-						getProfileAdverts(loggedUserAdverts?.next), scrollToTop();
+						getProfileAdverts(userId, profileUserAdverts?.next), scrollToTop();
 					}}
 					className="text-lg font-semibold text-brand-2 cursor-pointer"
 				>
