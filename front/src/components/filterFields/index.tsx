@@ -16,7 +16,7 @@ export const FilterField = ({ name, list }: FilterFieldProps) => {
     Combustível: "fuel",
   };
 
-  let listFuels: string[] = []
+  let listFuels: string[] = [];
   if (name == "Combustível") {
     listFuels = list!.map((fuel) => {
       if (fuel == "ETHANOL") {

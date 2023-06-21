@@ -1,9 +1,10 @@
+"use client";
 import Button from "@/components/button";
-import { retrieveUser } from "@/schemas/user.schema";
 import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { api } from "@/service";
 import Image from "next/image";
-import TextArea from "@/components/textArea";
+import { useUser } from "@/hooks/userHook";
+import { useRouter } from "next/navigation";
 
 interface IPageProps {
   params: { id: string };
@@ -12,13 +13,11 @@ interface IPageProps {
 export const revalidate = 30;
 
 const Advert = async ({ params }: IPageProps) => {
+  const router = useRouter();
+  const { getInitials } = useUser();
   const advert: retrieveAdvertType = await api
     .get(`adverts/${params.id}`)
     .then((res) => res.data);
-
-  const firstLetter = advert.user.name[0];
-  const secondLetter = advert.user.name[advert.user.name.indexOf(" ") + 1];
-  const dataActual = new Date();
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile md:bg-gradient">
@@ -93,8 +92,7 @@ const Advert = async ({ params }: IPageProps) => {
                 />
               ) : (
                 <p className="rounded-full bg-brand-1 text-white text-xl md:text-3xl flex items-center justify-center w-[77px] h-[77px] md:h-[104px] md:w-[104px]">
-                  {firstLetter}
-                  {secondLetter}
+                  {getInitials(advert.user.name)}
                 </p>
               )}
               <h6 className="text-gray-0">{advert.user.name}</h6>
@@ -103,7 +101,12 @@ const Advert = async ({ params }: IPageProps) => {
                 {advert.user.description.slice(0, 130)}...
               </p>
 
-              <Button type="grey0">Ver todos anúncios</Button>
+              <Button
+                type="grey0"
+                handle={() => router.push(`profile/${advert.userId}`)}
+              >
+                Ver todos anúncios
+              </Button>
             </div>
           </div>
         </div>
