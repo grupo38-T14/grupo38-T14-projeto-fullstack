@@ -16,5 +16,3 @@ export class Address {
         this.created_at = new Date().toISOString()
     }
 }
-
-
