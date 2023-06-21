@@ -3,8 +3,8 @@ import Button from "@/components/button";
 import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { api } from "@/service";
 import Image from "next/image";
-import TextArea from "@/components/textArea";
 import { useUser } from "@/hooks/userHook";
+import { useRouter } from "next/navigation";
 
 interface IPageProps {
   params: { id: string };
@@ -13,6 +13,7 @@ interface IPageProps {
 export const revalidate = 30;
 
 const Advert = async ({ params }: IPageProps) => {
+  const router = useRouter();
   const { getInitials } = useUser();
   const advert: retrieveAdvertType = await api
     .get(`adverts/${params.id}`)
@@ -100,7 +101,12 @@ const Advert = async ({ params }: IPageProps) => {
                 {advert.user.description.slice(0, 130)}...
               </p>
 
-              <Button type="grey0">Ver todos anúncios</Button>
+              <Button
+                type="grey0"
+                handle={() => router.push(`profile/${advert.userId}`)}
+              >
+                Ver todos anúncios
+              </Button>
             </div>
           </div>
         </div>

@@ -13,11 +13,13 @@ export interface AuthContextProps {
     data: LoginData,
     setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => void;
-  registerFunction: (data: RegisterData) => void;
-  user: retrieveUser;
+  registerFunction: (
+    data: RegisterData,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => void;
   userAdverts: listRetrieveAdvertsType;
   oldPath: string;
-  setOldPath: React.Dispatch<React.SetStateAction<string>>
+  setOldPath: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface tokenDecode {

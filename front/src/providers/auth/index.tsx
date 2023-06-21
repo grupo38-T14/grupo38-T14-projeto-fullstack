@@ -18,14 +18,15 @@ import Notify from "@/components/notify";
 import { setCookie } from "nookies";
 import jwtDecode from "jwt-decode";
 import { UserContext, UserProvider } from "../users";
+import { useUser } from "@/hooks/userHook";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuhtProvider = ({ children }: AuhtProviderProps) => {
   const router = useRouter();
   const path = usePathname();
+  const { user, setUser } = useUser();
 
-  const [user, setUser] = useState({} as retrieveUser);
   const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
   const [loading, setLoading] = useState(true);
   const [oldPath, setOldPath] = useState("");
@@ -39,6 +40,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       const response = await api.post("login/", data);
       api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
       let decoded: tokenDecode = jwtDecode(response.data.token);
+
       setCookie(null, "user.token", response.data.token, {
         maxAge: 60 * 30,
         path: "/",
@@ -47,7 +49,6 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         maxAge: 60 * 30,
         path: "/",
       });
-
       if (oldPath != "/register") {
         router.back();
       } else {
@@ -67,10 +68,21 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
     }
   };
 
-  const registerFunction = async (data: RegisterData) => {
+  const registerFunction = async (
+    data: RegisterData,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     const re = /\W+/g;
     const phone = data.phone.split(re).join("");
     try {
+      const newUserAddres = {
+        cep: data.cep.split(".").join(""),
+        state: data.state,
+        city: data.city,
+        street: data.street,
+        number: data.number,
+        complement: data.complement,
+      };
       const newUserData = {
         name: data.name,
         email: data.email,
@@ -80,37 +92,18 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         description: data.description,
         password: data.password,
         account_type: data.account_type === "Comprador" ? false : true,
+        address: newUserAddres,
       };
-      const newUserAddres = {
-        cdp: data.cep.split(".").join(""),
-        state: data.state,
-        city: data.city,
-        street: data.street,
-        number: data.number,
-        complement: data.complement,
-      };
-      // setBtnLoading(true);
+      setBtnLoading(true);
       await api.post("users/", newUserData).then((res) => res.data);
       router.push("/login");
     } catch (error) {
       const err = error as AxiosError;
       console.log(err);
     } finally {
-      // setBtnLoading(false);
+      setBtnLoading(false);
     }
   };
-
-  const getProfile = async (id: string) => {
-    //preciso chamar a função passando o id que vem do token
-    try {
-      const req = await api.get(`users/${id}`);
-      const res: retrieveUser = req.data;
-      setUser(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  //getProfile()
 
   const getUserAdverts = async (userId: string) => {
     try {
@@ -127,7 +120,6 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       value={{
         login,
         registerFunction,
-        user,
         userAdverts,
         loading,
         oldPath,

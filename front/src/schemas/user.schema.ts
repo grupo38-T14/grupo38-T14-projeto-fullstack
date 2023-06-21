@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-export const schemaAddress = z.object({});
+import { schemaAddress } from "./address.schema";
 
 export const schemaUser = z.object({
   id: z.string(),
@@ -8,7 +7,7 @@ export const schemaUser = z.object({
   email: z.string(),
   cpf: z.string(),
   phone: z.string(),
-  birth: z.date(),
+  birth: z.string(),
   description: z.string(),
   account_type: z.boolean(),
   avatar_url: z.string().optional(),
@@ -19,4 +18,13 @@ export const schemaUser = z.object({
 });
 
 export const retrieveUserSchema = schemaUser.omit({ password: true });
+export const editUserSchema = retrieveUserSchema.omit({
+  id: true,
+  account_type: true,
+  avatar_url: true,
+  password: true,
+  created_at: true,
+  address: true,
+});
 export type retrieveUser = z.infer<typeof retrieveUserSchema>;
+export type editUserType = z.infer<typeof editUserSchema>;

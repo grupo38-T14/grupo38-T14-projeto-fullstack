@@ -1,24 +1,13 @@
 import { useAdverts } from "@/hooks/advertHook";
-import { useAdverts } from "@/hooks/advertHook";
 
 interface FilterFieldProps {
-  name: "Marca" | "Modelo" | "Cor" | "Ano" | "Combustível";
-  list?: string[] | number[];
   name: "Marca" | "Modelo" | "Cor" | "Ano" | "Combustível";
   list?: string[] | number[];
 }
 
 export const FilterField = ({ name, list }: FilterFieldProps) => {
   const { retrieveAdvert } = useAdverts();
-  const { retrieveAdvert } = useAdverts();
 
-  const fields = {
-    Marca: "brand",
-    Modelo: "model",
-    Cor: "color",
-    Ano: "year",
-    Combustível: "fuel",
-  };
   const fields = {
     Marca: "brand",
     Modelo: "model",

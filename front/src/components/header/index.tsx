@@ -1,5 +1,3 @@
-"use client";
-
 import { useAuth } from "@/hooks/authHook";
 import motors_logo from "../../assets/motors_shop_logo.svg";
 import Image from "next/image";
@@ -10,11 +8,15 @@ import { useUser } from "@/hooks/userHook";
 import Button from "../button";
 import Modal from "../Modal";
 import FormEditUser from "../forms/formEditUser";
+import ModalDeleteUser from "../Modal/modalDeleteUser";
 
 export default function Header() {
   const [menuDrop, setmenuDrop] = useState(false);
-  const { cookieToken, user, getInitials } = useUser();
+  const [openMenu, setOpenMenu] = useState(false);
+  const { cookieToken, user, getInitials, logOut } = useUser();
   const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [modalEditAddress, setModalEditAddress] = useState(false);
 
   const { setOldPath } = useAuth();
   const path = usePathname();
@@ -25,9 +27,18 @@ export default function Header() {
     <header className="h-20 pl-5 pr-5 relative flex justify-between items-center bg-white border-b-2 border-b-gray-50">
       {modalEdit && (
         <Modal setOpenModal={setModalEdit}>
-          <FormEditUser setOpenModal={setModalEdit}></FormEditUser>
+          <FormEditUser
+            setOpenModal={setModalEdit}
+            setModalDeleteOpen={setModalDelete}
+          />
         </Modal>
       )}
+      {modalDelete && (
+        <Modal setOpenModal={setModalDelete}>
+          <ModalDeleteUser setOpenModal={setModalDelete} />
+        </Modal>
+      )}
+
       <figure>
         <Image src={motors_logo} alt="motors shop logo" width={150} />
       </figure>
@@ -65,16 +76,56 @@ export default function Header() {
                 bg-white text-gray-0 font-semibold
                 sm:w-64 sm:h-full sm:static
                 sm:flex sm:flex-row sm:justify-center sm:gap-4 sm:border-l-2
+                z-10
                 `}
       >
         {cookieToken && user ? (
-          <p className="flex gap-2 items-center">
-            <span className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-              {getInitials(user.name)}
-            </span>
+          <div className="flex flex-col sm:items-center">
+            <div
+              className="flex gap-2 items-center cursor-pointer"
+              onClick={() => setOpenMenu(!openMenu)}
+            >
+              <span className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
+                {getInitials(user.name)}
+              </span>
 
-            {user.name}
-          </p>
+              <span className="text-base font-normal">{user.name}</span>
+            </div>
+            <div
+              className={`sm:${
+                !openMenu && "hidden"
+              } sm:max-w-[200px] text-base font-normal text-gray-20 sm:absolute top-14 z-10 bg-white mt-2 sm:p-6 flex flex-col gap-4 rounded sm:shadow-inner`}
+            >
+              <p
+                onClick={() => {
+                  setModalEdit(true);
+                  setOpenMenu(!openMenu);
+                }}
+                className="cursor-pointer"
+              >
+                Editar Perfil
+              </p>
+              <p
+                onClick={() => {
+                  setModalEditAddress(true);
+                  setOpenMenu(!openMenu);
+                }}
+                className="cursor-pointer"
+              >
+                Editar endereço
+              </p>
+              {user.account_type ? <p>Meus anúncios</p> : null}
+              <p
+                onClick={() => {
+                  logOut();
+                  setOpenMenu(!openMenu);
+                }}
+                className="cursor-pointer"
+              >
+                Sair
+              </p>
+            </div>
+          </div>
         ) : (
           <>
             {path == "/login" && (
@@ -126,9 +177,6 @@ export default function Header() {
             )}
           </>
         )}
-        <Button type={"outlineBrand1"} handle={() => setModalEdit(true)}>
-          Editar Perfil
-        </Button>
       </span>
     </header>
   );

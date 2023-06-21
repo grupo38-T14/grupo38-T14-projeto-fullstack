@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { retrieveUser } from "./user.schema";
+import { editUserType, retrieveUser } from "./user.schema";
 
 export interface UserContextProps {
   getInitials: (name: string) => string;
@@ -9,6 +9,14 @@ export interface UserContextProps {
   user: retrieveUser | undefined;
   initialsUser: string;
   getProfile: (id: string) => Promise<void>;
+  editUser: (
+    data: editUserType,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => Promise<void>;
+  deleteUser: (
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => Promise<void>;
+  logOut: () => void;
 }
 
 export interface UserProviderProps {
