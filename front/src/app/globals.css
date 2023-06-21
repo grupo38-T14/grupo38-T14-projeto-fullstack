@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--foreground-rgb: 0, 0, 0;
+	--background-start-rgb: 214, 219, 220;
+	--background-end-rgb: 255, 255, 255;
+}
+/* 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+} */
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #ccc;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@layer base {
+	h1 {
+		@apply text-4.5xl font-lexend font-bold;
+	}
+	h2 {
+		@apply font-lexend font-semibold text-4xl;
+	}
+	h3 {
+		@apply font-lexend font-semibold text-3xl;
+	}
+	h4 {
+		@apply font-lexend font-semibold text-2xl;
+	}
+	h5 {
+		@apply font-lexend font-semibold text-xl;
+	}
+	h6 {
+		@apply font-lexend font-semibold text-lg;
+	}
+	.h7 {
+		@apply font-lexend font-semibold text-md;
+	}
+
+	.body-1 {
+		@apply font-inter font-normal text-md leading-7;
+	}
+	.body-2 {
+		@apply font-inter font-normal text-sm;
+	}
+
+	.button-big-text {
+		@apply font-inter font-semibold text-md;
+	}
+	.button-medium-text {
+		@apply font-inter font-semibold text-sm;
+	}
+
+	.input-placeholder {
+		@apply font-inter font-normal text-md;
+	}
+	.input-label {
+		@apply font-inter font-medium text-sm;
+	}
+}
+
+@layer components {
+	.button-base {
+		@apply flex justify-center items-center w-full min-w-fit rounded border-2 font-semibold;
+	}
+	.input-base {
+		@apply w-full h-[3rem] bg-[#f6f6f6] hover:bg-gray-80 px-4 border-2 border-gray-70 hover:border-gray-80 rounded outline-none focus:border-brand-1 focus:text-brand-1 appearance-none;
+	}
+
+	.bg-gradient-mobile {
+		background: linear-gradient(
+			180deg,
+			#4529e6 17.25%,
+			#f1f3f5 17.26%,
+			#f1f3f5 100%
+		);
+	}
+	.bg-gradient {
+		background: linear-gradient(
+			180deg,
+			#4529e6 41.25%,
+			#f1f3f5 41.26%,
+			#f1f3f5 100%
+		);
+	}
+}
