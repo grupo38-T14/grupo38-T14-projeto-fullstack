@@ -43,6 +43,7 @@ export interface AdvertsContextValues {
 	getProfileAdverts: (id: string, pageNumber?: number) => void;
 	profileUserAdverts: retrieveAdvertPaginationType | undefined;
 	profileUser: retrieveUser;
+	profileId: string;
 }
 
 export interface AdvertsProviderProps {

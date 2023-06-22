@@ -5,7 +5,7 @@ import { api } from "@/service";
 import Image from "next/image";
 import { useUser } from "@/hooks/userHook";
 import { useRouter } from "next/navigation";
-import nookies from "nookies";
+import nookies, { setCookie } from "nookies";
 
 interface IPageProps {
   params: { id: string };
@@ -20,13 +20,18 @@ export const revalidate = 30;
 
 const Advert = async ({ params }: IPageProps) => {
   const router = useRouter();
-  const { getInitials, user } = useUser();
+  const { getInitials } = useUser();
   const advert: retrieveAdvertType = await api
     .get(`adverts/${params.id}`)
     .then((res) => res.data);
+
   const cookieId = getCookies();
 
   const pageProfile = () => {
+    setCookie(null, "profile.id", advert.userId, {
+      maxAge: 60 * 30,
+      path: "/",
+    });
     if (cookieId["user.id"] == advert.userId) {
       router.push(`/profileViewAdmin/`);
     } else {
@@ -48,7 +53,6 @@ const Advert = async ({ params }: IPageProps) => {
                 className="max-w-[441px] w-[250px] md:w-full py-8 md:py-14"
               />
             </div>
-
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
               <div className=" flex flex-col gap-9">
                 <h6 className="text-gray-10">{advert.model}</h6>
@@ -63,18 +67,9 @@ const Advert = async ({ params }: IPageProps) => {
                   </div>
                   <p className="h7 text-gray-10">R$ {advert.price},00</p>
                 </div>
-
-                <div className="w-[108px]">
-                  {user ? (
-                    <Button type="brand" size={2}>
-                      Comprar
-                    </Button>
-                  ) : (
-                    <Button disable type="disable" size={2}>
-                      Comprar
-                    </Button>
-                  )}
-                </div>
+                <button className='bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-9 text-md" button-base w-24 px-5'>
+                  Comprar
+                </button>
               </div>
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">

@@ -8,13 +8,17 @@ import { useAdverts } from "@/hooks/advertHook";
 import { useState } from "react";
 
 const ProfilePage = () => {
-  //Como pegar o id do anunciante procurado? Salvar no LocalStorage ou Cookies?
   //Precisa mudar algo na navegação - código do Diego?
-  //Botão de editar anúncio
-
+  //Estilização -> Só falta ver aa faixa roxa da página
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
-  const { getProfileAdverts, profileUserAdverts, profileUser } = useAdverts();
+  const {
+    getProfileAdverts,
+    profileUserAdverts,
+    profileUser,
+    loading,
+    profileId,
+  } = useAdverts();
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -65,15 +69,22 @@ const ProfilePage = () => {
         <section
           className={`flex flex-col h-full gap-10 w-full lg:w-full lg:gap-12 mt-20 lg:m-0 lg:p-16 px-3 mb-14 lg:flex`}
         >
+          {loading && (
+            <div className="h-[500px] flex justify-center items-center">
+              <p className="text-2xl lg:text-5xl font-medium text-gray-30">
+                Carregando anúncios...
+              </p>
+            </div>
+          )}
           {profileUserAdverts && profileUserAdverts!.data?.length > 0 && (
             <>
-              <ul className="flex overflow-x-auto lg:overflow-hidden lg:grid lg:grid-cols-4 list-none gap-16 w-full">
+              <ul className="flex overflow-x-auto lg:overflow-hidden 2xl:grid 2xl:grid-cols-4 lg:grid lg:grid-cols-3 list-none gap-16 w-full">
                 <>
                   {profileUserAdverts!.data.map((advert) => {
                     return (
                       <li
                         key={advert.id}
-                        className="relative flex flex-col min-w-[500px] lg:w-fit lg:m-auto items-start gap-6 border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
+                        className="relative flex flex-col min-w-[312px] lg:w-fit lg:m-auto items-start gap-6 border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
                       >
                         <div className="w-full">
                           <div className="flex w-[100%] items-center overflow-hidden p-5 rounded">
@@ -93,7 +104,7 @@ const ProfilePage = () => {
                           <p className="text-sm font-normal text-gray-20 w-[240px] text-ellipsis overflow-hidden">
                             {advert.description}
                           </p>
-                          <div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4 gap-10">
+                          <div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4">
                             <p className="text-sm lg:text-base font-medium text-gray-10">
                               {advert.price?.toLocaleString("pt-BR", {
                                 style: "currency",
@@ -140,10 +151,7 @@ const ProfilePage = () => {
                 {profileUserAdverts!.prev && (
                   <p
                     onClick={() => {
-                      getProfileAdverts(
-                        "0b1d9e1d-89c3-4137-a15f-fd7ce78bb3a6",
-                        profileUserAdverts!.prev
-                      ),
+                      getProfileAdverts(profileId, profileUserAdverts!.prev),
                         scrollToTop();
                     }}
                     className="text-lg font-semibold text-brand-2 cursor-pointer"
@@ -158,10 +166,7 @@ const ProfilePage = () => {
                 {profileUserAdverts!.next && (
                   <p
                     onClick={() => {
-                      getProfileAdverts(
-                        "0b1d9e1d-89c3-4137-a15f-fd7ce78bb3a6",
-                        profileUserAdverts!.next
-                      ),
+                      getProfileAdverts(profileId, profileUserAdverts!.next),
                         scrollToTop();
                     }}
                     className="text-lg font-semibold text-brand-2 cursor-pointer"
@@ -175,7 +180,7 @@ const ProfilePage = () => {
           {profileUserAdverts && profileUserAdverts!.data?.length <= 0 && (
             <div className="h-[500px] flex justify-center items-center">
               <p className="text-2xl lg:text-5xl font-medium text-gray-30">
-                Você não possui nenhum anúncio ainda...
+                Você não possui nenhum anúncio...
               </p>
             </div>
           )}

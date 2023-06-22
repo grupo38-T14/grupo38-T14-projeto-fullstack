@@ -19,6 +19,9 @@ import jwtDecode from "jwt-decode";
 import { UserProvider } from "../users";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext, UserProvider } from "../users";
+import { useUser } from "@/hooks/userHook";
+import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
