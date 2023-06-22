@@ -1,10 +1,8 @@
 import {
   IsString,
   IsNotEmpty,
-  MaxLength,
   IsInt,
   IsEnum,
-  IsDecimal,
   IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
@@ -17,7 +15,6 @@ export class CreateAdvertDto {
     default: 'Ford',
   })
   @IsString()
-  // @MaxLength(127)
   @IsNotEmpty()
   brand: string;
 
@@ -27,7 +24,6 @@ export class CreateAdvertDto {
     default: 'Mustang mach 1',
   })
   @IsString()
-  // @MaxLength(127)
   @IsNotEmpty()
   model: string;
 
@@ -37,7 +33,6 @@ export class CreateAdvertDto {
     default: 2022,
   })
   @IsInt()
-  // @MaxLength(4)
   @IsNotEmpty()
   year: number;
 
@@ -56,7 +51,6 @@ export class CreateAdvertDto {
     type: Number,
     default: 1200.09,
   })
-  // @IsDecimal({ decimal_digits: '2' })
   @IsNotEmpty()
   km: number;
 
@@ -66,7 +60,6 @@ export class CreateAdvertDto {
     default: 'Black',
   })
   @IsString()
-  // @MaxLength(10)
   @IsNotEmpty()
   color: string;
 
@@ -76,7 +69,6 @@ export class CreateAdvertDto {
     default: 95469290,
   })
   @IsInt()
-  // @MaxLength(8)
   @IsNotEmpty()
   table_fipe_price: number;
 
@@ -86,7 +78,6 @@ export class CreateAdvertDto {
     default: 95469290,
   })
   @IsInt()
-  // @MaxLength(8)
   @IsNotEmpty()
   price: number;
 
@@ -97,7 +88,6 @@ export class CreateAdvertDto {
       'this car is the fastest of its year, super economical and comfortable',
   })
   @IsString()
-  // @MaxLength(255)
   description: string;
 
   @ApiProperty({

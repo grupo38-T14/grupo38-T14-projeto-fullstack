@@ -6,20 +6,18 @@ export interface AuhtProviderProps {
 }
 
 export interface AuthContextProps {
-	login: (
-		data: LoginData,
-		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
-	) => void;
-	registerFunction: (
-		data: CreateRegisterData,
-		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
-	) => void;
-	oldPath: string;
-	setOldPath: React.Dispatch<React.SetStateAction<string>>;
-	loading: boolean;
-	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-	hidden: boolean;
-	setHidden: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
+  login: (
+    data: LoginData,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => void;
+  registerFunction: (
+    data: CreateRegisterData,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => void;
+  userAdverts: listRetrieveAdvertsType;
+  oldPath: string;
+  setOldPath: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface tokenDecode {

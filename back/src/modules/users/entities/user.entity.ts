@@ -1,3 +1,4 @@
+import { Address } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 import { randomUUID } from 'node:crypto';
 
@@ -14,6 +15,7 @@ export class User {
   account_type: boolean;
   is_active?: boolean;
   avatar_url: string;
+  address?: Address;
 
   @Exclude()
   password: string;
