@@ -19,14 +19,14 @@
 } */
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: #ccc;
+	color: rgb(var(--foreground-rgb));
+	background: #ccc;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 @layer base {
@@ -93,8 +93,8 @@ input::-webkit-inner-spin-button {
 	.bg-gradient {
 		background: linear-gradient(
 			180deg,
-			#4529e6 41.25%,
-			#f1f3f5 41.26%,
+			#4529e6 30.25%,
+			#f1f3f5 30.26%,
 			#f1f3f5 100%
 		);
 	}
