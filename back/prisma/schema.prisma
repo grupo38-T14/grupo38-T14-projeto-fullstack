@@ -22,6 +22,7 @@ model Users {
   account_type Boolean    @default(false)
   is_active    Boolean    @default(true)
   avatar_url   String?
+  resetToken   String?
   created_at   String
   address      Address?
   comments     Comments[]

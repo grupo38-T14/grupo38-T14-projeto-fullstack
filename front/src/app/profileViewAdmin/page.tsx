@@ -8,15 +8,17 @@ import { useAdverts } from "@/hooks/advertHook";
 import { useState } from "react";
 
 const ProfilePage = () => {
-	//Como pegar o id do anunciante procurado? Salvar no LocalStorage ou Cookies? Usar no useEffect do contexto
 	//Precisa mudar algo na navegação - código do Diego?
-	//Botão de editar anúncio? Tem essa feature já pedida pelo Gustavo?
 	//Estilização -> Só falta ver aa faixa roxa da página
-	//Precisa mudar o id da chamada da função getProfileAdverts
 	const router = useRouter();
 	const [openModal, setOpenModal] = useState(false);
-	const { getProfileAdverts, profileUserAdverts, profileUser, loading } =
-		useAdverts();
+	const {
+		getProfileAdverts,
+		profileUserAdverts,
+		profileUser,
+		loading,
+		profileId,
+	} = useAdverts();
 
 	const scrollToTop = () => {
 		window.scrollTo({
@@ -149,10 +151,7 @@ const ProfilePage = () => {
 								{profileUserAdverts!.prev && (
 									<p
 										onClick={() => {
-											getProfileAdverts(
-												"0b1d9e1d-89c3-4137-a15f-fd7ce78bb3a6",
-												profileUserAdverts!.prev
-											),
+											getProfileAdverts(profileId, profileUserAdverts!.prev),
 												scrollToTop();
 										}}
 										className="text-lg font-semibold text-brand-2 cursor-pointer"
@@ -167,10 +166,7 @@ const ProfilePage = () => {
 								{profileUserAdverts!.next && (
 									<p
 										onClick={() => {
-											getProfileAdverts(
-												"0b1d9e1d-89c3-4137-a15f-fd7ce78bb3a6",
-												profileUserAdverts!.next
-											),
+											getProfileAdverts(profileId, profileUserAdverts!.next),
 												scrollToTop();
 										}}
 										className="text-lg font-semibold text-brand-2 cursor-pointer"

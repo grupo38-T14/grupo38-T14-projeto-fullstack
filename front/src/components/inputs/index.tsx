@@ -5,38 +5,40 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import MaskedInput from "react-input-mask";
 
 interface iInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  type:
-    | "text"
-    | "email"
-    | "url"
-    | "number"
-    | "date"
-    | "cpf"
-    | "phone"
-    | "coin"
-    | "password";
-  placeholder: string;
-  label: string;
-  register?: UseFormRegisterReturn;
-  error?: string;
-  valueInput?: string | number;
+	type:
+		| "text"
+		| "email"
+		| "url"
+		| "number"
+		| "date"
+		| "cpf"
+		| "phone"
+		| "coin"
+		| "password";
+	placeholder: string;
+	label: string;
+	register?: UseFormRegisterReturn;
+	error?: string;
+	valueInput?: string | number;
+	handle?: (e: any) => void;
 }
 
 const Input = ({
-  type,
-  label,
-  placeholder,
-  register,
-  error,
-  valueInput,
-  ...rest
+	type,
+	handle,
+	label,
+	placeholder,
+	register,
+	error,
+	valueInput,
+	...rest
 }: iInputProps) => {
-  const maskedTypes = ["cpf", "phone", "coin"];
-  const masked = {
-    cpf: "999.999.999.99",
-    phone: "(99) 99999-9999",
-    coin: "R$ 999999,99",
-  };
+	const maskedTypes = ["cpf", "phone", "coin"];
+	const masked = {
+		cpf: "999.999.999.99",
+		phone: "(99) 99999-9999",
+		coin: "R$ 999999,99",
+	};
 
 	return (
 		<>
@@ -58,22 +60,22 @@ const Input = ({
                 input-placeholder
                 reset-appearence
                 "
-              {...rest}
-            />
-          ) : (
-            <MaskedInput
-              mask={
-                type == "cpf"
-                  ? masked["cpf"]
-                  : type == "phone"
-                  ? masked["phone"]
-                  : masked["coin"]
-              }
-              type="text"
-              placeholder={placeholder}
-              {...register}
-              value={valueInput && valueInput}
-              className="
+							{...rest}
+						/>
+					) : (
+						<MaskedInput
+							mask={
+								type == "cpf"
+									? masked["cpf"]
+									: type == "phone"
+									? masked["phone"]
+									: masked["coin"]
+							}
+							type="text"
+							placeholder={placeholder}
+							{...register}
+							value={valueInput && valueInput}
+							className="
                 input-base
                 input-placeholder
                 reset-appearence

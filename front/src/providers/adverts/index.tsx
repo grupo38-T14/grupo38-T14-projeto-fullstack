@@ -17,6 +17,7 @@ import { retrieveUser } from "@/schemas/user.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import nookies, { parseCookies } from "nookies";
 import { createContext, useEffect, useState, ChangeEvent } from "react";
 
 export const AdvertsContext = createContext<AdvertsContextValues>(
@@ -39,6 +40,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 	const [profileUser, setProfileUser] = useState<retrieveUser>(
 		{} as retrieveUser
 	);
+	const [profileId, setProfileId] = useState("");
 
 	const router = useRouter();
 
@@ -208,12 +210,14 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 	};
 
 	useEffect(() => {
+		const cookies = nookies.get(null, "profile.id");
+		setProfileId(cookies["profile.id"]);
 		(async () => {
 			retrieveAdvert();
-			await getProfile("0b1d9e1d-89c3-4137-a15f-fd7ce78bb3a6");
-			await getProfileAdverts("0b1d9e1d-89c3-4137-a15f-fd7ce78bb3a6");
+			await getProfile(profileId);
+			await getProfileAdverts(profileId);
 		})();
-	}, []);
+	}, [profileId]);
 
 	return (
 		<AdvertsContext.Provider
@@ -239,6 +243,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 				getProfileAdverts,
 				profileUserAdverts,
 				profileUser,
+				profileId,
 			}}
 		>
 			{children}
