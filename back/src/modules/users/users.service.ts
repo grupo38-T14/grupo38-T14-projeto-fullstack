@@ -105,6 +105,7 @@ export class UsersService {
     }
 
     const resetToken = randomUUID();
+    await this.usersRepository.updateToken(email, resetToken);
 
     const resetPasswordTemplate = this.mailService.resetPasswordTemplate(
       email,

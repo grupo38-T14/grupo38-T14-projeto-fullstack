@@ -21,5 +21,6 @@ export abstract class UsersRepository {
   abstract findByCpf(cpf: string): Promise<User | undefined>;
   abstract findOne(id: string): Promise<User>;
   abstract update(id: string, updateUserDto: UpdateUserDto): Promise<User>;
+  abstract updateToken(email: string, resetToken: string): Promise<void>;
   abstract delete(id: string): Promise<void>;
 }
