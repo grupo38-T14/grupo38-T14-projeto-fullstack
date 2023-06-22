@@ -11,11 +11,16 @@ import {
   RecoveryPasswordData,
   RecoverySchema,
 } from "@/schemas/recoveryPassword.schema";
+import CreateNewPassword from "./modalCreateNewPassword";
 
 interface ModalProps {
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
+  setModalNewPassword: React.Dispatch<SetStateAction<boolean>>;
 }
-const ModalRecoverPassword = ({ setOpenModal }: ModalProps) => {
+const ModalRecoverPassword = ({
+  setOpenModal,
+  setModalNewPassword,
+}: ModalProps) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const {
     register,
@@ -28,40 +33,46 @@ const ModalRecoverPassword = ({ setOpenModal }: ModalProps) => {
   const handleRecoveryPassword = (data: RecoveryPasswordData) => {
     console.log(data);
     setBtnLoading(true);
+    setTimeout(() => {
+      setModalNewPassword(true);
+      setOpenModal(false);
+    }, 1000);
   };
 
   return (
-    <div>
-      <p className="h7">Recupere sua senha </p>
-      <span>
-        Enviaremos um e-mail com instruções para recuperação de senha.
-      </span>
-      <form
-        className="flex flex-col gap-6"
-        noValidate
-        onSubmit={handleSubmit(handleRecoveryPassword)}
-      >
-        <Input
-          label="E-mail"
-          placeholder="Digitar e-mail"
-          type="email"
-          error={errors.email && errors.email.message}
-          register={register("email")}
-        />
-
-        <Button
-          type={!isDirty || !isValid ? "disableBland" : "brand"}
-          submit
-          disable={!isDirty || !isValid}
+    <>
+      <div>
+        <p className="h7">Recupere sua senha </p>
+        <span>
+          Enviaremos um e-mail com instruções para recuperação de senha.
+        </span>
+        <form
+          className="flex flex-col gap-6"
+          noValidate
+          onSubmit={handleSubmit(handleRecoveryPassword)}
         >
-          {!btnLoading ? (
-            "Entrar"
-          ) : (
-            <RiLoader4Line size={30} color="#fff" className="animate-spin" />
-          )}
-        </Button>
-      </form>
-    </div>
+          <Input
+            label="E-mail"
+            placeholder="Digitar e-mail"
+            type="email"
+            error={errors.email && errors.email.message}
+            register={register("email")}
+          />
+
+          <Button
+            type={!isDirty || !isValid ? "disableBland" : "brand"}
+            submit
+            disable={!isDirty || !isValid}
+          >
+            {!btnLoading ? (
+              "Entrar"
+            ) : (
+              <RiLoader4Line size={30} color="#fff" className="animate-spin" />
+            )}
+          </Button>
+        </form>
+      </div>
+    </>
   );
 };
 
