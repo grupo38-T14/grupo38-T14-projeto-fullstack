@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useUser } from "@/hooks/userHook";
-import Button from "../button";
 import Modal from "../Modal";
 import FormEditUser from "../forms/formEditUser";
 import ModalDeleteUser from "../Modal/modalDeleteUser";

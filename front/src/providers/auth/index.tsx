@@ -126,9 +126,9 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         setOldPath,
       }}
     >
-      <AdvertsProvider>
-        <UserProvider>{children}</UserProvider>
-      </AdvertsProvider>
+      <UserProvider>
+        <AdvertsProvider>{children}</AdvertsProvider>
+      </UserProvider>
     </AuthContext.Provider>
   );
 };

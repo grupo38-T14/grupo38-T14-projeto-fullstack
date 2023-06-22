@@ -5,19 +5,34 @@ import { api } from "@/service";
 import Image from "next/image";
 import { useUser } from "@/hooks/userHook";
 import { useRouter } from "next/navigation";
+import nookies from "nookies";
 
 interface IPageProps {
   params: { id: string };
 }
 
+const getCookies = () => {
+  const cookieId = nookies.get(null, "user.id");
+  return cookieId;
+};
+
 export const revalidate = 30;
 
 const Advert = async ({ params }: IPageProps) => {
   const router = useRouter();
-  const { getInitials } = useUser();
+  const { getInitials, user } = useUser();
   const advert: retrieveAdvertType = await api
     .get(`adverts/${params.id}`)
     .then((res) => res.data);
+  const cookieId = getCookies();
+
+  const pageProfile = () => {
+    if (cookieId["user.id"] == advert.userId) {
+      router.push(`/profileViewAdmin/`);
+    } else {
+      router.push(`/profileViewUser/`);
+    }
+  };
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile md:bg-gradient">
@@ -49,9 +64,17 @@ const Advert = async ({ params }: IPageProps) => {
                   <p className="h7 text-gray-10">R$ {advert.price},00</p>
                 </div>
 
-                <button className='bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-9 text-md" button-base w-24 px-5'>
-                  Comprar
-                </button>
+                <div className="w-[108px]">
+                  {user ? (
+                    <Button type="brand" size={2}>
+                      Comprar
+                    </Button>
+                  ) : (
+                    <Button disable type="disable" size={2}>
+                      Comprar
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
@@ -101,10 +124,7 @@ const Advert = async ({ params }: IPageProps) => {
                 {advert.user.description.slice(0, 130)}...
               </p>
 
-              <Button
-                type="grey0"
-                handle={() => router.push(`profile/${advert.userId}`)}
-              >
+              <Button type="grey0" handle={() => pageProfile()}>
                 Ver todos anúncios
               </Button>
             </div>
@@ -203,9 +223,17 @@ const Advert = async ({ params }: IPageProps) => {
             
           "
           />
-          <button className='mb-6 bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-[38px] text-md" button-base w-24 px-5 md:absolute right-3 bottom-0'>
-            Comentar
-          </button>
+          <div className="h-[38px] w-[108px] mb-6  md:absolute md:right-3 md:bottom-0">
+            {user ? (
+              <Button type="brand" size={2}>
+                Comentar
+              </Button>
+            ) : (
+              <Button disable type="disable" size={2}>
+                Comentar
+              </Button>
+            )}
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">

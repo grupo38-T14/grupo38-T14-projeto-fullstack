@@ -20,14 +20,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   useEffect(() => {
     if (cookies["user.token"]) {
-      api.defaults.headers.common.authorization = `Bearer ${cookies["user.token"]}`;
       setCookieId(cookies["user.id"]);
       setCookieToken(cookies["user.token"]);
       getProfile(cookies["user.id"]);
-    } else {
-      setUser(undefined);
     }
-  }, [cookies]);
+  }, [cookies, user]);
 
   const getInitials = (name: string) => {
     const firstLetter = name[0];
