@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginData, loginSchema } from '@/schemas/login.schema';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginData, loginSchema } from "@/schemas/login.schema";
 
-import Button from '@/components/button';
-import Input from '@/components/inputs';
-import { useAuth } from '@/hooks/authHook';
-import { RiLoader4Line } from 'react-icons/ri';
+import Button from "@/components/button";
+import Input from "@/components/inputs";
+import { useAuth } from "@/hooks/authHook";
+import { RiLoader4Line } from "react-icons/ri";
 
 const FormLogin = () => {
-	const {  login } = useAuth();
+	const { login } = useAuth();
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	const {
@@ -35,25 +35,25 @@ const FormLogin = () => {
 				placeholder="Digitar e-mail"
 				type="email"
 				error={errors.email && errors.email.message}
-				register={register('email')}
+				register={register("email")}
 			/>
 			<Input
 				label="Senha"
 				placeholder="Digitar senha"
 				type="password"
 				error={errors.password && errors.password.message}
-				register={register('password')}
+				register={register("password")}
 			/>
 			<span className="body-2 self-end -mt-4 text-gray-20">
 				Esqueci minha senha
 			</span>
 			<Button
-				type={!isDirty || !isValid ? 'disableBland' : 'brand'}
+				type={/* !isDirty || !isValid ? "disableBland" :  */"brand"}
 				submit
-				disable={!isDirty || !isValid}
+				/* disable={!isDirty || !isValid} */
 			>
 				{!btnLoading ? (
-					'Entrar'
+					"Entrar"
 				) : (
 					<RiLoader4Line size={30} color="#fff" className="animate-spin" />
 				)}

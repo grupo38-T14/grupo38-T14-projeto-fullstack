@@ -7,12 +7,13 @@ import { useUser } from "@/hooks/userHook";
 import { useRouter } from "next/navigation";
 
 interface IPageProps {
-  params: { id: string };
+	params: { id: string };
 }
 
 export const revalidate = 30;
 
 const Advert = async ({ params }: IPageProps) => {
+
   const router = useRouter();
   const { getInitials } = useUser();
   const advert: retrieveAdvertType = await api
@@ -33,22 +34,20 @@ const Advert = async ({ params }: IPageProps) => {
                 className="max-w-[441px] w-[250px] md:w-full py-8 md:py-14"
               />
             </div>
-
-            <div className="max-w-[752px] w-full bg-white p-7 rounded">
-              <div className=" flex flex-col gap-9">
-                <h6 className="text-gray-10">{advert.model}</h6>
-                <div className="flex flex-col md:flex-row md:justify-between gap-9 ">
-                  <div className="flex gap-3 ">
-                    <p className="text-xs lg:text-sm font-medium text-brand-1 px-2 py-1 bg-brand-4 rounded">
-                      {advert.year}
-                    </p>
-                    <p className="text-xs lg:text-sm font-medium text-brand-1 px-2 py-1 bg-brand-4 rounded">
-                      {advert.km} KM
-                    </p>
-                  </div>
-                  <p className="h7 text-gray-10">R$ {advert.price},00</p>
-                </div>
-
+						<div className="max-w-[752px] w-full bg-white p-7 rounded">
+							<div className=" flex flex-col gap-9">
+								<h6 className="text-gray-10">{advert.model}</h6>
+								<div className="flex flex-col md:flex-row md:justify-between gap-9 ">
+									<div className="flex gap-3 ">
+										<p className="text-xs lg:text-sm font-medium text-brand-1 px-2 py-1 bg-brand-4 rounded">
+											{advert.year}
+										</p>
+										<p className="text-xs lg:text-sm font-medium text-brand-1 px-2 py-1 bg-brand-4 rounded">
+											{advert.km} KM
+										</p>
+									</div>
+									<p className="h7 text-gray-10">R$ {advert.price},00</p>
+								</div>
                 <button className='bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-9 text-md" button-base w-24 px-5'>
                   Comprar
                 </button>
@@ -96,10 +95,9 @@ const Advert = async ({ params }: IPageProps) => {
                 </p>
               )}
               <h6 className="text-gray-0">{advert.user.name}</h6>
-
-              <p className="text-gray-20 text-justify md:text-center">
-                {advert.user.description.slice(0, 130)}...
-              </p>
+							<p className="text-gray-20 text-justify md:text-center">
+								{advert.user.description?.slice(0, 130)}...
+							</p>
 
               <Button
                 type="grey0"
@@ -120,70 +118,70 @@ const Advert = async ({ params }: IPageProps) => {
                   JL
                 </p>
 
-                <p className="text-gray-10 body-2 font-medium">Julia Lima</p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 3 dias</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
+								<p className="text-gray-10 body-2 font-medium">Julia Lima</p>
+								<div className="w-1 h-1 rounded-full bg-gray-40" />
+								<p className="text-gray-40 text-xs font-inter">há 3 dias</p>
+							</header>
+							<p className="body-2 text-gray-20 input-label">
+								Lorem Ipsum is simply dummy text of the printing and typesetting
+								industry. Lorem Ipsum has been the industry&apos;s standard
+								dummy text ever since the 1500s, when an unknown printer took a
+								galley of type and scrambled it to make a type specimen book.
+							</p>
+						</div>
 
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  MA
-                </p>
+						<div className="flex flex-col gap-4 ">
+							<header className="flex gap-2 items-center">
+								<p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
+									MA
+								</p>
 
-                <p className="text-gray-10 body-2 font-medium">
-                  Marcos Antônio
-                </p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 7 dias</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
+								<p className="text-gray-10 body-2 font-medium">
+									Marcos Antônio
+								</p>
+								<div className="w-1 h-1 rounded-full bg-gray-40" />
+								<p className="text-gray-40 text-xs font-inter">há 7 dias</p>
+							</header>
+							<p className="body-2 text-gray-20 input-label">
+								Lorem Ipsum is simply dummy text of the printing and typesetting
+								industry. Lorem Ipsum has been the industry&apos;s standard
+								dummy text ever since the 1500s, when an unknown printer took a
+								galley of type and scrambled it to make a type specimen book.
+							</p>
+						</div>
 
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  CS
-                </p>
+						<div className="flex flex-col gap-4 ">
+							<header className="flex gap-2 items-center">
+								<p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
+									CS
+								</p>
 
-                <p className="text-gray-10 body-2 font-medium">Camila Silva</p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 1 mês</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
-            {/* ))} */}
-          </div>
-        </div>
-      </section>
-      <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
-        <header className="flex gap-2 items-center">
-          <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-            JL
-          </p>
-          <p className="text-gray-10 body-2 font-medium">Julia Lima</p>
-        </header>
-        <div className="md:relative">
-          <textarea
-            placeholder="Carro muito confortável, foi uma ótima experiência de compra..."
-            className="  
+								<p className="text-gray-10 body-2 font-medium">Camila Silva</p>
+								<div className="w-1 h-1 rounded-full bg-gray-40" />
+								<p className="text-gray-40 text-xs font-inter">há 1 mês</p>
+							</header>
+							<p className="body-2 text-gray-20 input-label">
+								Lorem Ipsum is simply dummy text of the printing and typesetting
+								industry. Lorem Ipsum has been the industry&apos;s standard
+								dummy text ever since the 1500s, when an unknown printer took a
+								galley of type and scrambled it to make a type specimen book.
+							</p>
+						</div>
+						{/* ))} */}
+					</div>
+				</div>
+			</section>
+			<section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
+				<header className="flex gap-2 items-center">
+					<p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
+						JL
+					</p>
+					<p className="text-gray-10 body-2 font-medium">Julia Lima</p>
+				</header>
+				<div className="md:relative">
+					<textarea
+						placeholder="Carro muito confortável, foi uma ótima experiência de compra..."
+						className="  
             body-1
             w-full
             h-32
@@ -202,25 +200,25 @@ const Advert = async ({ params }: IPageProps) => {
             md:mb-0
             
           "
-          />
-          <button className='mb-6 bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-[38px] text-md" button-base w-24 px-5 md:absolute right-3 bottom-0'>
-            Comentar
-          </button>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
-            Gostei muito!
-          </p>
-          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
-            Incrível
-          </p>
-          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
-            Recomendarei para meus amigos
-          </p>
-        </div>
-      </section>
-    </main>
-  );
+					/>
+					<button className='mb-6 bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-[38px] text-md" button-base w-24 px-5 md:absolute right-3 bottom-0'>
+						Comentar
+					</button>
+				</div>
+				<div className="flex flex-wrap gap-2">
+					<p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
+						Gostei muito!
+					</p>
+					<p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
+						Incrível
+					</p>
+					<p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
+						Recomendarei para meus amigos
+					</p>
+				</div>
+			</section>
+		</main>
+	);
 };
 
 export default Advert;
