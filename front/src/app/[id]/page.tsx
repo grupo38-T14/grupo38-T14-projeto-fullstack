@@ -119,9 +119,8 @@ const Advert = async ({ params }: IPageProps) => {
                 </p>
               )}
               <h6 className="text-gray-0">{advert.user.name}</h6>
-
               <p className="text-gray-20 text-justify md:text-center">
-                {advert.user.description.slice(0, 130)}...
+                {advert.user.description?.slice(0, 130)}...
               </p>
 
               <Button type="grey0" handle={() => pageProfile()}>

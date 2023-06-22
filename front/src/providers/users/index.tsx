@@ -1,6 +1,7 @@
 "use client";
 
 import Notify from "@/components/notify";
+import { editAddressType, retrieveAddressType } from "@/schemas/address.schema";
 import { editUserType, retrieveUser } from "@/schemas/user.schema";
 import { UserContextProps, UserProviderProps } from "@/schemas/userContext";
 import { api } from "@/service";
@@ -12,6 +13,9 @@ export const UserContext = createContext({} as UserContextProps);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<retrieveUser | undefined>();
+  const [userAddress, setUserAddress] = useState<
+    retrieveAddressType | undefined
+  >();
   const [cookieId, setCookieId] = useState<string | undefined>(undefined);
   const [cookieToken, setCookieToken] = useState<string | undefined>(undefined);
   const [initialsUser, setInitialsUser] = useState("");
@@ -36,6 +40,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     try {
       const res = await api.get(`users/${id}`);
       setUser(res.data);
+      setUserAddress(res.data.address);
     } catch (error) {
       console.log(error);
     }
@@ -90,6 +95,26 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       .finally(() => setBtnLoading(false));
   };
 
+  const editAddress = async (
+    userId: string,
+    data: editAddressType,
+    loading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    await api
+      .patch(`addresses/${userId}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      })
+      .then((res) => {
+        loading(true);
+        Notify({ type: "success", message: "Endereço atualizado com sucesso" });
+      })
+      .catch((error) => console.error(error))
+      .finally(() => loading(false));
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -98,11 +123,14 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         cookieToken,
         setUser,
         user,
+        setUserAddress,
+        userAddress,
         initialsUser,
         getProfile,
         logOut,
         editUser,
         deleteUser,
+        editAddress,
       }}
     >
       {children}

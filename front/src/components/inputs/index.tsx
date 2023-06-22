@@ -38,21 +38,22 @@ const Input = ({
     coin: "R$ 999999,99",
   };
 
-  return (
-    <>
-      <fieldset className="relative flex flex-col gap-2">
-        <label htmlFor={label} className="input-label">
-          {label}
-        </label>
-        <>
-          {!maskedTypes.includes(type) ? (
-            <input
-              type={type}
-              id={label}
-              placeholder={placeholder}
-              {...register}
-              value={valueInput && valueInput}
-              className="
+	return (
+		<>
+			<fieldset className="relative flex flex-col gap-2">
+				<label htmlFor={label} className="input-label">
+					{label}
+				</label>
+				<>
+					{!maskedTypes.includes(type) ? (
+						<input
+							type={type}
+							id={label}
+							placeholder={placeholder}
+							{...register}
+							value={valueInput && valueInput}
+							onChange={handle && ((e) => handle(e.target.value))}
+							className="
                 input-base
                 input-placeholder
                 reset-appearence
@@ -77,17 +78,17 @@ const Input = ({
                 input-placeholder
                 reset-appearence
                 "
-            />
-          )}
-        </>
-        {error && (
-          <span className="absolute -bottom-4 text-xs text-feedback-alert1">
-            {error}
-          </span>
-        )}
-      </fieldset>
-    </>
-  );
+						/>
+					)}
+				</>
+				{error && (
+					<span className="absolute -bottom-4 text-xs text-feedback-alert1">
+						{error}
+					</span>
+				)}
+			</fieldset>
+		</>
+	);
 };
 
 export default Input;

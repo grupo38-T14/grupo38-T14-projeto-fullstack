@@ -8,6 +8,7 @@ import { useUser } from "@/hooks/userHook";
 import Modal from "../Modal";
 import FormEditUser from "../forms/formEditUser";
 import ModalDeleteUser from "../Modal/modalDeleteUser";
+import { FormEditAddress } from "../forms/formEditAddress";
 
 export default function Header() {
   const [menuDrop, setmenuDrop] = useState(false);
@@ -32,9 +33,16 @@ export default function Header() {
           />
         </Modal>
       )}
+
       {modalDelete && (
         <Modal setOpenModal={setModalDelete}>
           <ModalDeleteUser setOpenModal={setModalDelete} />
+        </Modal>
+      )}
+
+      {modalEditAddress && (
+        <Modal setOpenModal={setModalEditAddress}>
+          <FormEditAddress setOpenModal={setModalEditAddress} />
         </Modal>
       )}
 

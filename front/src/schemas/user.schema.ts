@@ -27,4 +27,14 @@ export const editUserSchema = retrieveUserSchema.omit({
   address: true,
 });
 export type retrieveUser = z.infer<typeof retrieveUserSchema>;
+
+
+export interface IPageProfileAdvertsProps {
+	current: number;
+	last: number;
+	next: number;
+	prev: number;
+}
+
 export type editUserType = z.infer<typeof editUserSchema>;
+
