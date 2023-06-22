@@ -10,21 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Address {
-  id         String  @id
-  cep        String
-  state      String
-  city       String
-  street     String
-  number     String
-  complement String? @default("none")
-  created_at String
-  user       Users   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String  @unique
-
-  @@map("address")
-}
-
 model Users {
   id           String     @id
   name         String
@@ -45,6 +30,21 @@ model Users {
   @@map("users")
 }
 
+model Address {
+  id         String  @id
+  cep        String
+  state      String
+  city       String
+  street     String
+  number     String
+  complement String? @default("none")
+  created_at String
+  user       Users   @relation(fields: [userId], references: [id])
+  userId     String  @unique
+
+  @@map("address")
+}
+
 model Advert {
   id               String     @id
   brand            String
@@ -58,7 +58,7 @@ model Advert {
   description      String
   image_cape       String
   is_active        Boolean    @default(true)
-  user             Users?     @relation(fields: [userId], references: [id])
+  user             Users?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String?
   gallery          Gallery[]
   comments         Comments[]
@@ -70,9 +70,9 @@ model Comments {
   id         String @id
   comment    String
   created_at String
-  user       Users  @relation(fields: [userId], references: [id])
+  user       Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  advert     Advert @relation(fields: [advertId], references: [id])
+  advert     Advert @relation(fields: [advertId], references: [id], onDelete: Cascade)
   advertId   String
 
   @@map("comments")
@@ -81,7 +81,7 @@ model Comments {
 model Gallery {
   id        String  @id
   image_url String
-  Advert    Advert? @relation(fields: [advertId], references: [id])
+  Advert    Advert? @relation(fields: [advertId], references: [id], onDelete: Cascade)
   advertId  String?
 
   @@map("gallery")

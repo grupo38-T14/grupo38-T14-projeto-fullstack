@@ -1,6 +1,6 @@
 "use client";
-
 import React, { useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -49,11 +49,11 @@ const RegisterForm = () => {
 		}
 	};
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors, isDirty, isValid },
-	} = useForm<RegisterData>({ resolver: zodResolver(registerSchema) });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty, isValid },
+  } = useForm<RegisterData>({ resolver: zodResolver(registerSchema) });
 
 	const handleRegister = (data: RegisterData) => {
 		const re = /\W+/g;
@@ -241,6 +241,7 @@ const RegisterForm = () => {
 			</div>
 		</>
 	);
+
 };
 
 export default RegisterForm;

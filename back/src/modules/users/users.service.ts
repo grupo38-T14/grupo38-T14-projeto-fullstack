@@ -71,14 +71,14 @@ export class UsersService {
       const newEmail = await this.usersRepository.findByEmail(
         updateUserDto.email,
       );
-      if (newEmail) {
+      if (updateUserDto.email !== user.email && newEmail) {
         throw new ConflictException('Email already in use!');
       }
     }
 
     if (updateUserDto.cpf) {
       const newCpf = await this.usersRepository.findByCpf(updateUserDto.cpf);
-      if (newCpf) {
+      if (newCpf && updateUserDto.cpf !== user.cpf) {
         throw new ConflictException('CPF Unavailable!');
       }
     }
