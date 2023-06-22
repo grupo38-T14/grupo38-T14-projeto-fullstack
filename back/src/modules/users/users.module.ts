@@ -8,6 +8,7 @@ import { AdvertRepository } from '../adverts/repositories/advert.repository';
 import { AdvertPrismaRepository } from '../adverts/repositories/prisma/adverts.prisma.repository';
 import { MailerModule } from '@nestjs-modules/mailer';
 
+//Falta a info do host e do defaults.from
 @Module({
   imports: [
     MailerModule.forRoot({
