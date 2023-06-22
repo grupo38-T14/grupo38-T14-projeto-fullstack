@@ -191,6 +191,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			}
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -200,6 +202,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			setProfileUser(data);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
