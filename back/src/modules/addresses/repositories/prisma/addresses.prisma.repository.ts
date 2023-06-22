@@ -8,12 +8,8 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 @Injectable()
 export class AddressesPrismaRepository implements AddressesRepository {
   constructor(private prisma: PrismaService) {}
-  // Check with project colabors if we can fix this issue.
-  // Issue #1:
-  // I'm not able to create a address without a user, even passing a user by parameter, the problems persists.
 
   async findOne(id: string, userId: string): Promise<Address> {
-    console.log(id);
     const address = await this.prisma.address.findUnique({
         where: {id}
     })
@@ -21,7 +17,6 @@ export class AddressesPrismaRepository implements AddressesRepository {
     if (address && address.userId !== userId) {
       throw new ForbiddenException('Insufficient permission');
     }
-
     return plainToInstance(Address, address);
   }
 
@@ -33,7 +28,6 @@ export class AddressesPrismaRepository implements AddressesRepository {
       where: { id },
       data: { ...updateAddressDto },
     });
-
     return plainToInstance(Address, newAddress);
   }
 }
