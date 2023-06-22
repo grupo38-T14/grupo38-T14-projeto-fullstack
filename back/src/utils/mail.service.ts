@@ -7,8 +7,8 @@ import { SendEmailDto } from 'src/modules/users/dto/send-email.dto';
 const mailGenerator = new Mailgen({
   theme: 'default',
   product: {
-    name: 'Motor Shop',
-    link: 'http://localhost:8000',
+    name: 'Motors Shop',
+    link: 'http://localhost:3000',
   },
 });
 
