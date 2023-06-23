@@ -20,7 +20,7 @@ export const revalidate = 30;
 
 const Advert = async ({ params }: IPageProps) => {
   const router = useRouter();
-  const { getInitials } = useUser();
+  const { getInitials, user } = useUser();
   const advert: retrieveAdvertType = await api
     .get(`adverts/${params.id}`)
     .then((res) => res.data);
@@ -67,9 +67,17 @@ const Advert = async ({ params }: IPageProps) => {
                   </div>
                   <p className="h7 text-gray-10">R$ {advert.price},00</p>
                 </div>
-                <button className='bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-9 text-md" button-base w-24 px-5'>
-                  Comprar
-                </button>
+                <div className="w-24 h-9">
+                  {user ? (
+                    <Button type="brand" size={2}>
+                      Comprar
+                    </Button>
+                  ) : (
+                    <Button disable type="disable" size={2}>
+                      Comprar
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
