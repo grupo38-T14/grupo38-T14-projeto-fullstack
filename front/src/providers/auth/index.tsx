@@ -25,6 +25,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuhtProvider = ({ children }: AuhtProviderProps) => {
   const router = useRouter();
   const path = usePathname();
+  const { user, setUser } = useUser();
 
   const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
   const [loading, setLoading] = useState(true);
@@ -100,7 +101,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
     >
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -110,9 +111,9 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         pauseOnHover
         theme="light"
       />
-      <UserProvider>
-        <AdvertsProvider>{children}</AdvertsProvider>
-      </UserProvider>
+      <AdvertsProvider>
+        <UserProvider>{children}</UserProvider>
+      </AdvertsProvider>
     </AuthContext.Provider>
   );
 };

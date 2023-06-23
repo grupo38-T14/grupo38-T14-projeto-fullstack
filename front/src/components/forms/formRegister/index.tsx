@@ -49,11 +49,14 @@ const RegisterForm = () => {
 		}
 	};
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isDirty, isValid },
-  } = useForm<RegisterData>({ resolver: zodResolver(registerSchema) });
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isDirty, isValid },
+	} = useForm<RegisterData>({
+		resolver: zodResolver(registerSchema),
+		mode: "onBlur",
+	});
 
 	const handleRegister = (data: RegisterData) => {
 		const re = /\W+/g;
@@ -241,7 +244,6 @@ const RegisterForm = () => {
 			</div>
 		</>
 	);
-
 };
 
 export default RegisterForm;
