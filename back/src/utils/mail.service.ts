@@ -1,5 +1,5 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import Mailgen from 'mailgen';
+import * as Mailgen from 'mailgen';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SendEmailDto } from 'src/modules/users/dto/send-email.dto';
 
@@ -7,8 +7,8 @@ import { SendEmailDto } from 'src/modules/users/dto/send-email.dto';
 const mailGenerator = new Mailgen({
   theme: 'default',
   product: {
-    name: 'Motor Shop',
-    link: 'http://localhost:3001',
+    name: 'Motors Shop',
+    link: 'http://localhost:3000',
   },
 });
 
@@ -30,7 +30,7 @@ export class MailService {
       });
   }
 
-  //customizar mensagem
+  //mudar o link
   resetPasswordTemplate(
     userEmail: string,
     userName: string,
@@ -40,17 +40,19 @@ export class MailService {
       body: {
         name: userName,
         intro:
-          'You have received this email because a password reset request for your account was received.',
+          'Você recebeu esse e-mail porque um pedido de redefinição de senha da sua conta foi feito.',
         action: {
-          instructions: 'Click the button below to reset your password:',
+          instructions: 'Clique no botão abaixo para redefinir uma nova senha:',
           button: {
-            color: '#DC4D2F',
-            text: 'Reset your password',
-            link: `http://localhost:3001/users/resetPassword/${resetToken}`,
+            color: '#4529E6',
+            text: 'Redefina sua senha',
+            link: `http://localhost:8000/users/resetPassword/${resetToken}`,
           },
         },
+        greeting: 'Olá',
+        signature: 'Atenciosamente',
         outro:
-          'If you did not request a password reset, no further action is required on your part.',
+          'Se você não fez esse pedido de redefinição de senha, não clique no botão e desconsidere esse e-mail.',
       },
     };
 
