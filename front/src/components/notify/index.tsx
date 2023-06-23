@@ -2,31 +2,31 @@ import React from "react";
 import { toast, Slide, ToastOptions } from "react-toastify";
 
 interface NotifyProps {
-  type: "success" | "error" | "logout";
-  message: string;
+	type: "success" | "error" | "logout";
+	message: string;
 }
 
 const configBase: ToastOptions = {
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  theme: "light",
-  transition: Slide,
+	position: "top-right",
+	autoClose: 3000,
+	hideProgressBar: false,
+	closeOnClick: true,
+	pauseOnHover: true,
+	draggable: true,
+	progress: undefined,
+	theme: "light",
+	transition: Slide,
 };
 
 const Notify = ({ type, message }: NotifyProps) => {
-  switch (type) {
-    case "success":
-      return toast.success(message, configBase);
-    case "error":
-      return toast.error(message, configBase);
-    case "logout":
-      return toast.info(message, configBase);
-  }
+	switch (type) {
+		case "success":
+			return toast.success(message, configBase);
+		case "error":
+			return toast.error(message, configBase);
+		case "logout":
+			return toast.info(message, configBase);
+	}
 };
 
 export default Notify;
