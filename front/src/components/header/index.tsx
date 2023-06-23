@@ -12,6 +12,7 @@ import ModalDeleteUser from "../Modal/modalDeleteUser";
 import { FormEditAddress } from "../forms/formEditAddress";
 import { setCookie } from "nookies";
 import { useRouter } from "next/navigation";
+import { RiLoader4Line } from "react-icons/ri";
 
 export default function Header() {
   const router = useRouter();
@@ -113,7 +114,7 @@ export default function Header() {
         />
       </button>
       {loading ? (
-        <>Carregando</>
+        <RiLoader4Line size={30} color="#fff" className="animate-spin" />
       ) : (
         <span
           className={`${!menuDrop && "hidden"}

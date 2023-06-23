@@ -25,7 +25,6 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuhtProvider = ({ children }: AuhtProviderProps) => {
   const router = useRouter();
   const path = usePathname();
-  const { user, setUser } = useUser();
 
   const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
   const [loading, setLoading] = useState(true);

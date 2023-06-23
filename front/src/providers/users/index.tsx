@@ -51,15 +51,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       console.log(error);
     }
   };
-  const getProfile = async (id: string): Promise<void> => {
-    try {
-      const res = await api.get(`users/${id}`);
-      setUser(res.data);
-      setUserAddress(res.data.address);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const logOut = () => {
     destroyCookie(null, "user.id");
@@ -109,26 +100,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       })
       .catch((error) => console.error(error))
       .finally(() => setBtnLoading(false));
-  };
-
-  const editAddress = async (
-    userId: string,
-    data: editAddressType,
-    loading: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    await api
-      .patch(`addresses/${userId}`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      })
-      .then((res) => {
-        loading(true);
-        Notify({ type: "success", message: "Endereço atualizado com sucesso" });
-      })
-      .catch((error) => console.error(error))
-      .finally(() => loading(false));
   };
   const editAddress = async (
     userId: string,
