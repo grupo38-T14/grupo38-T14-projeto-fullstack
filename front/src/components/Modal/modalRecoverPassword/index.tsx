@@ -11,7 +11,6 @@ import {
   RecoveryPasswordData,
   RecoverySchema,
 } from "@/schemas/recoveryPassword.schema";
-import CreateNewPassword from "./modalCreateNewPassword";
 
 interface ModalProps {
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
