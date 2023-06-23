@@ -13,6 +13,7 @@ import {
   PaginatedResult,
   paginator,
 } from '../../providers/prisma/paginator';
+import { hashSync } from 'bcryptjs';
 
 const paginate: PaginateFunction = paginator({ perPage: 12 });
 @Injectable()
@@ -105,5 +106,29 @@ export class UsersPrismaRepository implements UsersRepository {
     await this.prisma.users.delete({
       where: { id },
     });
+  }
+
+  async updateToken(email: string, resetToken: string): Promise<void> {
+    await this.prisma.users.update({
+      where: { email },
+      data: { reset_token: resetToken },
+    });
+  }
+
+  async updatePassword(id: string, password: string): Promise<void> {
+    await this.prisma.users.update({
+      where: { id },
+      data: {
+        password: hashSync(password, 10),
+        reset_token: null,
+      },
+    });
+  }
+
+  async findByToken(token: string): Promise<User> {
+    const user = await this.prisma.users.findFirst({
+      where: { reset_token: token },
+    });
+    return user;
   }
 }
