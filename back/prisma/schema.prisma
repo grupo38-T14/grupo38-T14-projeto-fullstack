@@ -9,7 +9,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model Users {
   id           String     @id
   name         String
@@ -22,6 +21,7 @@ model Users {
   account_type Boolean    @default(false)
   is_active    Boolean    @default(true)
   avatar_url   String?
+  reset_token  String?
   created_at   String
   address      Address?
   comments     Comments[]

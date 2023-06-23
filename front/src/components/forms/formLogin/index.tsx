@@ -13,6 +13,9 @@ import { RiLoader4Line } from "react-icons/ri";
 interface ModalProps {
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
 }
+const FormLogin = () => {
+	const { login } = useAuth();
+	const [btnLoading, setBtnLoading] = useState(false);
 
 const FormLogin = ({ setOpenModal }: ModalProps) => {
   const { login } = useAuth();
@@ -71,4 +74,4 @@ const FormLogin = ({ setOpenModal }: ModalProps) => {
   );
 };
 
-export default FormLogin;
+export default FormLogin
