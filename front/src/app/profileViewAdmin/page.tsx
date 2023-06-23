@@ -9,7 +9,6 @@ import { useState } from "react";
 import nookies from "nookies";
 
 const ProfilePage = () => {
-	//Estilização -> Só falta ver a faixa roxa da página
 	//Erros console
 	const router = useRouter();
 	const [openModal, setOpenModal] = useState(false);

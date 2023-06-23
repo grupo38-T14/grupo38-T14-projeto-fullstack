@@ -37,10 +37,10 @@ export const FilterField = ({ name, list }: FilterFieldProps) => {
 			<h2 className="text-lg font-semibold text-[#000000]">{name}</h2>
 			<ul className="pl-2.5 mt-2.5">
 				{name != "Combustível"
-					? list!.map((e) => {
+					? list!.map((e, index) => {
 							return (
 								<>
-									<li key={e}>
+									<li key={index}>
 										<p
 											className="text-sm font-medium text-gray-30 cursor-pointer"
 											onClick={() => retrieveAdvert(fields[name], e)}
@@ -54,7 +54,7 @@ export const FilterField = ({ name, list }: FilterFieldProps) => {
 					: listFuels.map((e, index) => {
 							return (
 								<>
-									<li key={e}>
+									<li key={index}>
 										<p
 											className="text-sm font-medium text-gray-30 cursor-pointer"
 											onClick={() => retrieveAdvert(fields[name], list![index])}

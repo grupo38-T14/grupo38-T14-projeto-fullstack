@@ -57,9 +57,11 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
 												/>
 											</div>
 											<section className="flex flex-col items-start justify-start gap-4 w-full">
-												<h2 className="text-base font-semibold text-gray-10">
-													{advert.brand} - {advert.model}
-												</h2>
+												<div className="w-[250px]">
+													<h2 className="text-base font-semibold text-gray-10 truncate">
+														{advert.brand} - {advert.model}
+													</h2>
+												</div>
 												<div className="w-[240px] h-6">
 													<p className="text-sm font-normal text-gray-20 truncate">
 														{advert.description}
