@@ -181,31 +181,35 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 	};
 
 	const getProfileAdverts = async (id: string, pageNumber?: number) => {
-		try {
-			if (!pageNumber) {
-				const { data } = await api.get(`users/${id}/adverts`);
-				setProfileUserAdverts(data);
-			} else {
-				const { data } = await api.get(
-					`users/${id}/adverts?page=${pageNumber}`
-				);
-				setProfileUserAdverts(data);
+		if (id) {
+			try {
+				if (!pageNumber) {
+					const { data } = await api.get(`users/${id}/adverts`);
+					setProfileUserAdverts(data);
+				} else {
+					const { data } = await api.get(
+						`users/${id}/adverts?page=${pageNumber}`
+					);
+					setProfileUserAdverts(data);
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setLoading(false);
 			}
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
 		}
 	};
 
 	const getProfile = async (id: string) => {
-		try {
-			const { data } = await api.get(`users/${id}`);
-			setProfileUser(data);
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
+		if (id) {
+			try {
+				const { data } = await api.get(`users/${id}`);
+				setProfileUser(data);
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setLoading(false);
+			}
 		}
 	};
 
@@ -213,7 +217,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		const cookies = nookies.get(null, "profile.id");
 		setProfileId(cookies["profile.id"]);
 		(async () => {
-			retrieveAdvert();
+			await retrieveAdvert();
 			await getProfile(profileId);
 			await getProfileAdverts(profileId);
 		})();
@@ -244,6 +248,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 				profileUserAdverts,
 				profileUser,
 				profileId,
+				setProfileId,
 			}}
 		>
 			{children}

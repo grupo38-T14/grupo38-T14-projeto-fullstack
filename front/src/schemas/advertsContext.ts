@@ -44,6 +44,7 @@ export interface AdvertsContextValues {
 	profileUserAdverts: retrieveAdvertPaginationType | undefined;
 	profileUser: retrieveUser;
 	profileId: string;
+	setProfileId: Dispatch<SetStateAction<string>>;
 }
 
 export interface AdvertsProviderProps {

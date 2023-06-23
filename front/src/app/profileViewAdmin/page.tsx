@@ -6,10 +6,11 @@ import FormCreateAdverts from "@/components/forms/formCreateAdverts";
 import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
 import { useState } from "react";
+import nookies from "nookies";
 
 const ProfilePage = () => {
-	//Precisa mudar algo na navegação - código do Diego?
-	//Estilização -> Só falta ver aa faixa roxa da página
+	//Estilização -> Só falta ver a faixa roxa da página
+	//Erros console
 	const router = useRouter();
 	const [openModal, setOpenModal] = useState(false);
 	const {
@@ -18,6 +19,7 @@ const ProfilePage = () => {
 		profileUser,
 		loading,
 		profileId,
+		setProfileId,
 	} = useAdverts();
 
 	const scrollToTop = () => {
@@ -26,6 +28,9 @@ const ProfilePage = () => {
 			behavior: "smooth",
 		});
 	};
+
+	const cookies = nookies.get(null, "profile.id");
+	setProfileId(cookies["profile.id"]);
 
 	return (
 		<main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
@@ -98,9 +103,11 @@ const ProfilePage = () => {
 													</div>
 												</div>
 												<section className="flex flex-col items-start justify-start gap-4 w-full">
-													<h2 className="text-base font-semibold text-gray-10">
-														{advert.brand} - {advert.model}
-													</h2>
+													<div className="w-[250px]">
+														<h2 className="text-base font-semibold text-gray-10 truncate">
+															{advert.brand} - {advert.model}
+														</h2>
+													</div>
 													<p className="text-sm font-normal text-gray-20 w-[240px] text-ellipsis overflow-hidden">
 														{advert.description}
 													</p>

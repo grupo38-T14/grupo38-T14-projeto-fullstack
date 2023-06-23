@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  AuhtProviderProps,
-  AuthContextProps,
-  tokenDecode,
+	AuhtProviderProps,
+	AuthContextProps,
+	tokenDecode,
 } from "@/schemas/authContext";
 import { LoginData } from "@/schemas/login.schema";
 import { api } from "@/service";
@@ -24,37 +24,37 @@ import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuhtProvider = ({ children }: AuhtProviderProps) => {
-  const router = useRouter();
-  const path = usePathname();
-  const { user, setUser } = useUser();
+	const router = useRouter();
+	const path = usePathname();
+	const { user, setUser } = useUser();
 
-  const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
-  const [loading, setLoading] = useState(true);
-  const [oldPath, setOldPath] = useState("");
+	const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
+	const [loading, setLoading] = useState(true);
+	const [oldPath, setOldPath] = useState("");
 
-  const login = async (
-    data: LoginData,
-    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    try {
-      setBtnLoading(true);
-      const response = await api.post("login/", data);
-      api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-      let decoded: tokenDecode = jwtDecode(response.data.token);
+	const login = async (
+		data: LoginData,
+		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+	) => {
+		try {
+			setBtnLoading(true);
+			const response = await api.post("login/", data);
+			api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+			let decoded: tokenDecode = jwtDecode(response.data.token);
 
-      setCookie(null, "user.token", response.data.token, {
-        maxAge: 60 * 30,
-        path: "/",
-      });
-      setCookie(null, "user.id", decoded.sub, {
-        maxAge: 60 * 30,
-        path: "/",
-      });
-      if (oldPath != "/register") {
-        router.back();
-      } else {
-        router.push("/");
-      }
+			setCookie(null, "user.token", response.data.token, {
+				maxAge: 60 * 30,
+				path: "/",
+			});
+			setCookie(null, "user.id", decoded.sub, {
+				maxAge: 60 * 30,
+				path: "/",
+			});
+			if (oldPath != "/register") {
+				router.back();
+			} else {
+				router.push("/");
+			}
 
 			Notify({ type: "success", message: "Login feito com sucesso!" });
 		} catch (error) {
@@ -69,7 +69,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		}
 	};
 
-  const registerFunction = async (
+	const registerFunction = async (
 		data: CreateRegisterData,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => {
@@ -89,20 +89,20 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 		}
 	};
 
-  return (
-    <AuthContext.Provider
-      value={{
-        login,
-        registerFunction,
-        userAdverts,
-        loading,
-        oldPath,
-        setOldPath,
-      }}
-    >
-      	<ToastContainer
+	return (
+		<AuthContext.Provider
+			value={{
+				login,
+				registerFunction,
+				userAdverts,
+				loading,
+				oldPath,
+				setOldPath,
+			}}
+		>
+			<ToastContainer
 				position="top-right"
-				autoClose={5000}
+				autoClose={3000}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick
@@ -112,9 +112,9 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
 				pauseOnHover
 				theme="light"
 			/>
-      <AdvertsProvider>
-        <UserProvider>{children}</UserProvider>
-      </AdvertsProvider>
-    </AuthContext.Provider>
-  );
+			<AdvertsProvider>
+				<UserProvider>{children}</UserProvider>
+			</AdvertsProvider>
+		</AuthContext.Provider>
+	);
 };
