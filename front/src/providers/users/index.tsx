@@ -19,15 +19,18 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [cookieId, setCookieId] = useState<string | undefined>(undefined);
   const [cookieToken, setCookieToken] = useState<string | undefined>(undefined);
   const [initialsUser, setInitialsUser] = useState("");
+  const [loading, setLoading] = useState(false);
   const cookies = parseCookies();
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     if (cookies["user.token"]) {
       setCookieId(cookies["user.id"]);
       setCookieToken(cookies["user.token"]);
       getProfile(cookies["user.id"]);
     }
+    setLoading(false);
   }, [cookies, user]);
 
   const getInitials = (name: string) => {
@@ -131,6 +134,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         editUser,
         deleteUser,
         editAddress,
+        loading,
       }}
     >
       {children}

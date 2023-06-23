@@ -24,7 +24,8 @@ export interface UserContextProps {
     userId: string,
     data: editAddressType,
     loading: React.Dispatch<React.SetStateAction<boolean>>
-  ) => Promise<void>
+  ) => Promise<void>;
+  loading: boolean;
 }
 
 export interface UserProviderProps {

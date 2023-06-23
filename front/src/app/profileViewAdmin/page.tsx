@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
 import { useState } from "react";
 
-const ProfilePage = () => {
+const ProfilePageAdmin = () => {
   //Precisa mudar algo na navegação - código do Diego?
   //Estilização -> Só falta ver aa faixa roxa da página
   const router = useRouter();
@@ -190,4 +190,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default ProfilePageAdmin;
