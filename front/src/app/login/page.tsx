@@ -3,7 +3,6 @@ import Button from "@/components/button";
 import FormLogin from "@/components/forms/formLogin";
 import Modal from "@/components/Modal";
 import ModalRecoverPassword from "@/components/Modal/modalRecoverPassword";
-import ModalCreateNewPassword from "@/components/Modal/modalRecoverPassword/modalCreateNewPassword";
 
 import React, { useState } from "react";
 
@@ -21,14 +20,7 @@ export default function Login() {
           />
         </Modal>
       )}
-      {modalNewPassword && (
-        <Modal setOpenModal={setModalNewPassword}>
-          <ModalCreateNewPassword
-            setModalNewPassword={setModalNewPassword}
-            setOpenModal={setOpenModal}
-          />
-        </Modal>
-      )}
+
       <section className="flex flex-col gap-6 h-fit w-full lg:w-[25.75rem] p-8 rounded shadow bg-gray-100">
         <h5 className="mb-2">Login</h5>
         <FormLogin setOpenModal={setOpenModal} />
