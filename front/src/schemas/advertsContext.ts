@@ -16,7 +16,11 @@ export interface AdvertsContextValues {
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => void;
 	deleteAdvert: (id: string) => void;
-	updateAdvert: (id: string, data: updateAdvertType) => void;
+	updateAdvert: (
+		data: updateAdvertType,
+		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+	) => void;
 	retrieveAdvert: (
 		filter?: string,
 		filterName?: string | number,
