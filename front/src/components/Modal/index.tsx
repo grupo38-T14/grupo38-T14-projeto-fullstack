@@ -1,11 +1,12 @@
 import React, { SetStateAction, useEffect, useRef } from "react";
 
 interface ModalProps {
-	setOpenModal: React.Dispatch<SetStateAction<boolean>>;
+	setOpenModal?: React.Dispatch<SetStateAction<boolean>>;
+	setOpenUpdateModal?: React.Dispatch<SetStateAction<boolean>>;
 	children: React.ReactNode;
 }
 
-const Modal = ({ setOpenModal, children }: ModalProps) => {
+const Modal = ({ setOpenModal, setOpenUpdateModal, children }: ModalProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -18,15 +19,20 @@ const Modal = ({ setOpenModal, children }: ModalProps) => {
 				return;
 			}
 			if (!ref.current.contains(event.target as HTMLElement)) {
-				setOpenModal(false);
+				setOpenModal && setOpenModal(false);
+				setOpenUpdateModal && setOpenUpdateModal(false);
 			}
 		};
 
 		window.addEventListener("mousedown", handleClick);
-		window.addEventListener(
-			"keydown",
-			(event) => event.key == "Escape" && setOpenModal(false)
-		);
+		window.addEventListener("keydown", (event) => {
+			if (setOpenModal) {
+				event.key == "Escape" && setOpenModal(false);
+			}
+			if (setOpenUpdateModal) {
+				event.key == "Escape" && setOpenUpdateModal(false);
+			}
+		});
 
 		return () => {
 			window.removeEventListener("mousedown", handleClick);
@@ -41,7 +47,14 @@ const Modal = ({ setOpenModal, children }: ModalProps) => {
 			>
 				<button
 					className="absolute top-2 right-3 font-bold text-lg"
-					onClick={() => setOpenModal(false)}
+					onClick={() => {
+						if (setOpenModal) {
+							setOpenModal(false);
+						}
+						if (setOpenUpdateModal) {
+							setOpenUpdateModal(false);
+						}
+					}}
 				>
 					X
 				</button>

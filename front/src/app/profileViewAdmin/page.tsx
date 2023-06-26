@@ -7,11 +7,12 @@ import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
 import { useState } from "react";
 import nookies from "nookies";
+import { FormUpdateAdvert } from "@/components/forms/formEditAdvert";
 
 const ProfilePage = () => {
-	//Erros console
 	const router = useRouter();
 	const [openModal, setOpenModal] = useState(false);
+	const [openUpdateModal, setOpenUpdateModal] = useState(false);
 	const {
 		getProfileAdverts,
 		profileUserAdverts,
@@ -128,7 +129,11 @@ const ProfilePage = () => {
 													</div>
 												</section>
 												<div className="w-[65%] flex gap-3">
-													<Button size={2} type="outline1">
+													<Button
+														size={2}
+														type="outline1"
+														handle={() => setOpenUpdateModal(true)}
+													>
 														Editar
 													</Button>
 													<Button
@@ -191,6 +196,11 @@ const ProfilePage = () => {
 						</div>
 					)}
 				</section>
+				{openUpdateModal && (
+					<Modal setOpenUpdateModal={setOpenUpdateModal}>
+						<FormUpdateAdvert setOpenUpdateModal={setOpenUpdateModal} />
+					</Modal>
+				)}
 			</>
 		</main>
 	);

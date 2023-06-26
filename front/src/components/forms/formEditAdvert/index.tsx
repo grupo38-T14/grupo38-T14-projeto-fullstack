@@ -17,15 +17,17 @@ import { useAdverts } from "@/hooks/advertHook";
 //TESTAR ----- Colocar lógica da função handleEditAdvert
 //TESTAR ----- Criar tipagem para o data da função handleEditAdvert
 //TESTAR ----- Criar função editAdvert no contexto de advert
-//Recuperar id do anúncio e passar como parâmetro
-//Colocar lógica no botão para abrir modal de edição
+//Recuperar id do anúncio e passar como parâmetro da função updateAdvert
+//TESTAR ----- Colocar lógica no botão para abrir modal de edição -> testar também os dois modais, de criação e edição
 //Criar modal de confirmação de exclusão de anúncio
 
-interface FormEditAdvertsProps {
-	setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+interface FormUpdateAdvertsProps {
+	setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const FormEditAdvert = ({ setOpenModal }: FormEditAdvertsProps) => {
+export const FormUpdateAdvert = ({
+	setOpenUpdateModal,
+}: FormUpdateAdvertsProps) => {
 	const [numImageGallery, setNumImageGallery] = useState([1, 2]);
 	const [cars, setCars] = useState<Car[]>([]);
 	const [selectCar, setSelectCar] = useState<Car>({} as Car);
@@ -66,7 +68,7 @@ export const FormEditAdvert = ({ setOpenModal }: FormEditAdvertsProps) => {
 				km: km,
 				is_active: is_active,
 			},
-			setOpenModal,
+			setOpenUpdateModal,
 			setBtnLoading
 		);
 	};
@@ -227,8 +229,8 @@ export const FormEditAdvert = ({ setOpenModal }: FormEditAdvertsProps) => {
 					)}
 				</div>
 				<div className="flex flex-col lg:flex-row justify-end gap-2">
-					<div className="lg:w-fit">
-						<Button type="light">Excluir Anúncio</Button>
+					<div className="lg:w-[60%]">
+						<Button type="grey6">Excluir Anúncio</Button>
 					</div>
 					<div className="lg:w-[40%]">
 						<Button
@@ -253,4 +255,4 @@ export const FormEditAdvert = ({ setOpenModal }: FormEditAdvertsProps) => {
 	);
 };
 
-export default FormEditAdvert;
+export default FormUpdateAdvert;

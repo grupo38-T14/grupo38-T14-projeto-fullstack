@@ -17,7 +17,8 @@ interface iButtonProps {
 		| "outline2"
 		| "outlineLight"
 		| "negative"
-		| "light";
+		| "light"
+		| "grey6";
 	disable?: boolean;
 	submit?: boolean;
 	href?: string;
@@ -57,6 +58,7 @@ const Button = ({
 		negative:
 			"bg-gray-60 hover:bg-gray-50 text-gray-20 border-gray-60 hover:border-gray-50",
 		light: "bg-gray-100 border-gray-100 text-gray-10",
+		grey6: "bg-gray-60 border-gray-60 text-gray-20",
 	};
 
 	return (
