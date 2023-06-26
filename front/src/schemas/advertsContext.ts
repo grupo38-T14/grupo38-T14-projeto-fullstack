@@ -45,6 +45,7 @@ export interface AdvertsContextValues {
 	profileUser: retrieveUser;
 	profileId: string;
 	setProfileId: Dispatch<SetStateAction<string>>;
+	createComment: (newComment: string) => void
 }
 
 export interface AdvertsProviderProps {
