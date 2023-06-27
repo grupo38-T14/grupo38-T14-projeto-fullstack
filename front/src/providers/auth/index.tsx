@@ -20,6 +20,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserContext, UserProvider } from "../users";
 import { useUser } from "@/hooks/userHook";
 import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
+import {
+  CreateNewPasswordData,
+  RecoveryPasswordData,
+} from "@/schemas/recoveryPassword.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
@@ -56,38 +60,66 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         router.push("/");
       }
 
-			Notify({ type: "success", message: "Login feito com sucesso!" });
-		} catch (error) {
-			const err = error as AxiosError;
-			console.log(err);
-			Notify({
-				type: "error",
-				message: "Ops! e-mail ou senha invalidos. Tente novamente!",
-			});
-		} finally {
-			setBtnLoading(false);
-		}
-	};
+      Notify({ type: "success", message: "Login feito com sucesso!" });
+    } catch (error) {
+      const err = error as AxiosError;
+      console.log(err);
+      Notify({
+        type: "error",
+        message: "Ops! e-mail ou senha invalidos. Tente novamente!",
+      });
+    } finally {
+      setBtnLoading(false);
+    }
+  };
 
   const registerFunction = async (
-		data: CreateRegisterData,
-		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
-	) => {
-		try {
-			setBtnLoading(true);
-			await api.post("users/", data).then((res) => res.data);
-			Notify({ type: "success", message: "Cadastro feito com sucesso!" });
-			router.push("/login");
-		} catch (error) {
-			const err = error as AxiosError;
-			console.log(err);
-			if (err.message === "Request failed with status code 409") {
-				Notify({ type: "error", message: "Email ou CPF já existe!" });
-			}
-		} finally {
-			setBtnLoading(false);
-		}
-	};
+    data: CreateRegisterData,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      setBtnLoading(true);
+      await api.post("users/", data).then((res) => res.data);
+      Notify({ type: "success", message: "Cadastro feito com sucesso!" });
+      router.push("/login");
+    } catch (error) {
+      const err = error as AxiosError;
+      console.log(err);
+      if (err.message === "Request failed with status code 409") {
+        Notify({ type: "error", message: "Email ou CPF já existe!" });
+      }
+    } finally {
+      setBtnLoading(false);
+    }
+  };
+  const sendRecoveryEmail = async (data: RecoveryPasswordData) => {
+    await api
+      .post(`users/resetPassword`, data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const createNewPassword = async (
+    data: CreateNewPasswordData,
+    token: string
+  ) => {
+    await api
+      .patch(`users/resetPassword/${token}`, { password: data.password })
+      .then(() => {
+        Notify({ type: "success", message: "Senha atualizada com sucesso !" });
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err);
+        Notify({ type: "error", message: "Erro ao atualizar a senha" });
+      });
+  };
 
   return (
     <AuthContext.Provider
@@ -98,20 +130,22 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         loading,
         oldPath,
         setOldPath,
+        sendRecoveryEmail,
+        createNewPassword,
       }}
     >
-      	<ToastContainer
-				position="top-right"
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="light"
-			/>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <AdvertsProvider>
         <UserProvider>{children}</UserProvider>
       </AdvertsProvider>

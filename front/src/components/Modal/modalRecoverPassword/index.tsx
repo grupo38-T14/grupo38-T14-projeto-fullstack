@@ -11,6 +11,7 @@ import {
   RecoveryPasswordData,
   RecoverySchema,
 } from "@/schemas/recoveryPassword.schema";
+import { useAuth } from "@/hooks/authHook";
 
 interface ModalProps {
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
@@ -20,6 +21,7 @@ const ModalRecoverPassword = ({
   setOpenModal,
   setModalNewPassword,
 }: ModalProps) => {
+  const { sendRecoveryEmail } = useAuth();
   const [btnLoading, setBtnLoading] = useState(false);
   const {
     register,
@@ -31,11 +33,12 @@ const ModalRecoverPassword = ({
 
   const handleRecoveryPassword = (data: RecoveryPasswordData) => {
     console.log(data);
-    setBtnLoading(true);
-    setTimeout(() => {
-      setModalNewPassword(true);
-      setOpenModal(false);
-    }, 1000);
+    sendRecoveryEmail(data);
+    // setBtnLoading(true);
+    // setTimeout(() => {
+    //   setModalNewPassword(true);
+    //   setOpenModal(false);
+    // }, 1000);
   };
 
   return (
@@ -59,9 +62,9 @@ const ModalRecoverPassword = ({
           />
 
           <Button
-            type={!isDirty || !isValid ? "disableBland" : "brand"}
+            type={/*!isDirty || !isValid ? "disableBland" :*/ "brand"}
             submit
-            disable={!isDirty || !isValid}
+            // disable={!isDirty || !isValid}
           >
             {!btnLoading ? (
               "Entrar"

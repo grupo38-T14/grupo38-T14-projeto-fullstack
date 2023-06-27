@@ -57,9 +57,9 @@ const FormLogin = ({ setOpenModal }: ModalProps) => {
         Esqueci minha senha
       </a>
       <Button
-        type={!isDirty || !isValid ? "disableBland" : "brand"}
+        type={/*!isDirty || !isValid ? "disableBland" : */ "brand"}
         submit
-        disable={!isDirty || !isValid}
+        // disable={!isDirty || !isValid}
       >
         {!btnLoading ? (
           "Entrar"

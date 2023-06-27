@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { editUserType, retrieveUser } from "./user.schema";
 import { editAddressType, retrieveAddressType } from "./address.schema";
+import { RecoveryPasswordData } from "./recoveryPassword.schema";
 
 export interface UserContextProps {
   getInitials: (name: string) => string;
@@ -24,7 +25,7 @@ export interface UserContextProps {
     userId: string,
     data: editAddressType,
     loading: React.Dispatch<React.SetStateAction<boolean>>
-  ) => Promise<void>
+  ) => Promise<void>;
 }
 
 export interface UserProviderProps {

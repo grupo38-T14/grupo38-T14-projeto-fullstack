@@ -1,8 +1,12 @@
 import { LoginData } from "./login.schema";
+import {
+  CreateNewPasswordData,
+  RecoveryPasswordData,
+} from "./recoveryPassword.schema";
 import { CreateRegisterData } from "./register.schema";
 
 export interface AuhtProviderProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export interface AuthContextProps {
@@ -18,10 +22,17 @@ export interface AuthContextProps {
   userAdverts: listRetrieveAdvertsType;
   oldPath: string;
   setOldPath: React.Dispatch<React.SetStateAction<string>>;
+
+  sendRecoveryEmail: (data: RecoveryPasswordData) => Promise<void>;
+
+  createNewPassword: (
+    data: CreateNewPasswordData,
+    token: string
+  ) => Promise<void>;
 }
 
 export interface tokenDecode {
-	iat: number;
-	exp: number;
-	sub: string;
+  iat: number;
+  exp: number;
+  sub: string;
 }
