@@ -24,15 +24,16 @@ const ProfilePageViewAdmin = () => {
 		setProfileId,
 	} = useAdverts();
 
-	const scrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
-	};
 
-	const cookies = nookies.get(null, "profile.id");
-	setProfileId(cookies["profile.id"]);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const cookies = nookies.get(null, "profile.id");
+  setProfileId(cookies["profile.id"]);
 
 	const saveAdvertIdAndOpenUpdateModal = (id: string) => {
 		setCookie(null, "updateAdvert.id", id, {

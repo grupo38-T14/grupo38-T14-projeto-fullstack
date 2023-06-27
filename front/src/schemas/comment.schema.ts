@@ -7,3 +7,6 @@ export const schemaComments = z.object({
   userId: z.string(),
   advertId: z.string(),
 });
+
+
+export type comment = z.infer<typeof schemaComments>

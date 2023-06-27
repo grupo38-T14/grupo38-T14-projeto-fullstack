@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { editUserType, retrieveUser } from "./user.schema";
 import { editAddressType, retrieveAddressType } from "./address.schema";
+import { retrieveAdvertType } from "./advert.schema";
 
 export interface UserContextProps {
   getInitials: (name: string) => string;
@@ -24,7 +25,10 @@ export interface UserContextProps {
     userId: string,
     data: editAddressType,
     loading: React.Dispatch<React.SetStateAction<boolean>>
-  ) => Promise<void>
+  ) => Promise<void>;
+  loading: boolean;
+  pageProfile: (advert: retrieveAdvertType) => void;
+  getUser: (id: string) => Promise<retrieveUser | undefined>;
 }
 
 export interface UserProviderProps {
