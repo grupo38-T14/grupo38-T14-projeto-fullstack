@@ -22,8 +22,9 @@ import { api } from "@/service";
 //TESTAR ----- Criar função editAdvert no contexto de advert
 //TESTAR ----- Recuperar id do anúncio e passar como parâmetro da função updateAdvert
 //TESTAR ----- Colocar lógica no botão para abrir modal de edição -> testar também os dois modais, de criação e edição
-//Serialização não está sendo feita corretamente. Não está excluindo os campos que não tem dados
-//Criar modal de confirmação de exclusão de anúncio
+//TESTAR ----- Criar modal de confirmação de exclusão de anúncio
+//MOSTRAR OS VALORES PADRÕES NO MODAL DE EDIÇÃO
+//Input preço e tabela FIPE estão estranhos
 
 interface FormUpdateAdvertsProps {
 	setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,8 +40,6 @@ export const FormUpdateAdvert = ({
 	const [selectCar, setSelectCar] = useState<Car>({} as Car);
 	const [brands, setBrands] = useState<string[]>([]);
 	const [btnLoading, setBtnLoading] = useState(false);
-	/* 	const [updateAdvertData, setUpdateAdvertData] =
-		useState<retrieveAdvertType>(); */
 
 	const { updateAdvert } = useAdverts();
 
@@ -66,11 +65,11 @@ export const FormUpdateAdvert = ({
 	};
 
 	const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
+		console.log(data);
 		const price = Number(data.price?.replace(/[^0-9]+/g, ""));
 		const km = Number(data.km?.replace(".", ""));
 		const year = Number(data.year);
-		const is_active = data.is_active ? "Ativo" : "Inativo";
-		console.log(data);
+		const is_active = data.is_active === "Ativo" ? true : false;
 		updateAdvert(
 			advertId,
 			{
@@ -105,6 +104,8 @@ export const FormUpdateAdvert = ({
 				setValue("image_cape", res.data.image_cape);
 				setValue("image_gallery1", undefined);
 				setValue("image_gallery2", undefined);
+				setValue("image_gallery3", undefined);
+				setValue("image_gallery4", undefined);
 			});
 		})();
 	}, [setValue]);
