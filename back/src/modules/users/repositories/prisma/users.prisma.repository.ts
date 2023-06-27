@@ -131,4 +131,21 @@ export class UsersPrismaRepository implements UsersRepository {
     });
     return user;
   }
+
+  async findUserBy(email: string, cpf: string): Promise<User> {
+    let user: User | undefined;
+    if (email) {
+      user = await this.prisma.users.findUnique({
+        where: { email },
+      });
+    }
+
+    if (cpf) {
+      user = await this.prisma.users.findUnique({
+        where: { cpf },
+      });
+    }
+
+    return plainToInstance(User, user);
+  }
 }

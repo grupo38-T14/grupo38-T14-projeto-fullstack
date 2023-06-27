@@ -67,6 +67,12 @@ export class UsersController {
     return { message: 'Token de recuperação de senha enviado!' };
   }
 
+  @Get('resetPassword/find')
+  findUser(@Query('email') email?: string, @Query('cpf') cpf?: string) {
+    console.log(`email: ${email} | cpf: ${cpf}`);
+    return this.usersService.findUser(email, cpf);
+  }
+
   @Patch('resetPassword/:token')
   async resetPassword(
     @Param('token') token: string,
