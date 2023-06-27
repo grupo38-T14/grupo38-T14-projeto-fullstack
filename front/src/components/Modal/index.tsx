@@ -3,10 +3,16 @@ import React, { SetStateAction, useEffect, useRef } from "react";
 interface ModalProps {
 	setOpenModal?: React.Dispatch<SetStateAction<boolean>>;
 	setOpenUpdateModal?: React.Dispatch<SetStateAction<boolean>>;
+	setOpenDeleteModal?: React.Dispatch<SetStateAction<boolean>>;
 	children: React.ReactNode;
 }
 
-const Modal = ({ setOpenModal, setOpenUpdateModal, children }: ModalProps) => {
+const Modal = ({
+	setOpenModal,
+	setOpenUpdateModal,
+	setOpenDeleteModal,
+	children,
+}: ModalProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -21,6 +27,7 @@ const Modal = ({ setOpenModal, setOpenUpdateModal, children }: ModalProps) => {
 			if (!ref.current.contains(event.target as HTMLElement)) {
 				setOpenModal && setOpenModal(false);
 				setOpenUpdateModal && setOpenUpdateModal(false);
+				setOpenDeleteModal && setOpenDeleteModal(false);
 			}
 		};
 
@@ -31,6 +38,9 @@ const Modal = ({ setOpenModal, setOpenUpdateModal, children }: ModalProps) => {
 			}
 			if (setOpenUpdateModal) {
 				event.key == "Escape" && setOpenUpdateModal(false);
+			}
+			if (setOpenDeleteModal) {
+				event.key == "Escape" && setOpenDeleteModal(false);
 			}
 		});
 
@@ -53,6 +63,9 @@ const Modal = ({ setOpenModal, setOpenUpdateModal, children }: ModalProps) => {
 						}
 						if (setOpenUpdateModal) {
 							setOpenUpdateModal(false);
+						}
+						if (setOpenDeleteModal) {
+							setOpenDeleteModal(false);
 						}
 					}}
 				>

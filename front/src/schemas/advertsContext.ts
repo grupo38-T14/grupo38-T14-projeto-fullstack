@@ -15,8 +15,12 @@ export interface AdvertsContextValues {
 		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => void;
-	deleteAdvert: (id: string) => void;
+	deleteAdvert: (
+		id: string,
+		setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
+	) => void;
 	updateAdvert: (
+		id: string,
 		data: updateAdvertType,
 		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>

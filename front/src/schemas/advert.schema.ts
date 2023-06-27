@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { schemaComments } from "./comment.schema";
 import { retrieveUserSchema } from "./user.schema";
+import { DeepPartial } from "react-hook-form";
 
 const fuelTypes = ["ELECTRIC", "ETHANOL", "HYBRID"] as const;
 const FuelEnum = z.enum(fuelTypes, {
@@ -53,12 +54,6 @@ export const schemaRequestAdvert = z.object({
 	image_gallery4: z.string().optional(),
 });
 
-export const schemaUpdateRequestAdvert = schemaRequestAdvert
-	.extend({
-		is_active: z.boolean(),
-	})
-	.deepPartial();
-
 export const schemaCreateAdvert = schemaRequestAdvert
 	.omit({ year: true, km: true, table_fipe_price: true, price: true })
 	.extend({
@@ -68,6 +63,24 @@ export const schemaCreateAdvert = schemaRequestAdvert
 		price: z.number(),
 	});
 
+export const schemaUpdateRequestAdvert = z.object({
+	brand: z.string(),
+	model: z.string(),
+	year: z.string(),
+	fuel: z.optional(z.string()),
+	km: z.string(),
+	color: z.string(),
+	table_fipe_price: z.string(),
+	price: z.string(),
+	description: z.string(),
+	is_active: z.string(),
+	image_cape: z.string(),
+	image_gallery1: z.string().optional(),
+	image_gallery2: z.string().optional(),
+	image_gallery3: z.string().optional(),
+	image_gallery4: z.string().optional(),
+});
+
 export const schemaUpdateAdvert = schemaUpdateRequestAdvert
 	.omit({ year: true, km: true, table_fipe_price: true, price: true })
 	.extend({
@@ -76,7 +89,7 @@ export const schemaUpdateAdvert = schemaUpdateRequestAdvert
 		table_fipe_price: z.number(),
 		price: z.number(),
 	})
-	.deepPartial();
+	.partial();
 
 export const schemaAdvertPagination = z.object({
 	total: z.number(),
@@ -89,14 +102,16 @@ export const schemaAdvertPagination = z.object({
 });
 
 export type requestAdvertType = z.infer<typeof schemaRequestAdvert>;
-export type requestUpdateAdvertType = z.infer<typeof schemaUpdateRequestAdvert>;
 export type createAdvertType = z.infer<typeof schemaCreateAdvert>;
+export type requestUpdateAdvertType = z.infer<typeof schemaUpdateRequestAdvert>;
+export type requestUpdateAdvertPartialType =
+	DeepPartial<requestUpdateAdvertType>;
+export type updateAdvertType = z.infer<typeof schemaUpdateAdvert>;
 export type retrieveAdvertType = z.infer<typeof schemaAdvert>;
 export type retrieveAdvertPaginationType = z.infer<
 	typeof schemaAdvertPagination
 >;
 export type listRetrieveAdvertsType = retrieveAdvertType[];
-export type updateAdvertType = z.infer<typeof schemaUpdateAdvert>;
 
 export interface IPageProps {
 	current: number;

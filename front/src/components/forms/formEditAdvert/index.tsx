@@ -7,45 +7,56 @@ import Button from "@/components/button";
 import { useEffect, useState } from "react";
 import { Car, getBrands, getCarsByBrands } from "@/service/kenzieCarts";
 import { RiLoader4Line } from "react-icons/ri";
+import { useAdverts } from "@/hooks/advertHook";
+import nookies from "nookies";
 import {
-	requestUpdateAdvertType,
+	requestUpdateAdvertPartialType,
+	retrieveAdvertType,
 	schemaUpdateRequestAdvert,
 } from "@/schemas/advert.schema";
-import { useAdverts } from "@/hooks/advertHook";
+import { api } from "@/service";
 
 //TESTAR ----- Criar tipagem Schema para o useForm
 //TESTAR ----- Colocar lógica da função handleEditAdvert
 //TESTAR ----- Criar tipagem para o data da função handleEditAdvert
 //TESTAR ----- Criar função editAdvert no contexto de advert
-//Recuperar id do anúncio e passar como parâmetro da função updateAdvert
+//TESTAR ----- Recuperar id do anúncio e passar como parâmetro da função updateAdvert
 //TESTAR ----- Colocar lógica no botão para abrir modal de edição -> testar também os dois modais, de criação e edição
+//Serialização não está sendo feita corretamente. Não está excluindo os campos que não tem dados
 //Criar modal de confirmação de exclusão de anúncio
 
 interface FormUpdateAdvertsProps {
 	setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
+	setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FormUpdateAdvert = ({
 	setOpenUpdateModal,
+	setOpenDeleteModal,
 }: FormUpdateAdvertsProps) => {
 	const [numImageGallery, setNumImageGallery] = useState([1, 2]);
 	const [cars, setCars] = useState<Car[]>([]);
 	const [selectCar, setSelectCar] = useState<Car>({} as Car);
 	const [brands, setBrands] = useState<string[]>([]);
 	const [btnLoading, setBtnLoading] = useState(false);
+	/* 	const [updateAdvertData, setUpdateAdvertData] =
+		useState<retrieveAdvertType>(); */
 
 	const { updateAdvert } = useAdverts();
 
 	const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
+	const cookies = nookies.get(null, "updateAdvert.id");
+	const advertId = cookies["updateAdvert.id"];
+
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isDirty, isValid },
-	} = useForm<requestUpdateAdvertType>({
+		formState: { errors },
+		setValue,
+	} = useForm<requestUpdateAdvertPartialType>({
 		resolver: zodResolver(schemaUpdateRequestAdvert),
 	});
-
 	const handleGetCars = async (brand: string) => {
 		setCars(await getCarsByBrands(brand));
 	};
@@ -54,17 +65,20 @@ export const FormUpdateAdvert = ({
 		setSelectCar(cars.find((car) => car.name == name)!);
 	};
 
-	const handleEditAdvert = (data: requestUpdateAdvertType) => {
+	const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
 		const price = Number(data.price?.replace(/[^0-9]+/g, ""));
 		const km = Number(data.km?.replace(".", ""));
-		const is_active = false;
+		const year = Number(data.year);
+		const is_active = data.is_active ? "Ativo" : "Inativo";
+		console.log(data);
 		updateAdvert(
+			advertId,
 			{
 				...data,
 				fuel: fuelsFields[selectCar.fuel],
 				table_fipe_price: selectCar.value,
 				price: price,
-				year: +selectCar.year,
+				year: year,
 				km: km,
 				is_active: is_active,
 			},
@@ -77,8 +91,23 @@ export const FormUpdateAdvert = ({
 		(async () => {
 			const retrieveBrand = await getBrands();
 			setBrands(retrieveBrand);
+			await api.get(`adverts/${advertId}`).then((res) => {
+				setValue("brand", res.data.brand);
+				setValue("model", res.data.model);
+				setValue("year", String(res.data.year));
+				setValue("fuel", res.data.fuel);
+				setValue("km", String(res.data.km));
+				setValue("color", res.data.color);
+				setValue("table_fipe_price", String(res.data.table_fipe_price));
+				setValue("price", String(res.data.price));
+				setValue("description", res.data.description);
+				setValue("is_active", res.data.is_active ? "Ativo" : "Inativo");
+				setValue("image_cape", res.data.image_cape);
+				setValue("image_gallery1", undefined);
+				setValue("image_gallery2", undefined);
+			});
 		})();
-	}, []);
+	}, [setValue]);
 
 	return (
 		<section className="flex flex-col gap-4">
@@ -174,8 +203,9 @@ export const FormUpdateAdvert = ({
 				<Select
 					label="Status do anúncio"
 					options={["Ativo", "Inativo"]}
-					register={register("is_active")}
 					optionDefault="Selecione uma opção"
+					register={register("is_active")}
+					error={errors.is_active && errors.is_active.message}
 				/>
 				<div className="flex flex-col gap-6"></div>
 				<Input
@@ -230,14 +260,18 @@ export const FormUpdateAdvert = ({
 				</div>
 				<div className="flex flex-col lg:flex-row justify-end gap-2">
 					<div className="lg:w-[60%]">
-						<Button type="grey6">Excluir Anúncio</Button>
+						<Button
+							type="grey6"
+							handle={() => {
+								setOpenUpdateModal(false);
+								setOpenDeleteModal(true);
+							}}
+						>
+							Excluir Anúncio
+						</Button>
 					</div>
 					<div className="lg:w-[40%]">
-						<Button
-							type={!isDirty || !isValid ? "disableBland" : "brand"}
-							submit
-							disable={!isDirty || !isValid}
-						>
+						<Button type="brand" submit>
 							{!btnLoading ? (
 								"Salvar Alterações"
 							) : (

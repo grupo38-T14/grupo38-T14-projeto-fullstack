@@ -3,8 +3,7 @@ import Image from "next/image";
 import { useAdverts } from "@/hooks/advertHook";
 import nookies from "nookies";
 
-const ProfilePage = () => {
-	//Erros console
+const ProfilePageViewUser = () => {
 	const {
 		getProfileAdverts,
 		profileUserAdverts,
@@ -153,4 +152,4 @@ const ProfilePage = () => {
 	);
 };
 
-export default ProfilePage;
+export default ProfilePageViewUser;

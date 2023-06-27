@@ -31,7 +31,6 @@ const Input = ({
 	register,
 	error,
 	valueInput,
-	...rest
 }: iInputProps) => {
 	const maskedTypes = ["cpf", "phone", "coin"];
 	const masked = {
@@ -60,7 +59,6 @@ const Input = ({
                 input-placeholder
                 reset-appearence
                 "
-							{...rest}
 						/>
 					) : (
 						<MaskedInput

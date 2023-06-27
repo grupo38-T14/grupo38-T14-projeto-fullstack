@@ -85,13 +85,21 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		}
 	};
 
-	const deleteAdvert = async (id: string) => {
-		await api
-			.delete(`adverts/${id}`)
-			.then((res) => retrieveAdvert())
-			.catch((err) => console.error(err));
+	const deleteAdvert = async (
+		id: string,
+		setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
+	) => {
+		try {
+			await api.delete(`adverts/${id}`);
+			await retrieveAdvert();
+			Notify({ type: "success", message: "Anúncio excluído com sucesso!" });
+			setOpenDeleteModal(false);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 	const updateAdvert = async (
+		id: string,
 		data: updateAdvertType,
 		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -115,7 +123,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		};
 		try {
 			setBtnLoading(true);
-			const { data } = await api.post(`adverts/`, newData);
+			const { data } = await api.patch(`adverts/${id}`, newData);
 			setOpenModal(false);
 			router.refresh();
 			Notify({ type: "success", message: "Anúncio atualizado com sucesso!" });
@@ -254,7 +262,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			await getProfile(profileId);
 			await getProfileAdverts(profileId);
 		})();
-	}, [profileId]);
+	}, [profileId, deleteAdvert]);
 
 	return (
 		<AdvertsContext.Provider

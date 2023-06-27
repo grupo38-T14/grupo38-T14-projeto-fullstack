@@ -6,13 +6,15 @@ import FormCreateAdverts from "@/components/forms/formCreateAdverts";
 import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
 import { useState } from "react";
-import nookies from "nookies";
+import nookies, { setCookie } from "nookies";
 import { FormUpdateAdvert } from "@/components/forms/formEditAdvert";
+import ModalDeleteAdvert from "@/components/Modal/modalDeleteAdvert";
 
-const ProfilePage = () => {
+const ProfilePageViewAdmin = () => {
 	const router = useRouter();
 	const [openModal, setOpenModal] = useState(false);
 	const [openUpdateModal, setOpenUpdateModal] = useState(false);
+	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const {
 		getProfileAdverts,
 		profileUserAdverts,
@@ -31,6 +33,14 @@ const ProfilePage = () => {
 
 	const cookies = nookies.get(null, "profile.id");
 	setProfileId(cookies["profile.id"]);
+
+	const saveAdvertIdAndOpenUpdateModal = (id: string) => {
+		setCookie(null, "updateAdvert.id", id, {
+			maxAge: 60 * 30,
+			path: "/",
+		});
+		setOpenUpdateModal(true);
+	};
 
 	return (
 		<main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
@@ -132,7 +142,9 @@ const ProfilePage = () => {
 													<Button
 														size={2}
 														type="outline1"
-														handle={() => setOpenUpdateModal(true)}
+														handle={() =>
+															saveAdvertIdAndOpenUpdateModal(advert.id)
+														}
 													>
 														Editar
 													</Button>
@@ -198,7 +210,15 @@ const ProfilePage = () => {
 				</section>
 				{openUpdateModal && (
 					<Modal setOpenUpdateModal={setOpenUpdateModal}>
-						<FormUpdateAdvert setOpenUpdateModal={setOpenUpdateModal} />
+						<FormUpdateAdvert
+							setOpenUpdateModal={setOpenUpdateModal}
+							setOpenDeleteModal={setOpenDeleteModal}
+						/>
+					</Modal>
+				)}
+				{openDeleteModal && (
+					<Modal setOpenDeleteModal={setOpenDeleteModal}>
+						<ModalDeleteAdvert setOpenDeleteModal={setOpenDeleteModal} />
 					</Modal>
 				)}
 			</>
@@ -206,4 +226,4 @@ const ProfilePage = () => {
 	);
 };
 
-export default ProfilePage;
+export default ProfilePageViewAdmin;
