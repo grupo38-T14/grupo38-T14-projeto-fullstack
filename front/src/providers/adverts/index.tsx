@@ -223,6 +223,23 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		})();
 	}, [profileId]);
 
+
+	const createComment = async (newComment: string) => {
+		const request = {
+			comment: newComment
+		}
+		try {
+			console.log(request)
+			// ficará faltando conectar na rota de comentar
+			// const res = await api.post("", request)
+			Notify({type: "success", message: "Comentário feito com sucesso!"})
+			// possivelmente será necessário dar um refresh na página
+		} catch (error) {
+			console.log(error)
+			Notify({type: "error", message: "Ops! Algo deu errado, tente novamente."})
+		}
+	}
+
 	return (
 		<AdvertsContext.Provider
 			value={{
@@ -249,6 +266,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 				profileUser,
 				profileId,
 				setProfileId,
+				createComment
 			}}
 		>
 			{children}

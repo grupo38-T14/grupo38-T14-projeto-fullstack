@@ -1,43 +1,36 @@
 "use client";
+
 import Button from "@/components/button";
 import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { api } from "@/service";
 import Image from "next/image";
 import { useUser } from "@/hooks/userHook";
-import { useRouter } from "next/navigation";
-import nookies, { setCookie } from "nookies";
+import { useAdverts } from "@/hooks/advertHook";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import ImageProfile from "@/components/imageProfile";
+import CommentCard from "@/components/commentCard";
 
-interface IPageProps {
-  params: { id: string };
-}
+const Advert = () => {
+  const params = useParams();
+  const [advert, setAdvert] = useState<retrieveAdvertType>(
+    {} as retrieveAdvertType
+  );
+  const [commentCurrent, setCommentCurrent] = useState("");
 
-const getCookies = () => {
-  const cookieId = nookies.get(null, "user.id");
-  return cookieId;
-};
+  const { pageProfile } = useUser();
+  const { createComment } = useAdverts();
 
-export const revalidate = 30;
+  useEffect(() => {
+    (async () => {
+      const { data } = await api.get<retrieveAdvertType>(
+        `adverts/${params.id}`
+      );
+      setAdvert(data);
+    })();
+  }, [params.id]);
 
-const Advert = async ({ params }: IPageProps) => {
-  const router = useRouter();
-  const { getInitials, user } = useUser();
-  const advert: retrieveAdvertType = await api
-    .get(`adverts/${params.id}`)
-    .then((res) => res.data);
-
-  const cookieId = getCookies();
-
-  const pageProfile = () => {
-    setCookie(null, "profile.id", advert.userId, {
-      maxAge: 60 * 30,
-      path: "/",
-    });
-    if (cookieId["user.id"] == advert.userId) {
-      router.push(`/profileViewAdmin/`);
-    } else {
-      router.push(`/profileViewUser/`);
-    }
-  };
+  const tags = ["Gostei muito!", "Incrível", "Recomendarei para meus amigos"];
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile md:bg-gradient">
@@ -45,13 +38,15 @@ const Advert = async ({ params }: IPageProps) => {
         <div className="flex flex-col lg:flex-row gap-4 items-center lg:items-start lg:justify-center ">
           <div className="flex flex-col gap-4 items-center justify-center">
             <div className="max-w-[752px] w-full max-h-[355px] h-full bg-white flex flex-col gap-4 items-center justify-center rounded">
-              <Image
-                src={advert.image_cape!}
-                alt={`Imagem do carro ${advert.model}`}
-                width={290}
-                height={250}
-                className="max-w-[441px] w-[250px] md:w-full py-8 md:py-14"
-              />
+              {advert.image_cape && (
+                <Image
+                  src={advert.image_cape!}
+                  alt={`Imagem do carro ${advert.model}`}
+                  width={290}
+                  height={250}
+                  className="max-w-[441px] w-[250px] md:w-full py-8 md:py-14"
+                />
+              )}
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
               <div className=" flex flex-col gap-9">
@@ -67,17 +62,9 @@ const Advert = async ({ params }: IPageProps) => {
                   </div>
                   <p className="h7 text-gray-10">R$ {advert.price},00</p>
                 </div>
-                <div className="w-24 h-9">
-                  {user ? (
-                    <Button type="brand" size={2}>
-                      Comprar
-                    </Button>
-                  ) : (
-                    <Button disable type="disable" size={2}>
-                      Comprar
-                    </Button>
-                  )}
-                </div>
+                <button className='bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-9 text-md" button-base w-24 px-5'>
+                  Comprar
+                </button>
               </div>
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
@@ -107,26 +94,13 @@ const Advert = async ({ params }: IPageProps) => {
               </div>
             </div>
             <div className="flex flex-col max-w-[440px] w-full gap-7 items-center bg-white p-8 rounded">
-              {advert.user.avatar_url ? (
-                <Image
-                  key={advert.user.id}
-                  src={advert.user.avatar_url}
-                  alt={`Imagem do anúncio ${advert.user.id}`}
-                  width={77}
-                  height={77}
-                  className="rounded-full"
-                />
-              ) : (
-                <p className="rounded-full bg-brand-1 text-white text-xl md:text-3xl flex items-center justify-center w-[77px] h-[77px] md:h-[104px] md:w-[104px]">
-                  {getInitials(advert.user.name)}
-                </p>
-              )}
-              <h6 className="text-gray-0">{advert.user.name}</h6>
+              <ImageProfile user={advert.user && advert.user} size={1} />
+              <h6 className="text-gray-0">{advert.user && advert.user.name}</h6>
               <p className="text-gray-20 text-justify md:text-center">
-                {advert.user.description?.slice(0, 130)}...
+                {advert.user && advert.user.description?.slice(0, 130)}...
               </p>
 
-              <Button type="grey0" handle={() => pageProfile()}>
+              <Button type="grey0" handle={() => pageProfile(advert)}>
                 Ver todos anúncios
               </Button>
             </div>
@@ -135,7 +109,6 @@ const Advert = async ({ params }: IPageProps) => {
         <div className="max-w-[752px] w-full py-9 pl-7 pr-10 h-full bg-white flex flex-col gap-4 justify-center rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
           <h6 className="text-gray-10 pb-6">Comentários</h6>
           <div className="flex flex-col gap-11">
-            {/* {advert.comments?.map((comment) => ( */}
             <div className="flex flex-col gap-4 ">
               <header className="flex gap-2 items-center">
                 <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
@@ -153,7 +126,6 @@ const Advert = async ({ params }: IPageProps) => {
                 galley of type and scrambled it to make a type specimen book.
               </p>
             </div>
-
             <div className="flex flex-col gap-4 ">
               <header className="flex gap-2 items-center">
                 <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
@@ -173,7 +145,6 @@ const Advert = async ({ params }: IPageProps) => {
                 galley of type and scrambled it to make a type specimen book.
               </p>
             </div>
-
             <div className="flex flex-col gap-4 ">
               <header className="flex gap-2 items-center">
                 <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
@@ -191,62 +162,60 @@ const Advert = async ({ params }: IPageProps) => {
                 galley of type and scrambled it to make a type specimen book.
               </p>
             </div>
-            {/* ))} */}
+            {advert.comments &&
+              advert.comments?.map((comment, index) => (
+                <CommentCard comment={comment} key={index} />
+              ))}
           </div>
         </div>
       </section>
       <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
         <header className="flex gap-2 items-center">
-          <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-            JL
+          <ImageProfile user={advert.user && advert.user} size={2} />
+          <p className="text-gray-10 body-2 font-medium">
+            {advert.user && advert.user.name}
           </p>
-          <p className="text-gray-10 body-2 font-medium">Julia Lima</p>
         </header>
         <div className="md:relative">
           <textarea
             placeholder="Carro muito confortável, foi uma ótima experiência de compra..."
             className="  
-            body-1
-            w-full
-            h-32
-            px-4
-            py-2
-            border-2 
-            border-gray-70 
-            hover:border-gray-80 
-            rounded 
-            input-placeholder
-            outline-none
-            focus:border-brand-1
-            focus:text-brand-1
-            resize-none
-            mb-6
-            md:mb-0
-            
-          "
+					body-1
+					w-full
+					h-32
+					px-4
+					py-2
+					border-2 
+					border-gray-70 
+					hover:border-gray-80 
+					rounded 
+					input-placeholder
+					outline-none
+					focus:border-brand-1
+					focus:text-brand-1
+					resize-none
+					mb-6
+					md:mb-0
+					
+				  "
+            onChange={(e) => setCommentCurrent(e.target.value)}
           />
-          <div className="h-[38px] w-[108px] mb-6  md:absolute md:right-3 md:bottom-0">
-            {user ? (
-              <Button type="brand" size={2}>
-                Comentar
-              </Button>
-            ) : (
-              <Button disable type="disable" size={2}>
-                Comentar
-              </Button>
-            )}
-          </div>
+          <button
+            className='mb-6 bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-[38px] text-md" button-base w-24 px-5 md:absolute right-3 bottom-0'
+            onClick={() => createComment(commentCurrent)}
+          >
+            Comentar
+          </button>
         </div>
         <div className="flex flex-wrap gap-2">
-          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
-            Gostei muito!
-          </p>
-          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
-            Incrível
-          </p>
-          <p className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30">
-            Recomendarei para meus amigos
-          </p>
+          {tags.map((tag, index) => (
+            <p
+              className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30"
+              key={index}
+            >
+              {tag}
+            </p>
+          ))}
         </div>
       </section>
     </main>

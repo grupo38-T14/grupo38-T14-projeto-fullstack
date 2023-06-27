@@ -2,11 +2,12 @@
 
 import Notify from "@/components/notify";
 import { editAddressType, retrieveAddressType } from "@/schemas/address.schema";
+import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { editUserType, retrieveUser } from "@/schemas/user.schema";
 import { UserContextProps, UserProviderProps } from "@/schemas/userContext";
 import { api } from "@/service";
 import { useRouter } from "next/navigation";
-import { destroyCookie, parseCookies } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, useEffect, useState } from "react";
 
 export const UserContext = createContext({} as UserContextProps);
@@ -25,6 +26,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   useEffect(() => {
     if (cookies["user.token"]) {
+      api.defaults.headers.common.authorization = `Bearer ${cookies["user.token"]}`;
       setCookieId(cookies["user.id"]);
       setCookieToken(cookies["user.token"]);
       getProfile(cookies["user.id"]);
@@ -32,8 +34,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUser(undefined);
       setUserAddress(undefined);
     }
-    setLoading(false);
-  }, [cookies, user]);
+  }, [cookies]);
 
   const getInitials = (name: string) => {
     const firstLetter = name[0];
@@ -48,6 +49,28 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUserAddress(res.data.address);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const getUser = async (id: string): Promise<retrieveUser | undefined> => {
+    try {
+      const { data } = await api.get(`users/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  const pageProfile = (advert: retrieveAdvertType) => {
+    setCookie(null, "profile.id", advert.userId, {
+      maxAge: 60 * 30,
+      path: "/",
+    });
+    if (cookies["user.id"] == advert.userId) {
+      router.push(`/profileViewAdmin/`);
+    } else {
+      router.push(`/profileViewUser/`);
     }
   };
 
@@ -100,6 +123,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       .catch((error) => console.error(error))
       .finally(() => setBtnLoading(false));
   };
+
   const editAddress = async (
     userId: string,
     data: editAddressType,
@@ -136,7 +160,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         editUser,
         deleteUser,
         editAddress,
-        loading,
+        pageProfile,
+        getUser,
       }}
     >
       {children}
