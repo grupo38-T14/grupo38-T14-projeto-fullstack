@@ -11,9 +11,16 @@ import {
   CreateNewPasswordSchema,
   CreateNewPasswordData,
 } from "@/schemas/recoveryPassword.schema";
+import { useAuth } from "@/hooks/authHook";
 
-const FormCreateNewPassword = () => {
+export interface FormCreateNewPassword {
+  token: string;
+}
+
+const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
+  const { createNewPassword } = useAuth();
   const [btnLoading, setBtnLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -24,8 +31,8 @@ const FormCreateNewPassword = () => {
 
   const handleNewPassword = (data: CreateNewPasswordData) => {
     console.log(data);
-    setBtnLoading(true);
-    setTimeout(() => {}, 1000);
+    createNewPassword(data, token);
+    console.log(token);
   };
 
   return (
@@ -34,7 +41,7 @@ const FormCreateNewPassword = () => {
         <form
           className="flex flex-col gap-6"
           noValidate
-          onChange={handleSubmit(handleNewPassword)}
+          onSubmit={handleSubmit(handleNewPassword)}
         >
           <Input
             label="Digite seu nova senha "
@@ -63,9 +70,9 @@ const FormCreateNewPassword = () => {
           />
 
           <Button
-            type={!isDirty || !isValid ? "disableBland" : "brand"}
+            type={/*!isDirty || !isValid ? "disableBland" : */ "brand"}
             submit
-            disable={!isDirty || !isValid}
+            // disable={!isDirty || !isValid}
           >
             {!btnLoading ? (
               "Redefinir senha"
