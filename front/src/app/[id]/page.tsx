@@ -18,7 +18,7 @@ const Advert = () => {
   );
   const [commentCurrent, setCommentCurrent] = useState("");
 
-  const { pageProfile } = useUser();
+  const { pageProfile, user } = useUser();
   const { createComment } = useAdverts();
 
   useEffect(() => {
@@ -62,9 +62,17 @@ const Advert = () => {
                   </div>
                   <p className="h7 text-gray-10">R$ {advert.price},00</p>
                 </div>
-                <button className='bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-9 text-md" button-base w-24 px-5'>
-                  Comprar
-                </button>
+                <div className="w-28">
+                  {user ? (
+                    <Button type="brand" size={2}>
+                      Comprar
+                    </Button>
+                  ) : (
+                    <Button type="disableBland" size={2} disable>
+                      Comprar
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
@@ -200,12 +208,21 @@ const Advert = () => {
 				  "
             onChange={(e) => setCommentCurrent(e.target.value)}
           />
-          <button
-            className='mb-6 bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-[38px] text-md" button-base w-24 px-5 md:absolute right-3 bottom-0'
-            onClick={() => createComment(commentCurrent)}
-          >
-            Comentar
-          </button>
+          <div className="mb-6 h-[38px] w-24 md:absolute right-6 bottom-0">
+            {user ? (
+              <Button
+                type="brand"
+                handle={() => createComment(commentCurrent)}
+                size={2}
+              >
+                Comentar
+              </Button>
+            ) : (
+              <Button type="disableBland" size={2} disable>
+                Comentar
+              </Button>
+            )}
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag, index) => (

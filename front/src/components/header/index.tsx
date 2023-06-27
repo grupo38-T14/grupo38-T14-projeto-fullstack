@@ -34,7 +34,6 @@ export default function Header() {
       if (!ref.current) {
         return;
       }
-
       if (!event.target) {
         return;
       }
@@ -86,7 +85,13 @@ export default function Header() {
       )}
 
       <figure>
-        <Image src={motors_logo} alt="motors shop logo" width={150} />
+        <Image
+          src={motors_logo}
+          alt="motors shop logo"
+          width={150}
+          onClick={() => router.push("/")}
+          className="cursor-pointer"
+        />
       </figure>
 
       <button
@@ -142,6 +147,7 @@ export default function Header() {
                 <span className="text-base font-normal">{user.name}</span>
               </div>
               <div
+                id="menuUser"
                 className={`sm:${
                   !openMenu && "hidden"
                 } sm:max-w-[200px] text-base font-normal text-gray-20 sm:absolute top-14 z-10 bg-white mt-2 sm:p-6 flex flex-col gap-4 rounded sm:shadow-inner`}

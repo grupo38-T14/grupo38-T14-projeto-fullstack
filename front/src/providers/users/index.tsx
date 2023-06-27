@@ -34,6 +34,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUser(undefined);
       setUserAddress(undefined);
     }
+    setLoading(false);
   }, [cookies]);
 
   const getInitials = (name: string) => {
@@ -162,6 +163,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         editAddress,
         pageProfile,
         getUser,
+        loading,
       }}
     >
       {children}
