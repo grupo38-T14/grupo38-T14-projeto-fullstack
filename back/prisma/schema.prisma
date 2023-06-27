@@ -67,9 +67,9 @@ model Advert {
 }
 
 model Comments {
-  id         String @id
+  id         String @id @default(uuid())
   comment    String
-  created_at String
+  created_at DateTime @default(now())
   user       Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   advert     Advert @relation(fields: [advertId], references: [id], onDelete: Cascade)
