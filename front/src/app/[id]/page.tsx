@@ -18,7 +18,7 @@ const Advert = () => {
   );
   const [commentCurrent, setCommentCurrent] = useState("");
 
-  const { pageProfile } = useUser();
+  const { pageProfile, user } = useUser();
   const { createComment } = useAdverts();
 
   useEffect(() => {
@@ -38,13 +38,15 @@ const Advert = () => {
         <div className="flex flex-col lg:flex-row gap-4 items-center lg:items-start lg:justify-center ">
           <div className="flex flex-col gap-4 items-center justify-center">
             <div className="max-w-[752px] w-full max-h-[355px] h-full bg-white flex flex-col gap-4 items-center justify-center rounded">
-              {advert.image_cape && <Image
-                src={advert.image_cape!}
-                alt={`Imagem do carro ${advert.model}`}
-                width={290}
-                height={250}
-                className="max-w-[441px] w-[250px] md:w-full py-8 md:py-14"
-              />}
+              {advert.image_cape && (
+                <Image
+                  src={advert.image_cape!}
+                  alt={`Imagem do carro ${advert.model}`}
+                  width={290}
+                  height={250}
+                  className="max-w-[441px] w-[250px] md:w-full py-8 md:py-14"
+                />
+              )}
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
               <div className=" flex flex-col gap-9">
@@ -60,9 +62,17 @@ const Advert = () => {
                   </div>
                   <p className="h7 text-gray-10">R$ {advert.price},00</p>
                 </div>
-                <button className='bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-9 text-md" button-base w-24 px-5'>
-                  Comprar
-                </button>
+                <div className="w-28">
+                  {user ? (
+                    <Button type="brand" size={2}>
+                      Comprar
+                    </Button>
+                  ) : (
+                    <Button type="disableBland" size={2} disable>
+                      Comprar
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
             <div className="max-w-[752px] w-full bg-white p-7 rounded">
@@ -92,7 +102,7 @@ const Advert = () => {
               </div>
             </div>
             <div className="flex flex-col max-w-[440px] w-full gap-7 items-center bg-white p-8 rounded">
-              <ImageProfile user={advert.user && advert.user} size={1}/>
+              <ImageProfile user={advert.user && advert.user} size={1} />
               <h6 className="text-gray-0">{advert.user && advert.user.name}</h6>
               <p className="text-gray-20 text-justify md:text-center">
                 {advert.user && advert.user.description?.slice(0, 130)}...
@@ -169,8 +179,10 @@ const Advert = () => {
       </section>
       <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
         <header className="flex gap-2 items-center">
-          <ImageProfile user={advert.user && advert.user} size={2}/>
-          <p className="text-gray-10 body-2 font-medium">{advert.user && advert.user.name}</p>
+          <ImageProfile user={advert.user && advert.user} size={2} />
+          <p className="text-gray-10 body-2 font-medium">
+            {advert.user && advert.user.name}
+          </p>
         </header>
         <div className="md:relative">
           <textarea
@@ -196,9 +208,21 @@ const Advert = () => {
 				  "
             onChange={(e) => setCommentCurrent(e.target.value)}
           />
-          <button className='mb-6 bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 h-[38px] text-md" button-base w-24 px-5 md:absolute right-3 bottom-0' onClick={() => createComment(commentCurrent)}>
-            Comentar
-          </button>
+          <div className="mb-6 h-[38px] w-24 md:absolute right-6 bottom-0">
+            {user ? (
+              <Button
+                type="brand"
+                handle={() => createComment(commentCurrent)}
+                size={2}
+              >
+                Comentar
+              </Button>
+            ) : (
+              <Button type="disableBland" size={2} disable>
+                Comentar
+              </Button>
+            )}
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag, index) => (

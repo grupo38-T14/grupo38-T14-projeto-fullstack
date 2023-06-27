@@ -20,6 +20,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [cookieId, setCookieId] = useState<string | undefined>(undefined);
   const [cookieToken, setCookieToken] = useState<string | undefined>(undefined);
   const [initialsUser, setInitialsUser] = useState("");
+  const [loading, setLoading] = useState(true);
   const cookies = parseCookies();
   const router = useRouter();
 
@@ -33,6 +34,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUser(undefined);
       setUserAddress(undefined);
     }
+    setLoading(false);
   }, [cookies]);
 
   const getInitials = (name: string) => {
@@ -57,7 +59,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       return data;
     } catch (error) {
       console.log(error);
-	  return
+      return;
     }
   };
 
@@ -160,7 +162,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         deleteUser,
         editAddress,
         pageProfile,
-		getUser
+        getUser,
+        loading,
       }}
     >
       {children}

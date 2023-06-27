@@ -25,9 +25,10 @@ export interface UserContextProps {
     userId: string,
     data: editAddressType,
     loading: React.Dispatch<React.SetStateAction<boolean>>
-  ) => Promise<void>
-  pageProfile: (advert: retrieveAdvertType) => void
-  getUser: (id: string) => Promise<retrieveUser | undefined>
+  ) => Promise<void>;
+  loading: boolean;
+  pageProfile: (advert: retrieveAdvertType) => void;
+  getUser: (id: string) => Promise<retrieveUser | undefined>;
 }
 
 export interface UserProviderProps {
