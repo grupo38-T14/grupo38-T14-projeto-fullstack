@@ -1,60 +1,62 @@
-import Button from "@/components/button";
-import Input from "@/components/inputs";
-import Select from "@/components/select";
-import TextArea from "@/components/textArea";
-import { useAdverts } from "@/hooks/advertHook";
-import {
-	createAdvertType,
-	requestAdvertType,
-	schemaRequestAdvert,
-} from "@/schemas/advert.schema";
-import { Car, getBrands, getCarsByBrands } from "@/service/kenzieCarts";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Select from "@/components/select";
+import Input from "@/components/inputs";
+import TextArea from "@/components/textArea";
+import Button from "@/components/button";
+import { useEffect, useState } from "react";
+import { Car, getBrands, getCarsByBrands } from "@/service/kenzieCarts";
 import { RiLoader4Line } from "react-icons/ri";
+import { useAdverts } from "@/hooks/advertHook";
+import nookies from "nookies";
+import {
+	requestUpdateAdvertPartialType,
+	retrieveAdvertType,
+	schemaUpdateRequestAdvert,
+} from "@/schemas/advert.schema";
+import { api } from "@/service";
 
-interface FormCreateAdvertsProps {
-	setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+//TESTAR ----- Criar tipagem Schema para o useForm
+//TESTAR ----- Colocar lógica da função handleEditAdvert
+//TESTAR ----- Criar tipagem para o data da função handleEditAdvert
+//TESTAR ----- Criar função editAdvert no contexto de advert
+//TESTAR ----- Recuperar id do anúncio e passar como parâmetro da função updateAdvert
+//TESTAR ----- Colocar lógica no botão para abrir modal de edição -> testar também os dois modais, de criação e edição
+//Serialização não está sendo feita corretamente. Não está excluindo os campos que não tem dados
+//Criar modal de confirmação de exclusão de anúncio
+
+interface FormUpdateAdvertsProps {
+	setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
+	setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
+export const FormUpdateAdvert = ({
+	setOpenUpdateModal,
+	setOpenDeleteModal,
+}: FormUpdateAdvertsProps) => {
 	const [numImageGallery, setNumImageGallery] = useState([1, 2]);
 	const [cars, setCars] = useState<Car[]>([]);
 	const [selectCar, setSelectCar] = useState<Car>({} as Car);
 	const [brands, setBrands] = useState<string[]>([]);
 	const [btnLoading, setBtnLoading] = useState(false);
+	/* 	const [updateAdvertData, setUpdateAdvertData] =
+		useState<retrieveAdvertType>(); */
+
+	const { updateAdvert } = useAdverts();
 
 	const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
-	const { createAdvert } = useAdverts();
+	const cookies = nookies.get(null, "updateAdvert.id");
+	const advertId = cookies["updateAdvert.id"];
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isDirty, isValid },
-	} = useForm<requestAdvertType>({
-		resolver: zodResolver(schemaRequestAdvert),
+		formState: { errors },
+		setValue,
+	} = useForm<requestUpdateAdvertPartialType>({
+		resolver: zodResolver(schemaUpdateRequestAdvert),
 	});
-
-	const handleCreateAdvert = async (data: requestAdvertType) => {
-		const price = Number(data.price.replace(/[^0-9]+/g, ""));
-		const km = Number(data.km.replace(".", ""));
-
-		createAdvert(
-			{
-				...data,
-				fuel: fuelsFields[selectCar.fuel],
-				table_fipe_price: selectCar.value,
-				price: price,
-				year: +selectCar.year,
-				km: km,
-			},
-			setOpenModal,
-			setBtnLoading
-		);
-	};
-
 	const handleGetCars = async (brand: string) => {
 		setCars(await getCarsByBrands(brand));
 	};
@@ -63,21 +65,58 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 		setSelectCar(cars.find((car) => car.name == name)!);
 	};
 
+	const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
+		const price = Number(data.price?.replace(/[^0-9]+/g, ""));
+		const km = Number(data.km?.replace(".", ""));
+		const year = Number(data.year);
+		const is_active = data.is_active ? "Ativo" : "Inativo";
+		console.log(data);
+		updateAdvert(
+			advertId,
+			{
+				...data,
+				fuel: fuelsFields[selectCar.fuel],
+				table_fipe_price: selectCar.value,
+				price: price,
+				year: year,
+				km: km,
+				is_active: is_active,
+			},
+			setOpenUpdateModal,
+			setBtnLoading
+		);
+	};
+
 	useEffect(() => {
 		(async () => {
 			const retrieveBrand = await getBrands();
 			setBrands(retrieveBrand);
+			await api.get(`adverts/${advertId}`).then((res) => {
+				setValue("brand", res.data.brand);
+				setValue("model", res.data.model);
+				setValue("year", String(res.data.year));
+				setValue("fuel", res.data.fuel);
+				setValue("km", String(res.data.km));
+				setValue("color", res.data.color);
+				setValue("table_fipe_price", String(res.data.table_fipe_price));
+				setValue("price", String(res.data.price));
+				setValue("description", res.data.description);
+				setValue("is_active", res.data.is_active ? "Ativo" : "Inativo");
+				setValue("image_cape", res.data.image_cape);
+				setValue("image_gallery1", undefined);
+				setValue("image_gallery2", undefined);
+			});
 		})();
-	}, []);
+	}, [setValue]);
 
 	return (
-		<div className="flex flex-col gap-4">
-			<p className="h7">Criar anuncio</p>
-			<span className="body-2">Infomações do veículo</span>
+		<section className="flex flex-col gap-4">
+			<p className="h7">Editar anúncio</p>
+			<p className="body-2">Informações do anúncio</p>
 			<form
 				noValidate
 				className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px] pr-2"
-				onSubmit={handleSubmit(handleCreateAdvert)}
+				onSubmit={handleSubmit(handleEditAdvert)}
 			>
 				<Select
 					label="Marca"
@@ -161,6 +200,14 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 					register={register("description")}
 					error={errors.description && errors.description.message}
 				/>
+				<Select
+					label="Status do anúncio"
+					options={["Ativo", "Inativo"]}
+					optionDefault="Selecione uma opção"
+					register={register("is_active")}
+					error={errors.is_active && errors.is_active.message}
+				/>
+				<div className="flex flex-col gap-6"></div>
 				<Input
 					label="Imagem de capa"
 					placeholder="https://image.com"
@@ -212,19 +259,21 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 					)}
 				</div>
 				<div className="flex flex-col lg:flex-row justify-end gap-2">
-					<div className="lg:w-fit">
-						<Button type="negative" handle={() => setOpenModal(false)}>
-							Cancelar
+					<div className="lg:w-[60%]">
+						<Button
+							type="grey6"
+							handle={() => {
+								setOpenUpdateModal(false);
+								setOpenDeleteModal(true);
+							}}
+						>
+							Excluir Anúncio
 						</Button>
 					</div>
 					<div className="lg:w-[40%]">
-						<Button
-							type={!isDirty || !isValid ? "disableBland" : "brand"}
-							submit
-							disable={!isDirty || !isValid}
-						>
+						<Button type="brand" submit>
 							{!btnLoading ? (
-								"Criar anúncio"
+								"Salvar Alterações"
 							) : (
 								<RiLoader4Line
 									size={30}
@@ -236,8 +285,8 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 					</div>
 				</div>
 			</form>
-		</div>
+		</section>
 	);
 };
 
-export default FormCreateAdverts;
+export default FormUpdateAdvert;

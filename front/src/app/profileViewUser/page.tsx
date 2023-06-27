@@ -3,16 +3,15 @@ import Image from "next/image";
 import { useAdverts } from "@/hooks/advertHook";
 import nookies from "nookies";
 
-const ProfilePage = () => {
-  //Erros console
-  const {
-    getProfileAdverts,
-    profileUserAdverts,
-    profileUser,
-    loading,
-    profileId,
-    setProfileId,
-  } = useAdverts();
+const ProfilePageViewUser = () => {
+	const {
+		getProfileAdverts,
+		profileUserAdverts,
+		profileUser,
+		loading,
+		profileId,
+		setProfileId,
+	} = useAdverts();
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -153,4 +152,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default ProfilePageViewUser;

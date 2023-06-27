@@ -17,8 +17,8 @@ import { retrieveUser } from "@/schemas/user.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import nookies, { parseCookies } from "nookies";
-import { createContext, useEffect, useState, ChangeEvent } from "react";
+import nookies from "nookies";
+import { createContext, useEffect, useState } from "react";
 
 export const AdvertsContext = createContext<AdvertsContextValues>(
 	{} as AdvertsContextValues
@@ -85,17 +85,58 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		}
 	};
 
-	const deleteAdvert = async (id: string) => {
-		await api
-			.delete(`adverts/${id}`)
-			.then((res) => retrieveAdvert())
-			.catch((err) => console.error(err));
+	const deleteAdvert = async (
+		id: string,
+		setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
+	) => {
+		try {
+			await api.delete(`adverts/${id}`);
+			await retrieveAdvert();
+			Notify({ type: "success", message: "Anúncio excluído com sucesso!" });
+			setOpenDeleteModal(false);
+		} catch (error) {
+			console.error(error);
+		}
 	};
-	const updateAdvert = async (id: string, data: updateAdvertType) => {
-		await api
-			.patch(`adverts/${id}`, data)
-			.then((res) => retrieveAdvert())
-			.catch((err) => console.error(err));
+	const updateAdvert = async (
+		id: string,
+		data: updateAdvertType,
+		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+	) => {
+		const {
+			image_gallery1,
+			image_gallery2,
+			image_gallery3,
+			image_gallery4,
+			...rest
+		} = data;
+
+		const newData = {
+			...rest,
+			imagesGallery: [
+				image_gallery1,
+				image_gallery2,
+				image_gallery3,
+				image_gallery4,
+			],
+		};
+		try {
+			setBtnLoading(true);
+			const { data } = await api.patch(`adverts/${id}`, newData);
+			setOpenModal(false);
+			router.refresh();
+			Notify({ type: "success", message: "Anúncio atualizado com sucesso!" });
+		} catch (error) {
+			const err = error as AxiosError;
+			console.log(err);
+			Notify({
+				type: "error",
+				message: "Ops! algo deu errado. Tente novamente!",
+			});
+		} finally {
+			setBtnLoading(false);
+		}
 	};
 	const retrieveUniqueAdvert = async (id: string) => {
 		await api
@@ -221,7 +262,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			await getProfile(profileId);
 			await getProfileAdverts(profileId);
 		})();
-	}, [profileId]);
+	}, [profileId, deleteAdvert]);
 
 
 	const createComment = async (newComment: string) => {
