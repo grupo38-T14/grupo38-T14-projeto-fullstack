@@ -114,12 +114,14 @@ export default function Header() {
         />
       </button>
       {loading ? (
-        <RiLoader4Line size={30} color="#fff" className="animate-spin" />
+        <div className="sm:w-64 sm:h-full sm:flex sm:flex-row sm:justify-center sm:items-center sm:gap-4 sm:border-l-2">
+          <RiLoader4Line size={30} color="#4529e6" className="animate-spin" />
+        </div>
       ) : (
         <span
           className={`${!menuDrop && "hidden"}
-                w-full h-40 
-                absolute bottom-[-10rem] left-0 
+                w-full h-48 
+                absolute bottom-[-12rem] left-0 
                 flex flex-col items-center justify-around 
                 bg-white text-gray-0 font-semibold
                 sm:w-64 sm:h-full sm:static

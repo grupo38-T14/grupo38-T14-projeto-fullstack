@@ -19,12 +19,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [cookieId, setCookieId] = useState<string | undefined>(undefined);
   const [cookieToken, setCookieToken] = useState<string | undefined>(undefined);
   const [initialsUser, setInitialsUser] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const cookies = parseCookies();
   const router = useRouter();
 
   useEffect(() => {
-    setLoading(true);
     if (cookies["user.token"]) {
       setCookieId(cookies["user.id"]);
       setCookieToken(cookies["user.token"]);
