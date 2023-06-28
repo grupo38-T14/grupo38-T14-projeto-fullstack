@@ -4,6 +4,7 @@ import {
   IsInt,
   IsEnum,
   IsOptional,
+  IsBoolean,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Fuel } from '@prisma/client';
@@ -90,6 +91,9 @@ export class CreateAdvertDto {
   @IsString()
   description: string;
 
+  @IsBoolean()
+  is_active: boolean = true;
+
   @ApiProperty({
     description: 'Car image',
     type: String,
@@ -99,5 +103,5 @@ export class CreateAdvertDto {
   image_cape: string;
 
   @IsOptional()
-  imagesGallery: string[]
+  imagesGallery: string[];
 }
