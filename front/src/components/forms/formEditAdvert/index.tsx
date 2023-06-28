@@ -13,17 +13,12 @@ import {
 	requestUpdateAdvertPartialType,
 	retrieveAdvertType,
 	schemaUpdateRequestAdvert,
+	updateAdvertType,
 } from "@/schemas/advert.schema";
 import { api } from "@/service";
 
-//TESTAR ----- Criar tipagem Schema para o useForm
-//TESTAR ----- Colocar lógica da função handleEditAdvert
-//TESTAR ----- Criar tipagem para o data da função handleEditAdvert
-//TESTAR ----- Criar função editAdvert no contexto de advert
-//TESTAR ----- Recuperar id do anúncio e passar como parâmetro da função updateAdvert
-//TESTAR ----- Colocar lógica no botão para abrir modal de edição -> testar também os dois modais, de criação e edição
-//Serialização não está sendo feita corretamente. Não está excluindo os campos que não tem dados
-//Criar modal de confirmação de exclusão de anúncio
+//MOSTRAR OS VALORES PADRÕES NO MODAL DE EDIÇÃO
+//Input preço e tabela FIPE estão estranhos
 
 interface FormUpdateAdvertsProps {
 	setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,8 +34,7 @@ export const FormUpdateAdvert = ({
 	const [selectCar, setSelectCar] = useState<Car>({} as Car);
 	const [brands, setBrands] = useState<string[]>([]);
 	const [btnLoading, setBtnLoading] = useState(false);
-	/* 	const [updateAdvertData, setUpdateAdvertData] =
-		useState<retrieveAdvertType>(); */
+	const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
 
 	const { updateAdvert } = useAdverts();
 
@@ -69,8 +63,16 @@ export const FormUpdateAdvert = ({
 		const price = Number(data.price?.replace(/[^0-9]+/g, ""));
 		const km = Number(data.km?.replace(".", ""));
 		const year = Number(data.year);
-		const is_active = data.is_active ? "Ativo" : "Inativo";
-		console.log(data);
+		const is_active = data.is_active === "Ativo" ? true : false;
+		setUpdateAdvertData({
+			...data,
+			fuel: fuelsFields[selectCar.fuel],
+			table_fipe_price: selectCar.value,
+			price: price,
+			year: year,
+			km: km,
+			is_active: is_active,
+		});
 		updateAdvert(
 			advertId,
 			{
@@ -105,6 +107,9 @@ export const FormUpdateAdvert = ({
 				setValue("image_cape", res.data.image_cape);
 				setValue("image_gallery1", undefined);
 				setValue("image_gallery2", undefined);
+				setValue("image_gallery3", undefined);
+				setValue("image_gallery4", undefined);
+				setUpdateAdvertData(res.data);
 			});
 		})();
 	}, [setValue]);
@@ -120,7 +125,7 @@ export const FormUpdateAdvert = ({
 			>
 				<Select
 					label="Marca"
-					optionDefault="Selecione a Marca"
+					optionDefault={updateAdvertData?.brand}
 					options={brands}
 					register={register("brand")}
 					error={errors.brand && errors.brand.message}
@@ -128,7 +133,7 @@ export const FormUpdateAdvert = ({
 				/>
 				<Select
 					label="Modelo"
-					optionDefault="Selecione o Modelo"
+					optionDefault={updateAdvertData?.model}
 					options={cars.map((car) => car.name)}
 					register={register("model")}
 					error={errors.model && errors.model.message}
@@ -146,7 +151,7 @@ export const FormUpdateAdvert = ({
 					<Select
 						label="Combustível"
 						options={["Eletrico", "Etanol", "Hibrido"]}
-						optionDefault={"Selecione uma opção"}
+						optionDefault={updateAdvertData?.fuel}
 						optionsValue={fuelsFields}
 						optionValueSelected={
 							!selectCar ? "ELECTRIC" : fuelsFields[selectCar.fuel]
@@ -162,10 +167,11 @@ export const FormUpdateAdvert = ({
 						type="number"
 						register={register("km")}
 						error={errors.km && errors.km.message}
+						valueInput={updateAdvertData?.km}
 					/>
 					<Select
 						label="Cor"
-						optionDefault="Selecione uma cor"
+						optionDefault={updateAdvertData?.color}
 						options={["Branco", "Vermelho", "Amarelo", "Prata"]}
 						register={register("color")}
 						error={errors.color && errors.color.message}
@@ -192,18 +198,20 @@ export const FormUpdateAdvert = ({
 						type="coin"
 						register={register("price")}
 						error={errors.price && errors.price.message}
+						valueInput={updateAdvertData?.price}
 					/>
 				</div>
 				<TextArea
 					label="Descrição"
-					placeholder="Digite a descrição do anúncio"
+					placeholder={updateAdvertData?.description}
 					register={register("description")}
 					error={errors.description && errors.description.message}
+					/* valueInput={updateAdvertData?.description} */
 				/>
 				<Select
 					label="Status do anúncio"
 					options={["Ativo", "Inativo"]}
-					optionDefault="Selecione uma opção"
+					optionDefault={updateAdvertData?.is_active ? "Ativo" : "Inativo"}
 					register={register("is_active")}
 					error={errors.is_active && errors.is_active.message}
 				/>
@@ -214,6 +222,7 @@ export const FormUpdateAdvert = ({
 					type="url"
 					register={register("image_cape")}
 					error={errors.image_cape && errors.image_cape.message}
+					valueInput={updateAdvertData?.image_cape}
 				/>
 				<div className="flex flex-col gap-5">
 					{numImageGallery.map((num, index) => {

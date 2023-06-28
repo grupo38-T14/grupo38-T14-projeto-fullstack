@@ -324,4 +324,5 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       {children}
     </AdvertsContext.Provider>
   );
+
 };

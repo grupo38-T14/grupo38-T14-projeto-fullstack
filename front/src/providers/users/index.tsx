@@ -38,8 +38,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }, [cookies]);
 
   const getInitials = (name: string) => {
-    const firstLetter = name[0];
-    const secondLetter = name[name.indexOf(" ") + 1];
+    const firstLetter = name && name[0];
+    const secondLetter = name && name[name.indexOf(" ") + 1];
     return `${firstLetter}${secondLetter}`;
   };
 
@@ -49,7 +49,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUser(res.data);
       setUserAddress(res.data.address);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -58,7 +58,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       const { data } = await api.get(`users/${id}`);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return;
     }
   };
