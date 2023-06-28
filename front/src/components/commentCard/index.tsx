@@ -29,14 +29,14 @@ const CommentCard = ({ comment }: commentCardProps) => {
     const diffDay = dayActual - day;
     const diffMonth = monthActual - month;
 
-    if (diffYear > 1) {
+    if (diffYear >= 2) {
       text = `há ${diffYear} anos`;
     } else {
       text = `há ${diffYear} ano`;
     }
 
     if (diffYear === 0) {
-      if (diffMonth > 1) {
+      if (diffMonth >= 2) {
         text = `há ${diffMonth} meses`;
       } else {
         text = `há ${diffMonth} mês`;
@@ -45,8 +45,10 @@ const CommentCard = ({ comment }: commentCardProps) => {
       if (diffMonth === 0) {
         if (diffDay > 1 && diffDay <= 30) {
           text = `há ${diffDay} dias`;
-        } else {
-          text = `há ${diffDay} dia`;
+        } else if (diffDay === 1) {
+          text = `Ontem`;
+        } else if (diffDay === 0) {
+          text = `Hoje`;
         }
       }
     }
