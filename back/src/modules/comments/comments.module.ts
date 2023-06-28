@@ -6,6 +6,7 @@ import { CommentsRepository } from './repository/comments.repository';
 import { CommentsPrismaRepository } from './repository/prisma/comments.prisma.repository';
 import { AdvertRepository } from '../adverts/repositories/advert.repository';
 import { AdvertsService } from '../adverts/adverts.service';
+import { AdvertPrismaRepository } from '../adverts/repositories/prisma/adverts.prisma.repository';
 
 @Module({
   imports: [],
