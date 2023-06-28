@@ -65,10 +65,7 @@ const CommentCard = ({ comment }: commentCardProps) => {
   return (
     <div className="flex flex-col gap-4 ">
       <header className="flex gap-2 items-center">
-        {/* <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-          JL
-        </p> */}
-        <ImageProfile user={user && user} size={1} />
+        <ImageProfile user={user && user} size={2} />
 
         <p className="text-gray-10 body-2 font-medium">{user.name}</p>
         <div className="w-1 h-1 rounded-full bg-gray-40" />

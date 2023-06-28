@@ -16,7 +16,7 @@ const Advert = () => {
   const [advert, setAdvert] = useState<retrieveAdvertType>(
     {} as retrieveAdvertType
   );
-  const [commentCurrent, setCommentCurrent] = useState("");
+  const [commentCurrent, setCommentCurrent] = useState<string>("");
 
   const { pageProfile, user } = useUser();
   const { createComment } = useAdverts();
@@ -84,21 +84,25 @@ const Advert = () => {
             <div className=" min-h-[377px] max-w-[440px] w-full bg-white p-8 rounded">
               <h6 className="text-gray-10">Fotos</h6>
               <div className="flex flex-wrap gap-[5.5px] sm:gap-4 mt-8 justify-center">
-                {advert.gallery?.map((pic) => (
-                  <div
-                    key={pic.id}
-                    className="w-[90px] sm:w-[108px] h-[90px] sm:h-[108px] bg-gray-70 flex items-center justify-center"
-                  >
-                    <Image
+                {advert.gallery && advert.gallery.length > 0 ? (
+                  advert.gallery?.map((pic) => (
+                    <div
                       key={pic.id}
-                      src={pic.image_url}
-                      alt={`Imagem do anúncio ${pic.advertId}`}
-                      width={90}
-                      height={90}
-                      className=""
-                    />
-                  </div>
-                ))}
+                      className="w-[90px] sm:w-[108px] h-[90px] sm:h-[108px] bg-gray-70 flex items-center justify-center"
+                    >
+                      <Image
+                        key={pic.id}
+                        src={pic.image_url}
+                        alt={`Imagem do anúncio ${pic.advertId}`}
+                        width={90}
+                        height={90}
+                        className=""
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <h4>Este anúncio não possui imagens da galeria</h4>
+                )}
               </div>
             </div>
             <div className="flex flex-col max-w-[440px] w-full gap-7 items-center bg-white p-8 rounded">
@@ -117,63 +121,17 @@ const Advert = () => {
         <div className="max-w-[752px] w-full py-9 pl-7 pr-10 h-full bg-white flex flex-col gap-4 justify-center rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
           <h6 className="text-gray-10 pb-6">Comentários</h6>
           <div className="flex flex-col gap-11">
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  JL
-                </p>
-
-                <p className="text-gray-10 body-2 font-medium">Julia Lima</p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">hà 3 dias</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  MA
-                </p>
-
-                <p className="text-gray-10 body-2 font-medium">
-                  Marcos Antônio
-                </p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">hà 7 dias</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  CS
-                </p>
-
-                <p className="text-gray-10 body-2 font-medium">Camila Silva</p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">hà 1 ano</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
-            {advert.comments &&
+            {advert.comments && advert.comments.length > 0 ? (
               advert.comments?.map((comment, index) => (
-                <CommentCard comment={comment} key={index} />
-              ))}
+                <>
+                  <CommentCard comment={comment} key={index} />
+                </>
+              ))
+            ) : (
+              <p className="body-2 text-gray-20 input-label">
+                Este anúncio ainda não possui comentários
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -204,15 +162,15 @@ const Advert = () => {
 					resize-none
 					mb-6
 					md:mb-0
-					
 				  "
             onChange={(e) => setCommentCurrent(e.target.value)}
+            defaultValue={commentCurrent ? commentCurrent : ""}
           />
           <div className="mb-6 h-[38px] w-24 md:absolute right-6 bottom-0">
             {user ? (
               <Button
                 type="brand"
-                handle={() => createComment(commentCurrent)}
+                handle={() => createComment(commentCurrent!)}
                 size={2}
               >
                 Comentar
@@ -227,8 +185,9 @@ const Advert = () => {
         <div className="flex flex-wrap gap-2">
           {tags.map((tag, index) => (
             <p
-              className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30"
+              className="bg-gray-70 rounded-3xl h-6 w-fit px-3 flex items-center text-[12px] font-medium text-gray-30 cursor-pointer"
               key={index}
+              onClick={() => setCommentCurrent(`${commentCurrent} ${tag}`)}
             >
               {tag}
             </p>
