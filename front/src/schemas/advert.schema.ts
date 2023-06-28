@@ -82,12 +82,19 @@ export const schemaUpdateRequestAdvert = z.object({
 });
 
 export const schemaUpdateAdvert = schemaUpdateRequestAdvert
-	.omit({ year: true, km: true, table_fipe_price: true, price: true })
+	.omit({
+		year: true,
+		km: true,
+		table_fipe_price: true,
+		price: true,
+		is_active: true,
+	})
 	.extend({
 		year: z.number(),
 		km: z.number(),
 		table_fipe_price: z.number(),
 		price: z.number(),
+		is_active: z.boolean(),
 	})
 	.partial();
 
