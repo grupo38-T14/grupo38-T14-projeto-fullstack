@@ -92,6 +92,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		try {
 			await api.delete(`adverts/${id}`);
 			await retrieveAdvert();
+			await getProfileAdverts(profileId);
 			Notify({ type: "success", message: "Anúncio excluído com sucesso!" });
 			setOpenDeleteModal(false);
 		} catch (error) {
@@ -126,6 +127,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			const { data } = await api.patch(`adverts/${id}`, newData);
 			setOpenModal(false);
 			router.refresh();
+			await getProfileAdverts(profileId);
 			Notify({ type: "success", message: "Anúncio atualizado com sucesso!" });
 		} catch (error) {
 			const err = error as AxiosError;
@@ -262,7 +264,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			await getProfile(profileId);
 			await getProfileAdverts(profileId);
 		})();
-	}, [profileId, deleteAdvert]);
+	}, [profileId]);
 
 	const createComment = async (newComment: string) => {
 		const request = {
