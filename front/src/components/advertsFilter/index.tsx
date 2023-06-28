@@ -4,6 +4,7 @@ import { useAdverts } from "@/hooks/advertHook";
 import Button from "../button";
 import { FilterField } from "../filterFields";
 import { FilterInputField } from "../filterInputFields";
+import { useState } from "react";
 
 interface AdvertsFilterProps {
 	list: {
@@ -24,6 +25,7 @@ export default function AdvertsFilter({
 }: AdvertsFilterProps) {
 	const { retrieveAdvert, page, setMinKm, setMaxKm, setMinPrice, setMaxPrice } =
 		useAdverts();
+	const [filterSelected, setFilterSelected] = useState<string | number | null>(null)
 
 	return (
 		<section
@@ -32,11 +34,11 @@ export default function AdvertsFilter({
 			} lg:flex`}
 		>
 			<div>
-				<FilterField name={"Marca"} list={list.brands} />
-				<FilterField name={"Modelo"} list={list.models} />
-				<FilterField name={"Cor"} list={list.colors} />
-				<FilterField name={"Ano"} list={list.years} />
-				<FilterField name={"Combustível"} list={list.fuels} />
+				<FilterField name={"Marca"} list={list.brands} filterSelected={filterSelected} setFilterSelected={setFilterSelected}/>
+				<FilterField name={"Modelo"} list={list.models} filterSelected={filterSelected} setFilterSelected={setFilterSelected}/>
+				<FilterField name={"Cor"} list={list.colors} filterSelected={filterSelected} setFilterSelected={setFilterSelected}/>
+				<FilterField name={"Ano"} list={list.years} filterSelected={filterSelected} setFilterSelected={setFilterSelected}/>
+				<FilterField name={"Combustível"} list={list.fuels} filterSelected={filterSelected} setFilterSelected={setFilterSelected}/>
 				<FilterInputField name={"Quilometragem"} type="KM" />
 				<FilterInputField name={"Preço"} type="Price" />
 			</div>
@@ -54,6 +56,7 @@ export default function AdvertsFilter({
 						setMaxKm(1000000);
 						setMinPrice(0);
 						setMaxPrice(1000000);
+						setFilterSelected(null)
 					}}
 				>
 					Limpar Filtros

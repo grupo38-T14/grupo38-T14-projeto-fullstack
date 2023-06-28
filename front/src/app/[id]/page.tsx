@@ -106,7 +106,7 @@ const Advert = () => {
               </div>
             </div>
             <div className="flex flex-col max-w-[440px] w-full gap-7 items-center bg-white p-8 rounded">
-              <ImageProfile user={advert.user && advert.user} size={1} />
+              <ImageProfile userProfile={advert.user && advert.user} size={1} />
               <h6 className="text-gray-0">{advert.user && advert.user.name}</h6>
               <p className="text-gray-20 text-justify md:text-center">
                 {advert.user && advert.user.description?.slice(0, 130)}...
@@ -137,10 +137,8 @@ const Advert = () => {
       </section>
       <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
         <header className="flex gap-2 items-center">
-          <ImageProfile user={advert.user && advert.user} size={2} />
-          <p className="text-gray-10 body-2 font-medium">
-            {advert.user && advert.user.name}
-          </p>
+          <ImageProfile userProfile={user && user} size={2} />
+          <p className="text-gray-10 body-2 font-medium">{user && user.name}</p>
         </header>
         <div className="md:relative">
           <textarea
@@ -164,13 +162,16 @@ const Advert = () => {
 					md:mb-0
 				  "
             onChange={(e) => setCommentCurrent(e.target.value)}
-            defaultValue={commentCurrent ? commentCurrent : ""}
+            value={commentCurrent}
           />
           <div className="mb-6 h-[38px] w-24 md:absolute right-6 bottom-0">
             {user ? (
               <Button
                 type="brand"
-                handle={() => createComment(commentCurrent!)}
+                handle={() => (
+                  setCommentCurrent(""),
+                  createComment(commentCurrent, advert.id, setAdvert)
+                )}
                 size={2}
               >
                 Comentar
