@@ -43,7 +43,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUser(res.data);
       setUserAddress(res.data.address);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -52,7 +52,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       const { data } = await api.get(`users/${id}`);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return;
     }
   };
