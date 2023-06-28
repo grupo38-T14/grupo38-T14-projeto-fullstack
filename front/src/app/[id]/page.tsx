@@ -125,7 +125,7 @@ const Advert = () => {
 
                 <p className="text-gray-10 body-2 font-medium">Julia Lima</p>
                 <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 3 dias</p>
+                <p className="text-gray-40 text-xs font-inter">hà 3 dias</p>
               </header>
               <p className="body-2 text-gray-20 input-label">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -144,7 +144,7 @@ const Advert = () => {
                   Marcos Antônio
                 </p>
                 <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 7 dias</p>
+                <p className="text-gray-40 text-xs font-inter">hà 7 dias</p>
               </header>
               <p className="body-2 text-gray-20 input-label">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -161,7 +161,7 @@ const Advert = () => {
 
                 <p className="text-gray-10 body-2 font-medium">Camila Silva</p>
                 <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 1 mês</p>
+                <p className="text-gray-40 text-xs font-inter">hà 1 ano</p>
               </header>
               <p className="body-2 text-gray-20 input-label">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
