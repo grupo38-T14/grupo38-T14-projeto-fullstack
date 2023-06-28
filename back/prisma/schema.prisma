@@ -9,6 +9,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model Users {
   id           String     @id
   name         String
@@ -39,7 +40,7 @@ model Address {
   number     String
   complement String? @default("none")
   created_at String
-  user       Users   @relation(fields: [userId], references: [id])
+  user       Users   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String  @unique
 
   @@map("address")
@@ -67,12 +68,12 @@ model Advert {
 }
 
 model Comments {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   comment    String
   created_at DateTime @default(now())
-  user       Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  advert     Advert @relation(fields: [advertId], references: [id], onDelete: Cascade)
+  advert     Advert   @relation(fields: [advertId], references: [id], onDelete: Cascade)
   advertId   String
 
   @@map("comments")
