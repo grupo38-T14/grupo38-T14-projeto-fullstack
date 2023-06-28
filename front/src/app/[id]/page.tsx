@@ -102,7 +102,7 @@ const Advert = () => {
               </div>
             </div>
             <div className="flex flex-col max-w-[440px] w-full gap-7 items-center bg-white p-8 rounded">
-              <ImageProfile user={advert.user && advert.user} size={1} />
+              <ImageProfile userProfile={advert.user && advert.user} size={1} />
               <h6 className="text-gray-0">{advert.user && advert.user.name}</h6>
               <p className="text-gray-20 text-justify md:text-center">
                 {advert.user && advert.user.description?.slice(0, 130)}...
@@ -117,59 +117,6 @@ const Advert = () => {
         <div className="max-w-[752px] w-full py-9 pl-7 pr-10 h-full bg-white flex flex-col gap-4 justify-center rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
           <h6 className="text-gray-10 pb-6">Comentários</h6>
           <div className="flex flex-col gap-11">
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  JL
-                </p>
-
-                <p className="text-gray-10 body-2 font-medium">Julia Lima</p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 3 dias</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  MA
-                </p>
-
-                <p className="text-gray-10 body-2 font-medium">
-                  Marcos Antônio
-                </p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 7 dias</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
-            <div className="flex flex-col gap-4 ">
-              <header className="flex gap-2 items-center">
-                <p className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  CS
-                </p>
-
-                <p className="text-gray-10 body-2 font-medium">Camila Silva</p>
-                <div className="w-1 h-1 rounded-full bg-gray-40" />
-                <p className="text-gray-40 text-xs font-inter">há 1 mês</p>
-              </header>
-              <p className="body-2 text-gray-20 input-label">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </p>
-            </div>
             {advert.comments &&
               advert.comments?.map((comment, index) => (
                 <CommentCard comment={comment} key={index} />
@@ -179,10 +126,8 @@ const Advert = () => {
       </section>
       <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-227px]">
         <header className="flex gap-2 items-center">
-          <ImageProfile user={advert.user && advert.user} size={2} />
-          <p className="text-gray-10 body-2 font-medium">
-            {advert.user && advert.user.name}
-          </p>
+          <ImageProfile userProfile={user && user} size={2} />
+          <p className="text-gray-10 body-2 font-medium">{user && user.name}</p>
         </header>
         <div className="md:relative">
           <textarea
@@ -207,12 +152,16 @@ const Advert = () => {
 					
 				  "
             onChange={(e) => setCommentCurrent(e.target.value)}
+            value={commentCurrent}
           />
           <div className="mb-6 h-[38px] w-24 md:absolute right-6 bottom-0">
             {user ? (
               <Button
                 type="brand"
-                handle={() => createComment(commentCurrent)}
+                handle={() => (
+                  setCommentCurrent(""),
+                  createComment(commentCurrent, advert.id, setAdvert)
+                )}
                 size={2}
               >
                 Comentar

@@ -5,17 +5,24 @@ import { AdvertPrismaRepository } from '../adverts/repositories/prisma/adverts.p
 import { PrismaService } from 'src/database/prisma.service';
 import { CommentsRepository } from './repository/comments.repository';
 import { CommentsPrismaRepository } from './repository/prisma/comments.prisma.repository';
+import { AdvertRepository } from '../adverts/repositories/advert.repository';
+import { AdvertsService } from '../adverts/adverts.service';
 
 @Module({
-  imports: [AdvertPrismaRepository],
+  imports: [],
   controllers: [CommentsController],
   providers: [
     CommentsService,
+    AdvertsService,
     PrismaService,
     {
       provide: CommentsRepository,
-      useClass: CommentsPrismaRepository
-    }
-  ]
+      useClass: CommentsPrismaRepository,
+    },
+    {
+      provide: AdvertRepository,
+      useClass: AdvertPrismaRepository,
+    },
+  ],
 })
 export class CommentsModule {}

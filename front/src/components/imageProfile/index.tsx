@@ -6,20 +6,20 @@ import Image from "next/image";
 import React from "react";
 
 interface imageProfileProps {
-  user: retrieveUser;
+  userProfile: retrieveUser | undefined;
   size: 1 | 2;
 }
 
-const ImageProfile = ({ user, size }: imageProfileProps) => {
+const ImageProfile = ({ userProfile, size }: imageProfileProps) => {
   const { getInitials } = useUser();
-
+  
   return (
     <div>
-      {user && user.avatar_url ? (
+      {userProfile && userProfile.avatar_url ? (
         <Image
-          key={user.id}
-          src={user.avatar_url}
-          alt={`Imagem do anúncio ${user.id}`}
+          key={userProfile.id}
+          src={userProfile.avatar_url}
+          alt={`Imagem do anúncio ${userProfile.id}`}
           width={77}
           height={77}
           className="rounded-full"
@@ -32,7 +32,7 @@ const ImageProfile = ({ user, size }: imageProfileProps) => {
               : "w-[77px] h-[77px] md:h-[104px] md:w-[104px] text-xl md:text-3xl"
           } `}
         >
-          {user && getInitials(user.name)}
+          {userProfile && getInitials(userProfile.name)}
         </p>
       )}
     </div>

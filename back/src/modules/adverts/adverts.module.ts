@@ -12,6 +12,6 @@ import { AdvertPrismaRepository } from './repositories/prisma/adverts.prisma.rep
     PrismaService,
     { provide: AdvertRepository, useClass: AdvertPrismaRepository },
   ],
-  exports: [AdvertPrismaRepository]
+  exports: [AdvertsService]
 })
 export class AdvertsModule {}
