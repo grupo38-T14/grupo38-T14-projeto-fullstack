@@ -7,7 +7,7 @@ interface iSelectProps {
 	label: string;
 	options: string[];
 	optionsValue?: string[];
-	optionDefault: string;
+	optionDefault: string | undefined;
 	optionValueSelected?: string;
 	register?: UseFormRegisterReturn;
 	error?: string;
