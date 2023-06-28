@@ -16,9 +16,9 @@ import { RiLoader4Line } from "react-icons/ri";
 
 export default function Header() {
   const router = useRouter();
-  const [menuDrop, setmenuDrop] = useState(false);
+  const [menuDrop, setMenuDrop] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const { cookieToken, loading, user, getInitials, logOut } = useUser();
+  const { cookieToken, loading, user, logOut } = useUser();
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [modalEditAddress, setModalEditAddress] = useState(false);
@@ -96,7 +96,7 @@ export default function Header() {
 
       <button
         className="h-12 w-8 flex flex-col justify-center items-center group sm:hidden"
-        onClick={() => setmenuDrop(!menuDrop)}
+        onClick={() => setMenuDrop(!menuDrop)}
       >
         <div
           className={`${menuDropButton} ${
@@ -141,7 +141,7 @@ export default function Header() {
                 onClick={() => setOpenMenu(!openMenu)}
               >
                 <span className="rounded-full bg-brand-1 text-white text-sm flex items-center justify-center w-[32px] h-[32px]">
-                  {getInitials(user.name)}
+                  {user.name[0]}
                 </span>
 
                 <span className="text-base font-normal">{user.name}</span>
@@ -168,14 +168,14 @@ export default function Header() {
                   }}
                   className="cursor-pointer"
                 >
-                  Editar endereço
+                  Editar Endereço
                 </p>
                 {user.account_type ? (
                   <p
                     onClick={() => goToPageProfile()}
                     className="cursor-pointer"
                   >
-                    Meus anúncios
+                    Meus Anúncios
                   </p>
                 ) : null}
                 <p
@@ -192,13 +192,13 @@ export default function Header() {
           ) : (
             <>
               {path == "/login" && (
-                <Link href={"/"} onClick={() => setOldPath(path)}>
+                <Link href={"/"} onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}>
                   Voltar
                 </Link>
               )}
               {path != "/login" && (
                 <Link
-                  onClick={() => setOldPath(path)}
+                  onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}
                   href="/login"
                   className="
                     pl-4 text-gray-20 self-start duration-300
@@ -210,7 +210,7 @@ export default function Header() {
               )}
               {path != "/register" && (
                 <Link
-                  onClick={() => setOldPath(path)}
+                  onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}
                   href="/register"
                   className="
                     max-sm:w-11/12 pt-2 pb-2 
@@ -225,7 +225,7 @@ export default function Header() {
               )}
               {path == "/register" && (
                 <Link
-                  onClick={() => setOldPath(path)}
+                  onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}
                   href="/"
                   className="
                     max-sm:w-11/12 pt-2 pb-2 
