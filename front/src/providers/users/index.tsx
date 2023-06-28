@@ -37,12 +37,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     setLoading(false);
   }, [cookies]);
 
-  const getInitials = (name: string) => {
-    const firstLetter = name[0];
-    const secondLetter = name[name.indexOf(" ") + 1];
-    return `${firstLetter}${secondLetter}`;
-  };
-
   const getProfile = async (id: string): Promise<void> => {
     try {
       const res = await api.get(`users/${id}`);
@@ -148,7 +142,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
-        getInitials,
         cookieId,
         cookieToken,
         setUser,

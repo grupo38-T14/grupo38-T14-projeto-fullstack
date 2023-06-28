@@ -11,7 +11,6 @@ interface imageProfileProps {
 }
 
 const ImageProfile = ({ userProfile, size }: imageProfileProps) => {
-  const { getInitials } = useUser();
   
   return (
     <div>
@@ -32,7 +31,7 @@ const ImageProfile = ({ userProfile, size }: imageProfileProps) => {
               : "w-[77px] h-[77px] md:h-[104px] md:w-[104px] text-xl md:text-3xl"
           } `}
         >
-          {userProfile && getInitials(userProfile.name)}
+          {userProfile && userProfile.name[0]}
         </p>
       )}
     </div>

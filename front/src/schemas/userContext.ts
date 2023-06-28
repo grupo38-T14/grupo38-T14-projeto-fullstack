@@ -4,7 +4,6 @@ import { editAddressType, retrieveAddressType } from "./address.schema";
 import { retrieveAdvertType } from "./advert.schema";
 
 export interface UserContextProps {
-  getInitials: (name: string) => string;
   cookieId: string | undefined;
   cookieToken: string | undefined;
   setUser: Dispatch<SetStateAction<retrieveUser | undefined>>;

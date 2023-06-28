@@ -1,11 +1,14 @@
 import { useAdverts } from "@/hooks/advertHook";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface FilterFieldProps {
 	name: "Marca" | "Modelo" | "Cor" | "Ano" | "Combustível";
 	list?: string[] | number[];
+	filterSelected: string | number | null
+	setFilterSelected: Dispatch<SetStateAction<string | number | null>>
 }
 
-export const FilterField = ({ name, list }: FilterFieldProps) => {
+export const FilterField = ({ name, list, filterSelected, setFilterSelected }: FilterFieldProps) => {
 	const { retrieveAdvert } = useAdverts();
 
 	const fields = {
@@ -42,8 +45,8 @@ export const FilterField = ({ name, list }: FilterFieldProps) => {
 								<>
 									<li key={index}>
 										<p
-											className="text-sm font-medium text-gray-30 cursor-pointer"
-											onClick={() => retrieveAdvert(fields[name], e)}
+											className={`text-sm font-medium text-gray-30 cursor-pointer ${filterSelected == e && "bg-brand-2 w-fit rounded-md px-2 text-white"}`}
+											onClick={() => (setFilterSelected(e), retrieveAdvert(fields[name], e))}
 										>
 											{e}
 										</p>
