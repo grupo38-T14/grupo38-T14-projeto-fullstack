@@ -1,9 +1,10 @@
-import { PrismaService } from 'src/database/prisma.service';
-import { CreateCommentDto } from '../../dto/create-comment.dto';
-import { Comment } from '../../entities/comment.entity';
-import { CommentsRepository } from '../comments.repository';
-import { plainToInstance } from 'class-transformer';
-import { Injectable } from '@nestjs/common';
+import { PrismaService } from "src/database/prisma.service";
+import { CreateCommentDto } from "../../dto/create-comment.dto";
+import { Comment } from "../../entities/comment.entity";
+import { CommentsRepository } from "../comments.repository";
+import { plainToInstance } from "class-transformer";
+import { Injectable } from "@nestjs/common";
+
 
 @Injectable()
 export class CommentsPrismaRepository implements CommentsRepository {

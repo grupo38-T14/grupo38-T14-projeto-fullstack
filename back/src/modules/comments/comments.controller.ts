@@ -17,17 +17,17 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @Post(':id')
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  create(
-    @Body() createCommentDto: CreateCommentDto,
-    @Param('id') advertId: string,
-    @Request() req,
-  ) {
+  @Post(":id")
+    create(
+      @Body() createCommentDto:CreateCommentDto,
+      @Param("id") advertId:string,
+      @Request() req
+    ) {
     return this.commentsService.create(advertId, req.user.id, createCommentDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @HttpCode(204)
   @Delete(':id')
   remove(@Param('id') id: string) {
