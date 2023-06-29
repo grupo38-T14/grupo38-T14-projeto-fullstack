@@ -28,13 +28,14 @@ const ProfilePageViewUser = () => {
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
       <>
-        <section className="flex flex-col bg-white w-[75%] mx-auto my-10 items-start gap-6 p-10">
+        <section className="flex flex-col bg-white w-full md:w-[80%]  items-start gap-6 p-7 rounded">
           {profileUser!.avatar_url ? (
             <Image
               src={profileUser!.avatar_url}
               alt="avatar do usuário"
               width={104}
               height={104}
+              className="rounded-full w-28 h-28"
             />
           ) : (
             <div className="flex items-center justify-center w-24 h-24 bg-random-1 text-white rounded-full text-5xl">
@@ -50,8 +51,9 @@ const ProfilePageViewUser = () => {
           <p className="text-base font-normal">{profileUser!.description}</p>
         </section>
         <section
-          className={`flex flex-col h-full gap-10 w-full lg:w-full lg:gap-12 mt-20 lg:m-0 lg:p-16 px-3 mb-14 lg:flex`}
+          className={`flex flex-col h-full gap-10 w-full lg:w-full lg:gap-12 mt-10 md:mt-16 lg:m-0 lg:p-16 px-3 mb-14 lg:flex`}
         >
+          <h5>Anúncios</h5>
           {loading && (
             <div className="h-[500px] flex justify-center items-center">
               <p className="text-2xl lg:text-5xl font-medium text-gray-30">
