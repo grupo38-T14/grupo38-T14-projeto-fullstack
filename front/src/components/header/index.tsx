@@ -95,6 +95,8 @@ export default function Header() {
       </figure>
 
       <button
+        type="button"
+        title="menu"
         className="h-12 w-8 flex flex-col justify-center items-center group sm:hidden"
         onClick={() => setMenuDrop(!menuDrop)}
       >
@@ -192,7 +194,10 @@ export default function Header() {
           ) : (
             <>
               {path == "/login" && (
-                <Link href={"/"} onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}>
+                <Link
+                  href={"/"}
+                  onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}
+                >
                   Voltar
                 </Link>
               )}

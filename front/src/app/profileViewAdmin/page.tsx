@@ -45,13 +45,14 @@ const ProfilePageViewAdmin = () => {
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
       <>
-        <section className="flex flex-col bg-white w-[75%] mx-auto my-10 items-start gap-6 p-10">
+        <section className="flex flex-col bg-white w-full md:w-[75%] items-start gap-6 p-7 rounded">
           {profileUser!.avatar_url ? (
             <Image
               src={profileUser!.avatar_url}
               alt="avatar do usuário"
               width={104}
               height={104}
+              className="rounded-full w-28 h-28"
             />
           ) : (
             <div className="flex items-center justify-center w-24 h-24 bg-random-1 text-white rounded-full text-5xl">
