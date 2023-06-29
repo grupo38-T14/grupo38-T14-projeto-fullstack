@@ -7,13 +7,14 @@ import bgImage from "../../public/bg-home.png";
 const getFiltersAdverts = async () => {
 	const request = await api.get("adverts/all");
 	const response: listRetrieveAdvertsType = request.data;
+	const data = response.filter((e) => e.is_active);
 
 	const brands: string[] = [];
 	const models: string[] = [];
 	const colors: string[] = [];
 	const years: number[] = [];
 	const fuels: string[] = [];
-	response.map((advert) => {
+	data.map((advert) => {
 		if (!brands.includes(advert.brand)) {
 			brands.push(advert.brand);
 		}
