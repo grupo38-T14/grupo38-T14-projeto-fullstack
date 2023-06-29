@@ -71,7 +71,7 @@
   },
   "devDependencies": {},
   "engines": {
-    "node": ">=14 <17"
+    "node": ">=14"
   },
   "jest": {
     "moduleFileExtensions": [
