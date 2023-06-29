@@ -108,7 +108,7 @@ export const FormUpdateAdvert = ({
 				setUpdateAdvertData(res.data);
 			});
 		})();
-	}, [setValue]);
+	}, [advertId, setValue]);
 
 	return (
 		<section className="flex flex-col gap-4">

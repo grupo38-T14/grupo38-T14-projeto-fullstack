@@ -47,7 +47,7 @@ const Modal = ({
 		return () => {
 			window.removeEventListener("mousedown", handleClick);
 		};
-	}, []);
+	}, [setOpenDeleteModal, setOpenModal, setOpenUpdateModal]);
 
 	return (
 		<div className="fixed top-0 left-0 z-50 w-full h-screen bg-opacity-1 flex justify-center p-1 py-2 lg:p-10 overflow-hidden">
