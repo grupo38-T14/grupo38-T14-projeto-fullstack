@@ -42,8 +42,17 @@
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
 ## ⚙️ Funcionalidades
-- [x] example
-  - example 2
+- [x] Cadastro de usuário
+- [x] Login
+- [x] Usuário 
+  - Editar informações do usuário
+  - Remover usuário
+  - criar anúncio (caso o usuário seja do tipo anunciante)
+  - editar anúncio (caso o usuário seja do tipo anunciante)
+  - remover anúncio (caso o usuário seja do tipo anunciante)
+- [x] Recuperação de senha
+- [x] Listagem de anúncios
+- [x] Criar comentarios em um determinado anúncio  
 
 ## 🎨 Layout
 O layout da aplicação está disponível no Figma:
