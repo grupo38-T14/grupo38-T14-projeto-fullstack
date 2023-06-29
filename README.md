@@ -134,7 +134,7 @@ $ npm run dev
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-#### **Website**  ([React](https://nextjs.org/)  +  [TypeScript](https://www.typescriptlang.org/))
+#### **Website**  ([NextJS](https://nextjs.org/)  +  [TypeScript](https://www.typescriptlang.org/))
 
 -   **[React Hook Form](https://react-hook-form.com/)**
 -   **[React Icons](https://react-icons.github.io/react-icons/)**
