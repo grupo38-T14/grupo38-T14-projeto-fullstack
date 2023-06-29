@@ -15,7 +15,7 @@ interface iInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 		| "phone"
 		| "coin"
 		| "password";
-	placeholder: string;
+	placeholder?: string;
 	label: string;
 	register?: UseFormRegisterReturn;
 	error?: string;

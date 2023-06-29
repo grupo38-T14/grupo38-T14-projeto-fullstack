@@ -11,14 +11,10 @@ import { useAdverts } from "@/hooks/advertHook";
 import nookies from "nookies";
 import {
 	requestUpdateAdvertPartialType,
-	retrieveAdvertType,
 	schemaUpdateRequestAdvert,
 	updateAdvertType,
 } from "@/schemas/advert.schema";
 import { api } from "@/service";
-
-//MOSTRAR OS VALORES PADRÕES NO MODAL DE EDIÇÃO
-//Input preço e tabela FIPE estão estranhos
 
 interface FormUpdateAdvertsProps {
 	setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -142,16 +138,24 @@ export const FormUpdateAdvert = ({
 				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
 					<Input
 						label="Ano"
-						placeholder="2018"
+						placeholder={selectCar.year}
 						type="number"
 						register={register("year")}
 						error={errors.year && errors.year.message}
-						valueInput={selectCar.year}
+						defaultValue={selectCar.year}
 					/>
 					<Select
 						label="Combustível"
-						options={["Eletrico", "Etanol", "Hibrido"]}
-						optionDefault={updateAdvertData?.fuel}
+						options={["Elétrico", "Etanol", "Hibrido"]}
+						optionDefault={
+							updateAdvertData?.fuel === "ELECTRIC"
+								? "Elétrico"
+								: updateAdvertData?.fuel === "HYBRID"
+								? "Híbrido"
+								: updateAdvertData?.fuel === "ETHANOL"
+								? "Etanol"
+								: ""
+						}
 						optionsValue={fuelsFields}
 						optionValueSelected={
 							!selectCar ? "ELECTRIC" : fuelsFields[selectCar.fuel]
@@ -163,11 +167,11 @@ export const FormUpdateAdvert = ({
 				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
 					<Input
 						label="Quilometragem"
-						placeholder="30.000"
+						placeholder={String(updateAdvertData?.km)}
 						type="number"
 						register={register("km")}
 						error={errors.km && errors.km.message}
-						valueInput={updateAdvertData?.km}
+						defaultValue={updateAdvertData?.km}
 					/>
 					<Select
 						label="Cor"
@@ -180,10 +184,11 @@ export const FormUpdateAdvert = ({
 				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
 					<Input
 						label="Preço tabela FIPE"
-						placeholder="R$ 30.000,00"
+						placeholder={String(updateAdvertData?.table_fipe_price)}
 						type="coin"
 						register={register("table_fipe_price")}
 						error={errors.table_fipe_price && errors.table_fipe_price.message}
+						defaultValue={updateAdvertData?.table_fipe_price}
 						valueInput={
 							selectCar.value &&
 							selectCar.value.toLocaleString("pt-BR", {
@@ -194,11 +199,11 @@ export const FormUpdateAdvert = ({
 					/>
 					<Input
 						label="Preço"
-						placeholder="R$ 30.000,00"
+						placeholder={String(updateAdvertData?.price)}
 						type="coin"
 						register={register("price")}
 						error={errors.price && errors.price.message}
-						valueInput={updateAdvertData?.price}
+						defaultValue={updateAdvertData?.price}
 					/>
 				</div>
 				<TextArea
@@ -206,7 +211,7 @@ export const FormUpdateAdvert = ({
 					placeholder={updateAdvertData?.description}
 					register={register("description")}
 					error={errors.description && errors.description.message}
-					/* valueInput={updateAdvertData?.description} */
+					defaultValue={updateAdvertData?.description}
 				/>
 				<Select
 					label="Status do anúncio"
@@ -218,11 +223,11 @@ export const FormUpdateAdvert = ({
 				<div className="flex flex-col gap-6"></div>
 				<Input
 					label="Imagem de capa"
-					placeholder="https://image.com"
+					placeholder={updateAdvertData?.image_cape}
 					type="url"
 					register={register("image_cape")}
 					error={errors.image_cape && errors.image_cape.message}
-					valueInput={updateAdvertData?.image_cape}
+					defaultValue={updateAdvertData?.image_cape}
 				/>
 				<div className="flex flex-col gap-5">
 					{numImageGallery.map((num, index) => {
