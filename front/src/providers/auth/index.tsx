@@ -75,6 +75,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       setBtnLoading(true);
       await api.post("users/", data).then((res) => res.data);
       Notify({ type: "success", message: "Cadastro feito com sucesso!" });
+      setOldPath("/register");
       router.push("/login");
     } catch (error) {
       const err = error as AxiosError;
