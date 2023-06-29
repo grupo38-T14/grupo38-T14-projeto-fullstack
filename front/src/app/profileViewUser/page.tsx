@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
 import nookies from "nookies";
+import { useEffect } from "react";
 
 const ProfilePageViewUser = () => {
   const router = useRouter();
@@ -22,8 +23,10 @@ const ProfilePageViewUser = () => {
     });
   };
 
-  const cookies = nookies.get(null, "profile.id");
-  setProfileId(cookies["profile.id"]);
+  useEffect(() => {
+    const cookies = nookies.get(null, "profile.id");
+    setProfileId(cookies["profile.id"]);
+  }, [setProfileId]);
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
@@ -73,9 +76,7 @@ const ProfilePageViewUser = () => {
                         onClick={() => router.push(`/${advert.id}`)}
                       >
                         <div className="w-full">
-
                           <div className="flex w-[100%] h-[200px] items-center overflow-hidden p-5 rounded">
-
                             <Image
                               className="flex m-auto object-fill rounded"
                               src={advert.image_cape}
@@ -93,7 +94,6 @@ const ProfilePageViewUser = () => {
                           </div>
 
                           <p className="text-sm font-normal text-gray-20 w-[240px] truncate">
-
                             {advert.description}
                           </p>
                           <div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4">

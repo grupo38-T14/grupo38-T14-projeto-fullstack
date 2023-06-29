@@ -5,7 +5,7 @@ import Modal from "@/components/Modal";
 import FormCreateAdverts from "@/components/forms/formCreateAdverts";
 import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import nookies, { setCookie } from "nookies";
 import { FormUpdateAdvert } from "@/components/forms/formEditAdvert";
 import ModalDeleteAdvert from "@/components/Modal/modalDeleteAdvert";
@@ -31,8 +31,10 @@ const ProfilePageViewAdmin = () => {
     });
   };
 
-  const cookies = nookies.get(null, "profile.id");
-  setProfileId(cookies["profile.id"]);
+  useEffect(() => {
+    const cookies = nookies.get(null, "profile.id");
+    setProfileId(cookies["profile.id"]);
+  }, [setProfileId]);
 
   const saveAdvertIdAndOpenUpdateModal = (id: string) => {
     setCookie(null, "updateAdvert.id", id, {
@@ -85,6 +87,7 @@ const ProfilePageViewAdmin = () => {
         <section
           className={`flex flex-col h-full gap-10 w-full lg:w-full lg:gap-12 mt-20 lg:m-0 lg:p-16 px-3 mb-14 lg:flex`}
         >
+          <h5>Anúncios</h5>
           {loading && (
             <div className="h-[500px] flex justify-center items-center">
               <p className="text-2xl lg:text-5xl font-medium text-gray-30">
