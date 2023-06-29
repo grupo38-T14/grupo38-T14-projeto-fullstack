@@ -12,7 +12,6 @@ import { AdvertPrismaRepository } from '../adverts/repositories/prisma/adverts.p
   imports: [],
   controllers: [CommentsController],
   providers: [
-    AdvertPrismaRepository,
     CommentsService,
     AdvertsService,
     PrismaService,

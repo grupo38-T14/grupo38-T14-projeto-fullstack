@@ -10,13 +10,15 @@ import {
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
+@ApiTags("Comments")
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post(":id")
     create(
@@ -27,9 +29,10 @@ export class CommentsController {
     return this.commentsService.create(advertId, req.user.id, createCommentDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @HttpCode(204)
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.commentsService.remove(id);
   }
