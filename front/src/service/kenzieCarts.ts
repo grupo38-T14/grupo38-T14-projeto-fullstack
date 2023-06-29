@@ -11,7 +11,7 @@ export interface Car {
 
 export const apiKenzieCars = axios.create({
   baseURL: "http://kenzie-kars.herokuapp.com/cars",
-  timeout: 20000,
+  timeout: 10000,
 });
 
 export const getBrands = async () => {
