@@ -39,7 +39,7 @@
 
 ## 💻 Sobre o projeto
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+Bem vindos(a) a Motors Shop, uma plataforma voltada a simular a  compra e venda de automoveis. Inspirada na plataforma Webmotors criamos um site sofisticado, simples e intuitivo para fácil utilização e manuseio.
 
 ## ⚙️ Funcionalidades
 - [x] Cadastro de usuário (possibiladade de se cadastrar como comprador ou anunciante)
