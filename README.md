@@ -54,7 +54,7 @@ O layout da aplicação está disponível no Figma:
 
 ### Mobile
 
-<img src="https://github.com/grupo38-T14/grupo38-T14-projeto-fullstack/blob/11cd34516219975b687a797623cd5c35755ef740/front/public/readme-web.png">
+<img src="https://github.com/grupo38-T14/grupo38-T14-projeto-fullstack/blob/c2b0f78f6961b0d421d75b5ba8d8d6173d2d40ac/front/public/readme-mobile.png">
 
 ### Web
 
