@@ -54,7 +54,11 @@ O layout da aplicação está disponível no Figma:
 
 ### Mobile
 
+<img src="https://github.com/grupo38-T14/grupo38-T14-projeto-fullstack/blob/11cd34516219975b687a797623cd5c35755ef740/front/public/readme-web.png">
+
 ### Web
+
+<img src="https://github.com/grupo38-T14/grupo38-T14-projeto-fullstack/blob/11cd34516219975b687a797623cd5c35755ef740/front/public/readme-web.png">
 
 ## 🚀 Como executar o projeto
 💡 O Frontend precisam que o Backend esteja sendo executado para funcionar (o server foi hospedado no render, então na primeira execução pode demorar um pouco).
