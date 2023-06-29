@@ -30,7 +30,6 @@ const Modal = ({
         setOpenDeleteModal && setOpenDeleteModal(false);
       }
     };
-
     window.addEventListener("mousedown", handleClick);
     window.addEventListener("keydown", (event) => {
       if (setOpenModal) {
