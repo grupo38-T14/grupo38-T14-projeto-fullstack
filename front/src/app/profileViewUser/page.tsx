@@ -71,7 +71,9 @@ const ProfilePageViewUser = () => {
                         onClick={() => router.push(`/${advert.id}`)}
                       >
                         <div className="w-full">
+
                           <div className="flex w-[100%] h-[200px] items-center overflow-hidden p-5 rounded">
+
                             <Image
                               className="flex m-auto object-fill rounded"
                               src={advert.image_cape}
@@ -87,7 +89,9 @@ const ProfilePageViewUser = () => {
                               {advert.brand} - {advert.model}
                             </h2>
                           </div>
+
                           <p className="text-sm font-normal text-gray-20 w-[240px] truncate">
+
                             {advert.description}
                           </p>
                           <div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4">
