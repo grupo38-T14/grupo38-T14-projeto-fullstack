@@ -46,7 +46,8 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
           error={errors.cep && errors.cep.message}
           defaultValue={userAddress!.cep}
         />
-        <div className="flex gap-3 mt-3">
+        <div 
+          className="flex gap-3 mt-3 max-sm:flex-col">
           <Input
             label="Estado"
             placeholder={userAddress!.state}
@@ -74,7 +75,7 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
           defaultValue={userAddress!.street}
         />
 
-        <div className="flex gap-3 mt-3">
+        <div className="flex gap-3 mt-3 max-sm:flex-col">
           <Input
             label="Número"
             placeholder={userAddress!.complement}
