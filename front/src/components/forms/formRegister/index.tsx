@@ -17,9 +17,11 @@ import TextArea from "@/components/textArea";
 import Select from "@/components/select";
 import { apiLocation } from "@/service";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const RegisterForm = () => {
-	const { registerFunction } = useAuth();
+	const { registerFunction, setOldPath } = useAuth();
+	const path = usePathname()
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	const [location, setLocation] = useState({} as LocationData);
@@ -49,11 +51,14 @@ const RegisterForm = () => {
 		}
 	};
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isDirty, isValid },
-  } = useForm<RegisterData>({ resolver: zodResolver(registerSchema) });
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isDirty, isValid },
+	} = useForm<RegisterData>({
+		resolver: zodResolver(registerSchema),
+		mode: "onBlur",
+	});
 
 	const handleRegister = (data: RegisterData) => {
 		const re = /\W+/g;
@@ -230,6 +235,7 @@ const RegisterForm = () => {
 			<div className="flex w-full items-center justify-center gap-3">
 				<p>Já tem uma conta? </p>
 				<Link
+					onClick={() => setOldPath(path)}
 					href="/login"
 					className="
                     pl-4 text-gray-20 self-start duration-300
@@ -241,7 +247,6 @@ const RegisterForm = () => {
 			</div>
 		</>
 	);
-
 };
 
 export default RegisterForm;

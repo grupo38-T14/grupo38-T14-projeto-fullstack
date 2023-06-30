@@ -11,10 +11,12 @@ import { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
-import { CreateRegisterData } from "@/schemas/register.schema";
+import { CreateRegisterData, RegisterData } from "@/schemas/register.schema";
+import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 import Notify from "@/components/notify";
 import { setCookie } from "nookies";
 import jwtDecode from "jwt-decode";
+import { UserProvider } from "../users";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext, UserProvider } from "../users";
@@ -30,7 +32,6 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuhtProvider = ({ children }: AuhtProviderProps) => {
   const router = useRouter();
   const path = usePathname();
-  const { user, setUser } = useUser();
 
   const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
   const [loading, setLoading] = useState(true);
@@ -81,6 +82,8 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       setBtnLoading(true);
       await api.post("users/", data).then((res) => res.data);
       Notify({ type: "success", message: "Cadastro feito com sucesso!" });
+      setOldPath("/register");
+
       router.push("/login");
     } catch (error) {
       const err = error as AxiosError;
@@ -134,18 +137,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         createNewPassword,
       }}
     >
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainer />
       <AdvertsProvider>
         <UserProvider>{children}</UserProvider>
       </AdvertsProvider>

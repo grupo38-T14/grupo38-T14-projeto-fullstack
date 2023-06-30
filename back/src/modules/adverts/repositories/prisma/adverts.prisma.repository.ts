@@ -22,8 +22,13 @@ export class AdvertPrismaRepository implements AdvertRepository {
   async create(data: CreateAdvertDto, userId: string): Promise<Advert> {
     let imagesGalleryData = [];
     if (data.imagesGallery) {
-      imagesGalleryData = data.imagesGallery.map((image) => {
-        return Object.assign(new Gallery(), { image_url: image });
+      data.imagesGallery.map((image) => {
+        if (image != undefined && image.length > 0) {
+          return imagesGalleryData.push(
+            Object.assign(new Gallery(), { image_url: image }),
+          );
+        }
+        return;
       });
     }
     const { imagesGallery, ...rest } = data;
@@ -38,8 +43,8 @@ export class AdvertPrismaRepository implements AdvertRepository {
         gallery: { createMany: { data: imagesGalleryData } },
       },
       include: {
-        gallery: true
-      }
+        gallery: true,
+      },
     });
     return newAdvert;
   }
@@ -101,9 +106,21 @@ export class AdvertPrismaRepository implements AdvertRepository {
   }
 
   async update(id: string, data: UpdateAdvertDto): Promise<Advert> {
+    let imagesGalleryData = [];
+    if (data.imagesGallery) {
+      data.imagesGallery.map((image) => {
+        if (image != undefined && image.length > 0) {
+          return imagesGalleryData.push(
+            Object.assign(new Gallery(), { image_url: image }),
+          );
+        }
+        return;
+      });
+    }
+    const { imagesGallery, ...rest } = data;
     const advert = await this.prisma.advert.update({
       where: { id },
-      data: { ...data },
+      data: { ...rest, gallery: { createMany: { data: imagesGalleryData } } },
       include: {
         gallery: true,
         comments: true,

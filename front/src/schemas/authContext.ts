@@ -1,3 +1,4 @@
+import { listRetrieveAdvertsType } from "./advert.schema";
 import { LoginData } from "./login.schema";
 import {
   CreateNewPasswordData,

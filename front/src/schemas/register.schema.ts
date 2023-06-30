@@ -14,6 +14,7 @@ export const registerDataSchema = z.object({
 	account_type: z.boolean(),
 	password: z.string().max(127).nonempty("Senha é obrigatória"),
 	avatar_url: z.string().optional(),
+	reset_token: z.string().nullish(),
 });
 
 export const registerSchema = registerDataSchema

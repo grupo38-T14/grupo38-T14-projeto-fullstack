@@ -17,13 +17,15 @@ import { Fuel, Prisma } from '@prisma/client';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { User } from '../users/entities/user.entity';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Adverts")
 @Controller('adverts')
 export class AdvertsController {
   constructor(private readonly advertsService: AdvertsService) {}
 
   @Post('')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   create(@Body() createAdvertDto: CreateAdvertDto, @CurrentUser() user: User) {
     return this.advertsService.create(createAdvertDto, user.id);
@@ -69,6 +71,7 @@ export class AdvertsController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateAdvertDto: UpdateAdvertDto) {
     return this.advertsService.update(id, updateAdvertDto);

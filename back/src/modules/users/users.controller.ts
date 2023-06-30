@@ -17,6 +17,7 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -65,6 +66,11 @@ export class UsersController {
   async sendEmailResetPassword(@Body('email') email: string) {
     await this.usersService.sendEmailResetPassword(email);
     return { message: 'Token de recuperação de senha enviado!' };
+  }
+
+  @Get('resetPassword/find')
+  findUser(@Query('email') email?: string, @Query('cpf') cpf?: string) {
+    return this.usersService.findUser(email, cpf);
   }
 
   @Patch('resetPassword/:token')

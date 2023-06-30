@@ -3,11 +3,12 @@
 import Notify from "@/components/notify";
 import { editAddressType, retrieveAddressType } from "@/schemas/address.schema";
 import { RecoveryPasswordData } from "@/schemas/recoveryPassword.schema";
+import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { editUserType, retrieveUser } from "@/schemas/user.schema";
 import { UserContextProps, UserProviderProps } from "@/schemas/userContext";
 import { api } from "@/service";
 import { useRouter } from "next/navigation";
-import { destroyCookie, parseCookies } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, useEffect, useState } from "react";
 
 export const UserContext = createContext({} as UserContextProps);
@@ -20,6 +21,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [cookieId, setCookieId] = useState<string | undefined>(undefined);
   const [cookieToken, setCookieToken] = useState<string | undefined>(undefined);
   const [initialsUser, setInitialsUser] = useState("");
+  const [loading, setLoading] = useState(true);
   const cookies = parseCookies();
   const router = useRouter();
 
@@ -33,13 +35,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUser(undefined);
       setUserAddress(undefined);
     }
+    setLoading(false);
   }, [cookies]);
-
-  const getInitials = (name: string) => {
-    const firstLetter = name[0];
-    const secondLetter = name[name.indexOf(" ") + 1];
-    return `${firstLetter}${secondLetter}`;
-  };
 
   const getProfile = async (id: string): Promise<void> => {
     try {
@@ -47,7 +44,29 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setUser(res.data);
       setUserAddress(res.data.address);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    }
+  };
+
+  const getUser = async (id: string): Promise<retrieveUser | undefined> => {
+    try {
+      const { data } = await api.get(`users/${id}`);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  };
+
+  const pageProfile = (advert: retrieveAdvertType) => {
+    setCookie(null, "profile.id", advert.userId, {
+      maxAge: 60 * 30,
+      path: "/",
+    });
+    if (cookies["user.id"] == advert.userId) {
+      router.push(`/profileViewAdmin/`);
+    } else {
+      router.push(`/profileViewUser/`);
     }
   };
 
@@ -55,6 +74,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     destroyCookie(null, "user.id");
     setUser(undefined);
     destroyCookie(null, "user.token");
+    destroyCookie(null, "profile.id");
     Notify({ type: "logout", message: "Saindo..." });
     setTimeout(() => {
       router.push("/");
@@ -123,7 +143,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
-        getInitials,
         cookieId,
         cookieToken,
         setUser,
@@ -136,6 +155,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         editUser,
         deleteUser,
         editAddress,
+        pageProfile,
+        getUser,
+        loading,
       }}
     >
       {children}

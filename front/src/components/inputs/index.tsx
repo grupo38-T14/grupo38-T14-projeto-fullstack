@@ -15,22 +15,22 @@ interface iInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 		| "phone"
 		| "coin"
 		| "password";
-	placeholder: string;
+	placeholder?: string;
 	label: string;
 	register?: UseFormRegisterReturn;
 	error?: string;
+	handle?: (e: string) => void;
 	valueInput?: string | number;
-	handle?: (e: any) => void;
 }
 
 const Input = ({
 	type,
-	handle,
 	label,
 	placeholder,
 	register,
 	error,
 	valueInput,
+	handle,
 	...rest
 }: iInputProps) => {
 	const maskedTypes = ["cpf", "phone", "coin"];

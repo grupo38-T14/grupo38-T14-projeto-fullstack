@@ -40,12 +40,12 @@ const FormEditUser = ({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <section className="flex flex-col gap-6 w-full rounded bg-gray-100">
       <p className="h7">Editar Perfil</p>
       <span className="body-2">Infomações pessoais</span>
       <form
         noValidate
-        className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px] pr-2"
+        className="flex flex-col gap-5 pr-2 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px]"
         onSubmit={handleSubmit(handleSubmitEdit)}
       >
         <Input
@@ -95,23 +95,33 @@ const FormEditUser = ({
           error={errors.description! && errors.description!.message}
           defaultValue={user?.description!}
         />
-        <div className="flex gap-3">
-          <Button type="negative" handle={() => setOpenModal(false)}>
-            Cancelar
-          </Button>
-          <Button type="alert" handle={() => openModalDelete()}>
-            Excluir Perfil
-          </Button>
-          <Button type="brand" submit>
-            {btnloading ? (
-              <RiLoader4Line size={30} color="#fff" className="animate-spin" />
-            ) : (
-              "Salvar alterações"
-            )}
-          </Button>
-        </div>
+        <section className="flex gap-3 flex-wrap justify-center">
+          <div>
+            <Button type="negative" handle={() => setOpenModal(false)}>
+              Cancelar
+            </Button>
+          </div>
+          <div>
+            <Button type="alert" handle={() => openModalDelete()}>
+              Excluir Perfil
+            </Button>
+          </div>
+          <div>
+            <Button type="brand" submit>
+              {btnloading ? (
+                <RiLoader4Line
+                  size={30}
+                  color="#fff"
+                  className="animate-spin"
+                />
+              ) : (
+                "Salvar alterações"
+              )}
+            </Button>
+          </div>
+        </section>
       </form>
-    </div>
+    </section>
   );
 };
 

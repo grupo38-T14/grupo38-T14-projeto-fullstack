@@ -2,9 +2,9 @@ import { Dispatch, SetStateAction } from "react";
 import { editUserType, retrieveUser } from "./user.schema";
 import { editAddressType, retrieveAddressType } from "./address.schema";
 import { RecoveryPasswordData } from "./recoveryPassword.schema";
+import { retrieveAdvertType } from "./advert.schema";
 
 export interface UserContextProps {
-  getInitials: (name: string) => string;
   cookieId: string | undefined;
   cookieToken: string | undefined;
   setUser: Dispatch<SetStateAction<retrieveUser | undefined>>;
@@ -26,6 +26,9 @@ export interface UserContextProps {
     data: editAddressType,
     loading: React.Dispatch<React.SetStateAction<boolean>>
   ) => Promise<void>;
+  loading: boolean;
+  pageProfile: (advert: retrieveAdvertType) => void;
+  getUser: (id: string) => Promise<retrieveUser | undefined>;
 }
 
 export interface UserProviderProps {

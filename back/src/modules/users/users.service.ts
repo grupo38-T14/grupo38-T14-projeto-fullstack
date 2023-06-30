@@ -7,7 +7,6 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repositories/users.repository';
-import { plainToInstance } from 'class-transformer';
 import { User } from './entities/user.entity';
 import { Prisma } from '@prisma/client';
 import { MailService } from 'src/utils/mail.service';
@@ -123,5 +122,13 @@ export class UsersService {
     }
 
     await this.usersRepository.updatePassword(user.id, password);
+  }
+
+  async findUser(email: string, cpf: string) {
+    const user = await this.usersRepository.findUserBy(email, cpf);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 }

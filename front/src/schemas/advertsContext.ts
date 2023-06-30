@@ -15,8 +15,16 @@ export interface AdvertsContextValues {
 		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
 	) => void;
-	deleteAdvert: (id: string) => void;
-	updateAdvert: (id: string, data: updateAdvertType) => void;
+	deleteAdvert: (
+		id: string,
+		setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
+	) => void;
+	updateAdvert: (
+		id: string,
+		data: updateAdvertType,
+		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+	) => void;
 	retrieveAdvert: (
 		filter?: string,
 		filterName?: string | number,
@@ -42,8 +50,13 @@ export interface AdvertsContextValues {
 	loading: boolean;
 	getProfileAdverts: (id: string, pageNumber?: number) => void;
 	profileUserAdverts: retrieveAdvertPaginationType | undefined;
-	profileUser: retrieveUser;
 	profileId: string;
+	setProfileId: Dispatch<SetStateAction<string>>;
+	createComment: (
+		newComment: string,
+		advertId: string,
+		setAdvert: Dispatch<SetStateAction<retrieveAdvertType>>
+	) => void;
 }
 
 export interface AdvertsProviderProps {
