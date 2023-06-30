@@ -14,7 +14,7 @@ interface AdvertsListProps {
 export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
 	const router = useRouter();
 	const { currentAdverts, loading } = useAdverts();
-
+  
 	if (loading) {
 		return (
 			<section
