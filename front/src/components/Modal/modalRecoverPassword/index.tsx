@@ -49,7 +49,7 @@ const ModalRecoverPassword = ({
   return (
     <>
       {modalMessageRecoverPassword ? (
-        <ModalMessageRecoverPassword />
+        <ModalMessageRecoverPassword email="" />
       ) : (
         <div>
           <p className="h7">Recupere sua senha </p>

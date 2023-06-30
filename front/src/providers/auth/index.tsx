@@ -11,7 +11,7 @@ import { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
-import { CreateRegisterData, RegisterData } from "@/schemas/register.schema";
+import { CreateRegisterData } from "@/schemas/register.schema";
 import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 import Notify from "@/components/notify";
 import { setCookie } from "nookies";
@@ -19,9 +19,6 @@ import jwtDecode from "jwt-decode";
 import { UserProvider } from "../users";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { UserContext, UserProvider } from "../users";
-import { useUser } from "@/hooks/userHook";
-import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 import {
   CreateNewPasswordData,
   RecoveryPasswordData,
