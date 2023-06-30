@@ -43,6 +43,7 @@ export default function Header() {
     };
 
     window.addEventListener("mousedown", handleClick);
+    window.addEventListener("scroll", () => setOpenMenu(false));
     window.addEventListener(
       "keydown",
       (event) => event.key == "Escape" && setOpenMenu(false)
@@ -95,6 +96,8 @@ export default function Header() {
       </figure>
 
       <button
+        type="button"
+        title="menu"
         className="h-12 w-8 flex flex-col justify-center items-center group sm:hidden"
         onClick={() => setMenuDrop(!menuDrop)}
       >
@@ -131,11 +134,13 @@ export default function Header() {
                 bg-white text-gray-0 font-semibold
                 sm:w-64 sm:h-full sm:static
                 sm:flex sm:flex-row sm:justify-center sm:gap-4 sm:border-l-2
-                z-10
-                `}
+                z-10`
+          }
         >
           {cookieToken && user ? (
-            <div className="flex flex-col sm:items-center">
+            <div 
+            ref={ref}
+            className="flex flex-col sm:items-center">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={() => setOpenMenu(!openMenu)}
@@ -172,7 +177,10 @@ export default function Header() {
                 </p>
                 {user.account_type ? (
                   <p
-                    onClick={() => goToPageProfile()}
+                    onClick={() => {
+                      goToPageProfile()
+                      setOpenMenu(false)
+                    }}
                     className="cursor-pointer"
                   >
                     Meus Anúncios
@@ -192,7 +200,10 @@ export default function Header() {
           ) : (
             <>
               {path == "/login" && (
-                <Link href={"/"} onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}>
+                <Link
+                  href={"/"}
+                  onClick={() => (setMenuDrop(!menuDrop), setOldPath(path))}
+                >
                   Voltar
                 </Link>
               )}

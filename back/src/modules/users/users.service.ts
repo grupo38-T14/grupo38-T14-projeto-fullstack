@@ -126,8 +126,6 @@ export class UsersService {
 
   async findUser(email: string, cpf: string) {
     const user = await this.usersRepository.findUserBy(email, cpf);
-    console.log(user);
-
     if (!user) {
       throw new NotFoundException('User not found');
     }

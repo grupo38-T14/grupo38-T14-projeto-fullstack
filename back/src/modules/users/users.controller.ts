@@ -17,7 +17,7 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 
-@ApiTags("Users")
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -70,7 +70,6 @@ export class UsersController {
 
   @Get('resetPassword/find')
   findUser(@Query('email') email?: string, @Query('cpf') cpf?: string) {
-    console.log(`email: ${email} | cpf: ${cpf}`);
     return this.usersService.findUser(email, cpf);
   }
 
