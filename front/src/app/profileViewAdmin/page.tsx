@@ -48,15 +48,7 @@ const ProfilePageViewAdmin = () => {
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
       <>
         <section className="flex flex-col bg-white w-full md:w-[75%] items-start gap-6 p-7 rounded">
-          {profileUser!.avatar_url ? (
-            <Image
-              src={profileUser!.avatar_url}
-              alt="avatar do usuário"
-              width={104}
-              height={104}
-              className="rounded-full w-28 h-28"
-            />
-          ) : (
+          {profileUser!.avatar_url && (
             <div className="flex items-center justify-center w-24 h-24 bg-random-1 text-white rounded-full text-5xl">
               {profileUser!.name && profileUser!.name[0].toUpperCase()}
             </div>
@@ -107,12 +99,10 @@ const ProfilePageViewAdmin = () => {
                       >
                         <div className="w-full">
                           <div className="flex w-[100%] items-center h-[200px] rounded">
-                            <Image
-                              className="w-[100%] rounded"
+                            <img
+                              className={`flex m-auto h-[12.39263rem] w-[16.375rem] rounded`}
+                              alt={advert.brand}
                               src={advert.image_cape}
-                              width={250}
-                              height={250}
-                              alt="imagem do carro"
                             />
                           </div>
                         </div>

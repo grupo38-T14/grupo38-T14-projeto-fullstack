@@ -88,7 +88,7 @@ const Advert = () => {
                   advert.gallery?.map((pic) => (
                     <div
                       key={pic.id}
-                      className="w-[90px] sm:w-[108px] h-[200px]  bg-gray-70 flex items-center justify-center"
+                      className="w-[90px] sm:w-[108px] h-[100px]  bg-gray-70 flex items-center justify-center"
                     >
                       <Image
                         key={pic.id}
