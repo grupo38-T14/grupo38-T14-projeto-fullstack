@@ -50,7 +50,6 @@ export interface AdvertsContextValues {
   loading: boolean;
   getProfileAdverts: (id: string, pageNumber?: number) => void;
   profileUserAdverts: retrieveAdvertPaginationType | undefined;
-  profileUser: retrieveUser;
   profileId: string;
   setProfileId: Dispatch<SetStateAction<string>>;
   createComment: (
@@ -58,6 +57,7 @@ export interface AdvertsContextValues {
     advertId: string,
     setAdvert: Dispatch<SetStateAction<retrieveAdvertType>>
   ) => void;
+  profileUser: retrieveUser;
 }
 
 export interface AdvertsProviderProps {

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
 import nookies from "nookies";
 import { useEffect } from "react";
+import { useUser } from "@/hooks/userHook";
 
 const ProfilePageViewUser = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const ProfilePageViewUser = () => {
     profileId,
     setProfileId,
   } = useAdverts();
+  const { user } = useUser();
 
   const scrollToTop = () => {
     window.scrollTo({

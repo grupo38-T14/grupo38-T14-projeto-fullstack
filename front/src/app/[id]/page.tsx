@@ -10,12 +10,16 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ImageProfile from "@/components/imageProfile";
 import CommentCard from "@/components/commentCard";
+import Modal from "@/components/Modal";
+import { image } from "@/schemas/advert.schema";
 
 const Advert = () => {
   const params = useParams();
   const [advert, setAdvert] = useState<retrieveAdvertType>(
     {} as retrieveAdvertType
   );
+  const [openModal, setOpenModal] = useState(false);
+  const [currentImage, setCurrentImage] = useState<image>({} as image);
   const [commentCurrent, setCommentCurrent] = useState<string>("");
 
   const { pageProfile, user } = useUser();
@@ -37,14 +41,14 @@ const Advert = () => {
       <section className="flex flex-col gap-4 w-full items-center">
         <div className="flex flex-col lg:flex-row gap-4 items-center lg:items-start lg:justify-center ">
           <div className="flex flex-col gap-4 items-center justify-center">
-            <div className="max-w-[752px] w-full max-h-[355px] h-full bg-white flex flex-col gap-4 items-center justify-center rounded">
+            <div className="max-w-[752px] w-full xl:w-[752px] max-h-[355px] h-full bg-white flex flex-col gap-4 items-center justify-center rounded">
               {advert.image_cape && (
                 <Image
                   src={advert.image_cape!}
                   alt={`Imagem do carro ${advert.model}`}
                   width={290}
                   height={250}
-                  className="max-w-[400px] w-full py-8 md:py-14"
+                  className="max-w-[400px] w-full py-8"
                 />
               )}
             </div>
@@ -86,9 +90,11 @@ const Advert = () => {
               <div className="flex flex-wrap gap-[5.5px] sm:gap-4 mt-8 justify-center">
                 {advert.gallery && advert.gallery.length > 0 ? (
                   advert.gallery?.map((pic) => (
-                    <div
+                    <button
+                      title="Ver a imagem"
                       key={pic.id}
-                      className="w-[90px] sm:w-[108px] h-[100px]  bg-gray-70 flex items-center justify-center"
+                      className="w-[90px] sm:w-[6.75rem] h-[6.75rem]  bg-gray-70 flex items-center justify-center"
+                      onClick={() => (setCurrentImage(pic), setOpenModal(true))}
                     >
                       <Image
                         key={pic.id}
@@ -98,7 +104,7 @@ const Advert = () => {
                         height={90}
                         className=""
                       />
-                    </div>
+                    </button>
                   ))
                 ) : (
                   <h4>Este anúncio não possui imagens da galeria</h4>
@@ -118,7 +124,7 @@ const Advert = () => {
             </div>
           </div>
         </div>
-        <div className="max-w-[752px] w-full py-9 pl-7 pr-10 h-full bg-white flex flex-col gap-4 justify-center rounded lg:relative lg:left-[-237px] xl:left-[-237px]">
+        <div className="max-w-[752px] w-full py-9 pl-7 pr-10 h-full bg-white flex flex-col gap-4 justify-center rounded lg:relative lg:left-[-123px] xl:left-[-237px]">
           <h6 className="text-gray-10 pb-6">Comentários</h6>
           <div className="flex flex-col gap-11">
             {advert.comments && advert.comments.length > 0 ? (
@@ -135,7 +141,7 @@ const Advert = () => {
           </div>
         </div>
       </section>
-      <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-237px] xl:left-[-237px]">
+      <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-237px]">
         <header className="flex gap-2 items-center">
           <ImageProfile userProfile={user && user} size={2} />
           <p className="text-gray-10 body-2 font-medium">{user && user.name}</p>
@@ -195,6 +201,22 @@ const Advert = () => {
           ))}
         </div>
       </section>
+      {openModal && (
+        <Modal setOpenModal={setOpenModal}>
+          <div className="flex flex-col justify-between w-[23.4375rem] lg:w-[32.5rem] h-[23.6875rem] lg:h-[22.125rem] px-4">
+            <h1 className="h7 text-gray-10">Imagem do veículo</h1>
+            <div className="w-[312px] lg:w-full  mx-auto ">
+              <Image
+                src={currentImage.image_url}
+                alt={`Imagem da iamgem ${currentImage.id}`}
+                width={1000}
+                height={1200}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </Modal>
+      )}
     </main>
   );
 };
