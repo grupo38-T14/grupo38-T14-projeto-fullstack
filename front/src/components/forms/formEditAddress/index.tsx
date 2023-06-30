@@ -35,7 +35,7 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
       <p className="body-2">Informações de endereço</p>
       <form
         noValidate
-        className="flex flex-col gap-5"
+        className="flex flex-col gap-5 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 max-h-[350px] lg:overflow-y-visible lg:h-fit lg:max-h-fit"
         onSubmit={handleSubmit(formData)}
       >
         <Input
@@ -46,7 +46,8 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
           error={errors.cep && errors.cep.message}
           defaultValue={userAddress!.cep}
         />
-        <div className="flex gap-3 mt-3">
+        <div 
+          className="flex gap-3 mt-3 max-sm:flex-col">
           <Input
             label="Estado"
             placeholder={userAddress!.state}
@@ -74,7 +75,7 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
           defaultValue={userAddress!.street}
         />
 
-        <div className="flex gap-3 mt-3">
+        <div className="flex gap-3 mt-3 max-sm:flex-col">
           <Input
             label="Número"
             placeholder={userAddress!.complement}
