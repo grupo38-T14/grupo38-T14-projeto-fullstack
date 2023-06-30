@@ -30,9 +30,7 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
   });
 
   const handleNewPassword = (data: CreateNewPasswordData) => {
-    console.log(data);
     createNewPassword(data, token);
-    console.log(token);
   };
 
   return (
@@ -50,7 +48,7 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
             error={errors.password && errors.password.message}
             register={register("password")}
           />
-          <div className="flex flex-col font-sans text-sm font-medium leading-6">
+          {/* <div className="flex flex-col font-sans text-sm font-medium leading-6">
             <span>
               Não ter letras e números repetidos ou sequenciais, ex: aaa,123
             </span>
@@ -59,7 +57,7 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
             <span>Mínimo de 1 número.</span>
             <span>Ter letras MAIÚSCULAS.</span>
             <span>Ter letras minúsculas.</span>
-          </div>
+          </div> */}
 
           <Input
             label="Confime sua senha "

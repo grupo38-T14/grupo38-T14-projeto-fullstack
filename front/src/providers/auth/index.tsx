@@ -95,9 +95,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
   const sendRecoveryEmail = async (data: RecoveryPasswordData) => {
     await api
       .post(`users/resetPassword`, data)
-      .then((res) => {
-        console.log(res);
-      })
+      .then()
       .catch((error) => {
         console.error(error);
       });
