@@ -12,9 +12,10 @@ import { RiLoader4Line } from "react-icons/ri";
 
 interface ModalProps {
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FormLogin = ({ setOpenModal }: ModalProps) => {
+const FormLogin = ({ setOpenModal, setEmail }: ModalProps) => {
   const { login } = useAuth();
   const [btnLoading, setBtnLoading] = useState(false);
 
@@ -40,6 +41,7 @@ const FormLogin = ({ setOpenModal }: ModalProps) => {
         type="email"
         error={errors.email && errors.email.message}
         register={register("email")}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <Input
         label="Senha"

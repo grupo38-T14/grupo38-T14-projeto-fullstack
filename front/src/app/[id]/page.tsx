@@ -21,8 +21,6 @@ const Advert = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentImage, setCurrentImage] = useState<image>({} as image);
   const [commentCurrent, setCommentCurrent] = useState<string>("");
-  const [openModal, setOpenModal] = useState(false);
-  const [currentImage, setCurrentImage] = useState<image>({} as image);
 
   const { pageProfile, user } = useUser();
   const { createComment } = useAdverts();
@@ -93,8 +91,9 @@ const Advert = () => {
                 {advert.gallery && advert.gallery.length > 0 ? (
                   advert.gallery?.map((pic) => (
                     <button
+                      title="Ver a imagem"
                       key={pic.id}
-                      className="w-[90px] sm:w-[108px] h-[200px]  bg-gray-70 flex items-center justify-center"
+                      className="w-[90px] sm:w-[6.75rem] h-[6.75rem]  bg-gray-70 flex items-center justify-center"
                       onClick={() => (setCurrentImage(pic), setOpenModal(true))}
                     >
                       <Image

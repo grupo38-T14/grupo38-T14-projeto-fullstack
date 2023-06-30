@@ -10,6 +10,7 @@ import React, { useState } from "react";
 export default function Login() {
   const [openModal, setOpenModal] = useState(false);
   const [modalNewPassword, setModalNewPassword] = useState(false);
+  const [email, setEmail] = useState("");
   const [modalMessageRecoverPassword, setModalMessageRecoverPassword] =
     useState(false);
   return (
@@ -26,13 +27,13 @@ export default function Login() {
 
       {modalMessageRecoverPassword && (
         <Modal setOpenModal={setOpenModal}>
-          <ModalMessageRecoverPassword />
+          <ModalMessageRecoverPassword email={email} />
         </Modal>
       )}
 
       <section className="flex flex-col gap-6 h-fit w-full lg:w-[25.75rem] p-8 rounded shadow bg-gray-100">
         <h5 className="mb-2">Login</h5>
-        <FormLogin setOpenModal={setOpenModal} />
+        <FormLogin setOpenModal={setOpenModal} setEmail={setEmail} />
         <span className="body-2 text-gray-20 text-center">
           Ainda não possui conta?
         </span>
