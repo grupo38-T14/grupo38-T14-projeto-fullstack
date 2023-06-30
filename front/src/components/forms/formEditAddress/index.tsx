@@ -35,7 +35,7 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
       <p className="body-2">Informações de endereço</p>
       <form
         noValidate
-        className="flex flex-col gap-5"
+        className="flex flex-col gap-5 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 max-h-[350px] lg:overflow-y-visible lg:h-fit lg:max-h-fit"
         onSubmit={handleSubmit(formData)}
       >
         <Input
