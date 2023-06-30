@@ -48,7 +48,7 @@ const Advert = () => {
                   alt={`Imagem do carro ${advert.model}`}
                   width={290}
                   height={250}
-                  className="max-w-[400px] w-full py-8"
+                  className="max-w-[400px] w-full py-8 md:py-14 transition-all ease-in-out duration-500 hover:scale-110"
                 />
               )}
             </div>
@@ -205,7 +205,7 @@ const Advert = () => {
         <Modal setOpenModal={setOpenModal}>
           <div className="flex flex-col justify-between w-[23.4375rem] lg:w-[32.5rem] h-[23.6875rem] lg:h-[22.125rem] px-4">
             <h1 className="h7 text-gray-10">Imagem do veículo</h1>
-            <div className="w-[312px] lg:w-full  mx-auto ">
+            <div className="w-[312px] lg:w-full h-[300px]  mx-auto ">
               <Image
                 src={currentImage.image_url}
                 alt={`Imagem da iamgem ${currentImage.id}`}
