@@ -47,9 +47,9 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
                       className="relative flex flex-col min-w-[300px] lg:w-fit items-start gap-4 cursor-pointer border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
                       onClick={() => router.push(`/${advert.id}`)}
                     >
-                      <div className="flex w-[100%] items-center h-[200px] rounded">
+                      <div className="flex w-[100%] items-center h-[200px] rounded overflow-hidden">
                         <Image
-                          className="w-[100%] rounded"
+                          className="w-[100%] rounded transition-all ease-in-out duration-500 hover:scale-110"
                           src={advert.image_cape}
                           width={250}
                           height={250}
