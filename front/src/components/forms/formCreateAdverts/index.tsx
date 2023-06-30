@@ -76,7 +76,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 			<span className="body-2">Infomações do veículo</span>
 			<form
 				noValidate
-				className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px] pr-2"
+				className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 max-h-[350px] lg:max-h-[450px] pr-2"
 				onSubmit={handleSubmit(handleCreateAdvert)}
 			>
 				<Select

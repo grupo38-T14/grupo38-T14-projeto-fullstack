@@ -45,7 +45,7 @@ const FormEditUser = ({
       <span className="body-2">Infomações pessoais</span>
       <form
         noValidate
-        className="flex flex-col gap-5 pr-2 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px]"
+        className="flex flex-col gap-5 pr-2 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 max-h-[350px] lg:max-h-[450px]"
         onSubmit={handleSubmit(handleSubmitEdit)}
       >
         <Input
