@@ -2,6 +2,7 @@
 import Button from "@/components/button";
 import FormLogin from "@/components/forms/formLogin";
 import Modal from "@/components/Modal";
+import ModalMessageRecoverPassword from "@/components/Modal/modalMessageRecoverPassword";
 import ModalRecoverPassword from "@/components/Modal/modalRecoverPassword";
 
 import React, { useState } from "react";
@@ -9,7 +10,8 @@ import React, { useState } from "react";
 export default function Login() {
   const [openModal, setOpenModal] = useState(false);
   const [modalNewPassword, setModalNewPassword] = useState(false);
-
+  const [modalMessageRecoverPassword, setModalMessageRecoverPassword] =
+    useState(false);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4">
       {openModal && (
@@ -17,7 +19,14 @@ export default function Login() {
           <ModalRecoverPassword
             setOpenModal={setOpenModal}
             setModalNewPassword={setModalNewPassword}
+            setModalMessageRecoverPassword={setModalMessageRecoverPassword}
           />
+        </Modal>
+      )}
+
+      {modalMessageRecoverPassword && (
+        <Modal setOpenModal={setOpenModal}>
+          <ModalMessageRecoverPassword />
         </Modal>
       )}
 
