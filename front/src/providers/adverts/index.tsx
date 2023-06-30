@@ -271,6 +271,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     (async () => {
       await retrieveAdvert();
       await getProfileAdverts(profileId);
+      await getProfile(profileId);
     })();
   }, [profileId]);
 
