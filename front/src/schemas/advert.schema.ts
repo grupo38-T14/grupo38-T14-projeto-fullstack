@@ -108,6 +108,7 @@ export const schemaAdvertPagination = z.object({
 	data: schemaAdvert.array(),
 });
 
+export type image = z.infer<typeof schemaGallery>
 export type requestAdvertType = z.infer<typeof schemaRequestAdvert>;
 export type createAdvertType = z.infer<typeof schemaCreateAdvert>;
 export type requestUpdateAdvertType = z.infer<typeof schemaUpdateRequestAdvert>;
