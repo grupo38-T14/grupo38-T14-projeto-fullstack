@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ImageProfile from "@/components/imageProfile";
 import CommentCard from "@/components/commentCard";
+import Modal from "@/components/Modal";
 import { image } from "@/schemas/advert.schema";
 
 const Advert = () => {
@@ -20,6 +21,8 @@ const Advert = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentImage, setCurrentImage] = useState<image>({} as image);
   const [commentCurrent, setCommentCurrent] = useState<string>("");
+  const [openModal, setOpenModal] = useState(false);
+  const [currentImage, setCurrentImage] = useState<image>({} as image);
 
   const { pageProfile, user } = useUser();
   const { createComment } = useAdverts();
@@ -89,10 +92,10 @@ const Advert = () => {
               <div className="flex flex-wrap gap-[5.5px] sm:gap-4 mt-8 justify-center">
                 {advert.gallery && advert.gallery.length > 0 ? (
                   advert.gallery?.map((pic) => (
-                    <div
+                    <button
                       key={pic.id}
+                      className="w-[90px] sm:w-[108px] h-[200px]  bg-gray-70 flex items-center justify-center"
                       onClick={() => (setCurrentImage(pic), setOpenModal(true))}
-                      className="w-[90px] sm:w-[108px] h-[100px]  bg-gray-70 flex items-center justify-center"
                     >
                       <Image
                         key={pic.id}
@@ -102,7 +105,7 @@ const Advert = () => {
                         height={90}
                         className=""
                       />
-                    </div>
+                    </button>
                   ))
                 ) : (
                   <h4>Este anúncio não possui imagens da galeria</h4>
@@ -199,6 +202,22 @@ const Advert = () => {
           ))}
         </div>
       </section>
+      {openModal && (
+        <Modal setOpenModal={setOpenModal}>
+          <div className="flex flex-col justify-between w-[23.4375rem] lg:w-[32.5rem] h-[23.6875rem] lg:h-[22.125rem] px-4">
+            <h1 className="h7 text-gray-10">Imagem do veículo</h1>
+            <div className="w-[312px] lg:w-full  mx-auto ">
+              <Image
+                src={currentImage.image_url}
+                alt={`Imagem da iamgem ${currentImage.id}`}
+                width={1000}
+                height={1200}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </Modal>
+      )}
     </main>
   );
 };
