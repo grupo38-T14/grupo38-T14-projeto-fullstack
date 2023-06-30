@@ -37,9 +37,6 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 	const [loading, setLoading] = useState(true);
 	const [profileUserAdverts, setProfileUserAdverts] =
 		useState<retrieveAdvertPaginationType>({} as retrieveAdvertPaginationType);
-	const [profileUser, setProfileUser] = useState<retrieveUser>(
-		{} as retrieveUser
-	);
 	const [profileId, setProfileId] = useState("");
 
 	const router = useRouter();
@@ -105,6 +102,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			console.error(error);
 		}
 	};
+
 	const updateAdvert = async (
 		id: string,
 		data: updateAdvertType,
@@ -148,6 +146,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 			setBtnLoading(false);
 		}
 	};
+
 	const retrieveUniqueAdvert = async (id: string) => {
 		await api
 			.get(`adverts/${id}`)
@@ -251,25 +250,11 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		}
 	};
 
-	const getProfile = async (id: string) => {
-		if (id) {
-			try {
-				const { data } = await api.get(`users/${id}`);
-				setProfileUser(data);
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setLoading(false);
-			}
-		}
-	};
-
 	useEffect(() => {
 		const cookies = nookies.get(null, "profile.id");
 		setProfileId(cookies["profile.id"]);
 		(async () => {
 			await retrieveAdvert();
-			await getProfile(profileId);
 			await getProfileAdverts(profileId);
 		})();
 	}, [profileId]);
@@ -324,7 +309,6 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 				loading,
 				getProfileAdverts,
 				profileUserAdverts,
-				profileUser,
 				profileId,
 				setProfileId,
 				createComment,
