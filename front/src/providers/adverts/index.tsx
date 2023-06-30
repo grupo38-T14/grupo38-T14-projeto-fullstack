@@ -25,21 +25,22 @@ export const AdvertsContext = createContext<AdvertsContextValues>(
 );
 
 export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
-
-	const [currentAdverts, setCurrentAdverts] = useState<listRetrieveAdvertsType>(
-		[]
-	);
-	const [advert, setAdvert] = useState<retrieveAdvertType>();
-	const [page, setPage] = useState<IPageProps>();
-	const [minKm, setMinKm] = useState<number>(0);
-	const [maxKm, setMaxKm] = useState<number>(1000000);
-	const [minPrice, setMinPrice] = useState<number>(0);
-	const [maxPrice, setMaxPrice] = useState<number>(1000000);
-	const [loading, setLoading] = useState(true);
-	const [profileUserAdverts, setProfileUserAdverts] =
-		useState<retrieveAdvertPaginationType>({} as retrieveAdvertPaginationType);
-	const [profileId, setProfileId] = useState("");
-
+  const [currentAdverts, setCurrentAdverts] = useState<listRetrieveAdvertsType>(
+    []
+  );
+  const [advert, setAdvert] = useState<retrieveAdvertType>();
+  const [page, setPage] = useState<IPageProps>();
+  const [minKm, setMinKm] = useState<number>(0);
+  const [maxKm, setMaxKm] = useState<number>(1000000);
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(1000000);
+  const [loading, setLoading] = useState(true);
+  const [profileUserAdverts, setProfileUserAdverts] =
+    useState<retrieveAdvertPaginationType>({} as retrieveAdvertPaginationType);
+  const [profileId, setProfileId] = useState("");
+  const [profileUser, setProfileUser] = useState<retrieveUser>(
+    {} as retrieveUser
+  );
 
   const router = useRouter();
   const params = useParams();
@@ -88,73 +89,73 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   };
 
-	const deleteAdvert = async (
-		id: string,
-		setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
-	) => {
-		try {
-			await api.delete(`adverts/${id}`);
-			await retrieveAdvert();
-			const cookies = nookies.get(null, "profile.id");
-			setProfileId(cookies["profile.id"]);
-			await getProfileAdverts(profileId);
-			Notify({ type: "success", message: "Anúncio excluído com sucesso!" });
-			setOpenDeleteModal(false);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  const deleteAdvert = async (
+    id: string,
+    setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      await api.delete(`adverts/${id}`);
+      await retrieveAdvert();
+      const cookies = nookies.get(null, "profile.id");
+      setProfileId(cookies["profile.id"]);
+      await getProfileAdverts(profileId);
+      Notify({ type: "success", message: "Anúncio excluído com sucesso!" });
+      setOpenDeleteModal(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-	const updateAdvert = async (
-		id: string,
-		data: updateAdvertType,
-		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
-		setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
-	) => {
-		const {
-			image_gallery1,
-			image_gallery2,
-			image_gallery3,
-			image_gallery4,
-			...rest
-		} = data;
+  const updateAdvert = async (
+    id: string,
+    data: updateAdvertType,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    const {
+      image_gallery1,
+      image_gallery2,
+      image_gallery3,
+      image_gallery4,
+      ...rest
+    } = data;
 
-		const newData = {
-			...rest,
-			imagesGallery: [
-				image_gallery1,
-				image_gallery2,
-				image_gallery3,
-				image_gallery4,
-			],
-		};
-		try {
-			setBtnLoading(true);
-			const { data } = await api.patch(`adverts/${id}`, newData);
-			setOpenModal(false);
-			const cookies = nookies.get(null, "profile.id");
-			setProfileId(cookies["profile.id"]);
-			await getProfileAdverts(profileId);
-			router.refresh();
-			Notify({ type: "success", message: "Anúncio atualizado com sucesso!" });
-		} catch (error) {
-			const err = error as AxiosError;
-			console.log(err);
-			Notify({
-				type: "error",
-				message: "Ops! algo deu errado. Tente novamente!",
-			});
-		} finally {
-			setBtnLoading(false);
-		}
-	};
+    const newData = {
+      ...rest,
+      imagesGallery: [
+        image_gallery1,
+        image_gallery2,
+        image_gallery3,
+        image_gallery4,
+      ],
+    };
+    try {
+      setBtnLoading(true);
+      const { data } = await api.patch(`adverts/${id}`, newData);
+      setOpenModal(false);
+      const cookies = nookies.get(null, "profile.id");
+      setProfileId(cookies["profile.id"]);
+      await getProfileAdverts(profileId);
+      router.refresh();
+      Notify({ type: "success", message: "Anúncio atualizado com sucesso!" });
+    } catch (error) {
+      const err = error as AxiosError;
+      console.log(err);
+      Notify({
+        type: "error",
+        message: "Ops! algo deu errado. Tente novamente!",
+      });
+    } finally {
+      setBtnLoading(false);
+    }
+  };
 
-	const retrieveUniqueAdvert = async (id: string) => {
-		await api
-			.get(`adverts/${id}`)
-			.then(({ data }) => setAdvert(data.data.data))
-			.catch((err) => console.error(err));
-	};
+  const retrieveUniqueAdvert = async (id: string) => {
+    await api
+      .get(`adverts/${id}`)
+      .then(({ data }) => setAdvert(data.data.data))
+      .catch((err) => console.error(err));
+  };
   const retrieveAdvert = async (
     filter: string = "",
     filterName: string | number = "",
@@ -251,15 +252,27 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   };
 
-	useEffect(() => {
-		const cookies = nookies.get(null, "profile.id");
-		setProfileId(cookies["profile.id"]);
-		(async () => {
-			await retrieveAdvert();
-			await getProfileAdverts(profileId);
-		})();
-	}, [profileId]);
+  const getProfile = async (id: string) => {
+    if (id) {
+      try {
+        const { data } = await api.get(`users/${id}`);
+        setProfileUser(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
+  useEffect(() => {
+    const cookies = nookies.get(null, "profile.id");
+    setProfileId(cookies["profile.id"]);
+    (async () => {
+      await retrieveAdvert();
+      await getProfileAdverts(profileId);
+    })();
+  }, [profileId]);
 
   const createComment = async (
     newComment: string,
@@ -286,36 +299,36 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   };
 
-	return (
-		<AdvertsContext.Provider
-			value={{
-				retrieveAdvert,
-				retrieveUniqueAdvert,
-				advert,
-				createAdvert,
-				deleteAdvert,
-				updateAdvert,
-				page,
-				minKm,
-				setMinKm,
-				maxKm,
-				setMaxKm,
-				minPrice,
-				setMinPrice,
-				maxPrice,
-				setMaxPrice,
-				currentAdverts,
-				retrieveFilterByKmPriceAdvert,
-				loading,
-				getProfileAdverts,
-				profileUserAdverts,
-				profileId,
-				setProfileId,
-				createComment,
-			}}
-		>
-			{children}
-		</AdvertsContext.Provider>
-	);
-
+  return (
+    <AdvertsContext.Provider
+      value={{
+        retrieveAdvert,
+        retrieveUniqueAdvert,
+        advert,
+        createAdvert,
+        deleteAdvert,
+        updateAdvert,
+        page,
+        minKm,
+        setMinKm,
+        maxKm,
+        setMaxKm,
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
+        currentAdverts,
+        retrieveFilterByKmPriceAdvert,
+        loading,
+        getProfileAdverts,
+        profileUserAdverts,
+        profileUser,
+        profileId,
+        setProfileId,
+        createComment,
+      }}
+    >
+      {children}
+    </AdvertsContext.Provider>
+  );
 };

@@ -49,10 +49,10 @@ const Modal = ({
   }, [setOpenDeleteModal, setOpenModal, setOpenUpdateModal]);
 
   return (
-    <div className="fixed top-0 left-0 z-50 w-full h-screen bg-opacity-1 flex justify-center p-1 py-2 lg:p-10 overflow-hidden">
+    <div className="fixed top-0 left-0 z-50 w-full h-screen bg-opacity-1 flex justify-center items-center p-1 py-2 lg:p-10 overflow-hidden">
       <div
         ref={ref}
-        className="relative flex flex-col justify-center items-center max-w-[90%] h-fit lg:w-fit px-6 py-5 bg-white rounded-md shadow-md overflow-hidden"
+        className="relative flex flex-col justify-center items-center w-fit h-fit lg:w-fit px-6 py-5 bg-white rounded-md shadow-md overflow-hidden"
       >
         <button
           className="absolute top-2 right-3 font-bold text-lg"
