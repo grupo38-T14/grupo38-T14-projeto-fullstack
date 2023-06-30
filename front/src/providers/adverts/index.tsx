@@ -37,10 +37,10 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [profileUserAdverts, setProfileUserAdverts] =
     useState<retrieveAdvertPaginationType>({} as retrieveAdvertPaginationType);
+  const [profileId, setProfileId] = useState("");
   const [profileUser, setProfileUser] = useState<retrieveUser>(
     {} as retrieveUser
   );
-  const [profileId, setProfileId] = useState("");
 
   const router = useRouter();
   const params = useParams();
@@ -105,6 +105,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       console.error(error);
     }
   };
+
   const updateAdvert = async (
     id: string,
     data: updateAdvertType,
@@ -148,13 +149,13 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
       setBtnLoading(false);
     }
   };
+
   const retrieveUniqueAdvert = async (id: string) => {
     await api
       .get(`adverts/${id}`)
       .then(({ data }) => setAdvert(data.data.data))
       .catch((err) => console.error(err));
   };
-
   const retrieveAdvert = async (
     filter: string = "",
     filterName: string | number = "",
@@ -269,8 +270,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     setProfileId(cookies["profile.id"]);
     (async () => {
       await retrieveAdvert();
-      await getProfile(profileId);
       await getProfileAdverts(profileId);
+      await getProfile(profileId);
     })();
   }, [profileId]);
 

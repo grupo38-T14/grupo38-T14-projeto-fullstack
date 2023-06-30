@@ -2,6 +2,7 @@
 
 import Notify from "@/components/notify";
 import { editAddressType, retrieveAddressType } from "@/schemas/address.schema";
+import { RecoveryPasswordData } from "@/schemas/recoveryPassword.schema";
 import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { editUserType, retrieveUser } from "@/schemas/user.schema";
 import { UserContextProps, UserProviderProps } from "@/schemas/userContext";

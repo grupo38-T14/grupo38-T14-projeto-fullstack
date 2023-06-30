@@ -1,6 +1,5 @@
 "use client";
 
-import { useUser } from "@/hooks/userHook";
 import { retrieveUser } from "@/schemas/user.schema";
 import Image from "next/image";
 import React from "react";

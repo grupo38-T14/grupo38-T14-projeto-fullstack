@@ -18,9 +18,9 @@ const Advert = () => {
   const [advert, setAdvert] = useState<retrieveAdvertType>(
     {} as retrieveAdvertType
   );
-  const [commentCurrent, setCommentCurrent] = useState<string>("");
   const [openModal, setOpenModal] = useState(false);
   const [currentImage, setCurrentImage] = useState<image>({} as image);
+  const [commentCurrent, setCommentCurrent] = useState<string>("");
 
   const { pageProfile, user } = useUser();
   const { createComment } = useAdverts();
@@ -41,7 +41,7 @@ const Advert = () => {
       <section className="flex flex-col gap-4 w-full items-center">
         <div className="flex flex-col lg:flex-row gap-4 items-center lg:items-start lg:justify-center ">
           <div className="flex flex-col gap-4 items-center justify-center">
-            <div className="max-w-[752px] w-full max-h-[355px] h-full bg-white flex flex-col gap-4 items-center justify-center rounded">
+            <div className="max-w-[752px] w-full xl:w-[752px] max-h-[355px] h-full bg-white flex flex-col gap-4 items-center justify-center rounded">
               {advert.image_cape && (
                 <Image
                   src={advert.image_cape!}
@@ -91,8 +91,9 @@ const Advert = () => {
                 {advert.gallery && advert.gallery.length > 0 ? (
                   advert.gallery?.map((pic) => (
                     <button
+                      title="Ver a imagem"
                       key={pic.id}
-                      className="w-[90px] sm:w-[108px] h-[200px]  bg-gray-70 flex items-center justify-center"
+                      className="w-[90px] sm:w-[6.75rem] h-[6.75rem]  bg-gray-70 flex items-center justify-center"
                       onClick={() => (setCurrentImage(pic), setOpenModal(true))}
                     >
                       <Image
@@ -123,7 +124,7 @@ const Advert = () => {
             </div>
           </div>
         </div>
-        <div className="max-w-[752px] w-full py-9 pl-7 pr-10 h-full bg-white flex flex-col gap-4 justify-center rounded lg:relative lg:left-[-237px] xl:left-[-237px]">
+        <div className="max-w-[752px] w-full py-9 pl-7 pr-10 h-full bg-white flex flex-col gap-4 justify-center rounded lg:relative lg:left-[-123px] xl:left-[-237px]">
           <h6 className="text-gray-10 pb-6">Comentários</h6>
           <div className="flex flex-col gap-11">
             {advert.comments && advert.comments.length > 0 ? (
@@ -140,7 +141,7 @@ const Advert = () => {
           </div>
         </div>
       </section>
-      <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-237px] xl:left-[-237px]">
+      <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-237px]">
         <header className="flex gap-2 items-center">
           <ImageProfile userProfile={user && user} size={2} />
           <p className="text-gray-10 body-2 font-medium">{user && user.name}</p>

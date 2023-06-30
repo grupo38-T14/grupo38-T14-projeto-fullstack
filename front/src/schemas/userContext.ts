@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { editUserType, retrieveUser } from "./user.schema";
 import { editAddressType, retrieveAddressType } from "./address.schema";
+import { RecoveryPasswordData } from "./recoveryPassword.schema";
 import { retrieveAdvertType } from "./advert.schema";
 
 export interface UserContextProps {

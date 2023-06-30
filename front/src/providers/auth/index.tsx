@@ -11,7 +11,7 @@ import { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
-import { CreateRegisterData, RegisterData } from "@/schemas/register.schema";
+import { CreateRegisterData } from "@/schemas/register.schema";
 import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
 import Notify from "@/components/notify";
 import { setCookie } from "nookies";
@@ -19,6 +19,10 @@ import jwtDecode from "jwt-decode";
 import { UserProvider } from "../users";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  CreateNewPasswordData,
+  RecoveryPasswordData,
+} from "@/schemas/recoveryPassword.schema";
 
 export const AuthContext = createContext({} as AuthContextProps);
 
@@ -76,6 +80,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       await api.post("users/", data).then((res) => res.data);
       Notify({ type: "success", message: "Cadastro feito com sucesso!" });
       setOldPath("/register");
+
       router.push("/login");
     } catch (error) {
       const err = error as AxiosError;
@@ -87,6 +92,34 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       setBtnLoading(false);
     }
   };
+  const sendRecoveryEmail = async (data: RecoveryPasswordData) => {
+    await api
+      .post(`users/resetPassword`, data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const createNewPassword = async (
+    data: CreateNewPasswordData,
+    token: string
+  ) => {
+    await api
+      .patch(`users/resetPassword/${token}`, { password: data.password })
+      .then(() => {
+        Notify({ type: "success", message: "Senha atualizada com sucesso !" });
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err);
+        Notify({ type: "error", message: "Erro ao atualizar a senha" });
+      });
+  };
 
   return (
     <AuthContext.Provider
@@ -97,6 +130,8 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         loading,
         oldPath,
         setOldPath,
+        sendRecoveryEmail,
+        createNewPassword,
       }}
     >
       <ToastContainer />
