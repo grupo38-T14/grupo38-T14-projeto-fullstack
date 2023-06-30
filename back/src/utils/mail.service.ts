@@ -3,12 +3,11 @@ import * as Mailgen from 'mailgen';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SendEmailDto } from 'src/modules/users/dto/send-email.dto';
 
-//mudar o link
 const mailGenerator = new Mailgen({
   theme: 'default',
   product: {
     name: 'Motors Shop',
-    link: 'http://localhost:3000',
+    link: 'https://grupo38-t14-projeto-fullstack.vercel.app',
   },
 });
 
@@ -30,7 +29,6 @@ export class MailService {
       });
   }
 
-  //mudar o link
   resetPasswordTemplate(
     userEmail: string,
     userName: string,
@@ -46,7 +44,7 @@ export class MailService {
           button: {
             color: '#4529E6',
             text: 'Redefina sua senha',
-            link: `http://localhost:3000/resetPassword/${resetToken}`,
+            link: `https://grupo38-t14-projeto-fullstack.vercel.app/resetPassword/${resetToken}`,
           },
         },
         greeting: 'Olá',
