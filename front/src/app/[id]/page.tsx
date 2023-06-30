@@ -169,6 +169,7 @@ const Advert = () => {
 				  "
             onChange={(e) => setCommentCurrent(e.target.value)}
             value={commentCurrent}
+            disabled={user ? false : true}
           />
           <div className="mb-6 h-[38px] w-24 md:absolute right-6 bottom-0">
             {user ? (

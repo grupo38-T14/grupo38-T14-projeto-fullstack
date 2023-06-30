@@ -31,10 +31,8 @@ const ProfilePageViewAdmin = () => {
     });
   };
 
-  useEffect(() => {
-    const cookies = nookies.get(null, "profile.id");
-    setProfileId(cookies["profile.id"]);
-  }, [setProfileId]);
+  const cookies = nookies.get(null, "profile.id");
+  setProfileId(cookies["profile.id"]);
 
   const saveAdvertIdAndOpenUpdateModal = (id: string) => {
     setCookie(null, "updateAdvert.id", id, {

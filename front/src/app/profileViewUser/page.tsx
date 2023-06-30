@@ -25,10 +25,8 @@ const ProfilePageViewUser = () => {
     });
   };
 
-  useEffect(() => {
-    const cookies = nookies.get(null, "profile.id");
-    setProfileId(cookies["profile.id"]);
-  }, [setProfileId]);
+  const cookies = nookies.get(null, "profile.id");
+  setProfileId(cookies["profile.id"]);
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
