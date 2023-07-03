@@ -1,9 +1,8 @@
 import Button from "@/components/button";
-import Input from "@/components/inputs";
 
 import { RiLoader4Line } from "react-icons/ri";
 
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -13,18 +12,12 @@ import {
 } from "@/schemas/recoveryPassword.schema";
 import { useAuth } from "@/hooks/authHook";
 import ModalMessageRecoverPassword from "../modalMessageRecoverPassword";
+import Input from "@/components/inputs";
 
-interface ModalProps {
-  setOpenModal: React.Dispatch<SetStateAction<boolean>>;
-  setModalNewPassword: React.Dispatch<SetStateAction<boolean>>;
-  setModalMessageRecoverPassword: React.Dispatch<SetStateAction<boolean>>;
-}
-const ModalRecoverPassword = ({
-  setOpenModal,
-  setModalNewPassword,
-}: ModalProps) => {
+const ModalRecoverPassword = () => {
   const { sendRecoveryEmail } = useAuth();
   const [btnLoading, setBtnLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const [modalMessageRecoverPassword, setModalMessageRecoverPassword] =
     useState(false);
   const {
@@ -36,20 +29,15 @@ const ModalRecoverPassword = ({
   });
 
   const handleRecoveryPassword = (data: RecoveryPasswordData) => {
-    console.log(data);
     sendRecoveryEmail(data);
+    setEmail(data.email);
     setModalMessageRecoverPassword(true);
-    // setBtnLoading(true);
-    // setTimeout(() => {
-    //   setModalNewPassword(true);
-    //   setOpenModal(false);
-    // }, 1000);
   };
 
   return (
     <>
       {modalMessageRecoverPassword ? (
-        <ModalMessageRecoverPassword email="" />
+        <ModalMessageRecoverPassword email={email} />
       ) : (
         <div>
           <p className="h7">Recupere sua senha </p>
@@ -65,14 +53,13 @@ const ModalRecoverPassword = ({
               label="E-mail"
               placeholder="Digitar e-mail"
               type="email"
-              error={errors.email && errors.email.message}
               register={register("email")}
+              error={errors.email && errors.email.message}
             />
-
             <Button
-              type={/*!isDirty || !isValid ? "disableBland" :*/ "brand"}
+              type={!isDirty || !isValid ? "disableBland" : "brand"}
               submit
-              // disable={!isDirty || !isValid}
+              disable={!isDirty || !isValid}
             >
               {!btnLoading ? (
                 "Entrar"

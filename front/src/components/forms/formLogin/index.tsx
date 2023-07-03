@@ -6,16 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginData, loginSchema } from "@/schemas/login.schema";
 
 import Button from "@/components/button";
-import Input from "@/components/inputs";
 import { useAuth } from "@/hooks/authHook";
 import { RiLoader4Line } from "react-icons/ri";
+import Input from "@/components/inputs";
 
 interface ModalProps {
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FormLogin = ({ setOpenModal, setEmail }: ModalProps) => {
+const FormLogin = ({ setOpenModal }: ModalProps) => {
   const { login } = useAuth();
   const [btnLoading, setBtnLoading] = useState(false);
 
@@ -37,18 +36,17 @@ const FormLogin = ({ setOpenModal, setEmail }: ModalProps) => {
     >
       <Input
         label="E-mail"
-        placeholder="Digitar e-mail"
         type="email"
-        error={errors.email && errors.email.message}
         register={register("email")}
-        onChange={(e) => setEmail(e.target.value)}
+        error={errors.email && errors.email.message}
+        placeholder="Digitar e-mail"
       />
       <Input
         label="Senha"
-        placeholder="Digitar senha"
         type="password"
-        error={errors.password && errors.password.message}
         register={register("password")}
+        error={errors.password && errors.password.message}
+        placeholder="Digitar senha"
       />
       <a
         onClick={() => {
@@ -59,9 +57,9 @@ const FormLogin = ({ setOpenModal, setEmail }: ModalProps) => {
         Esqueci minha senha
       </a>
       <Button
-        type={/*!isDirty || !isValid ? "disableBland" : */ "brand"}
+        type={!isDirty || !isValid ? "disableBland" : "brand"}
         submit
-        // disable={!isDirty || !isValid}
+        disable={!isDirty || !isValid}
       >
         {!btnLoading ? (
           "Entrar"

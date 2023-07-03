@@ -98,6 +98,7 @@ export class AdvertPrismaRepository implements AdvertRepository {
             name: true,
             avatar_url: true,
             description: true,
+            phone: true
           },
         },
       },
