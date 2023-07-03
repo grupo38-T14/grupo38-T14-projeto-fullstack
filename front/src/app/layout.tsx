@@ -2,13 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import { AuhtProvider } from "@/providers/auth";
-
-//theme
-import "primereact/resources/themes/lara-light-indigo/theme.css";     
-    
-//core
-import "primereact/resources/primereact.min.css";                                       
+import { AuhtProvider } from "@/providers/auth";                                 
         
 
 const inter = Inter({ subsets: ["latin"] });
