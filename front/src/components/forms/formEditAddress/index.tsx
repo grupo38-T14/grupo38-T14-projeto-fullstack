@@ -1,7 +1,9 @@
+"use client"
+
 import Button from "@/components/button";
 import Input from "@/components/inputs";
 import { useUser } from "@/hooks/userHook";
-import { editAddressSchema, editAddressType } from "@/schemas/address.schema";
+import { editAddressSchema, EditAddressType } from "@/schemas/address.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -20,11 +22,19 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid },
-  } = useForm<editAddressType>({
+  } = useForm<EditAddressType>({
     resolver: zodResolver(editAddressSchema),
+    defaultValues: {
+      cep: userAddress?.cep,
+      city: userAddress?.city,
+      complement: userAddress?.complement,
+      number: userAddress?.number,
+      state: userAddress?.state,
+      street: userAddress?.street,
+    }
   });
 
-  const formData = (data: editAddressType) => {
+  const formData = (data: EditAddressType) => {
     editAddress(userAddress!.id, data, setLoading);
     setOpenModal(false);
   };
@@ -44,53 +54,46 @@ export const FormEditAddress = ({ setOpenModal }: ModalEditAddressProps) => {
           type="text"
           register={register("cep")}
           error={errors.cep && errors.cep.message}
-          defaultValue={userAddress!.cep}
         />
-        <div 
-          className="flex gap-3 mt-3 max-sm:flex-col">
+        <div className="flex gap-3 mt-3 max-sm:flex-col">
           <Input
             label="Estado"
-            placeholder={userAddress!.state}
+            placeholder={"Digite o estado"}
             type="text"
             register={register("state")}
             error={errors.state && errors.state.message}
-            defaultValue={userAddress!.state}
           />
           <Input
             label="Cidade"
-            placeholder={userAddress!.city}
+            placeholder={"Digite a cidade"}
             type="text"
             register={register("city")}
             error={errors.city && errors.city.message}
-            defaultValue={userAddress!.city}
           />
         </div>
 
         <Input
           label="Rua"
-          placeholder={userAddress!.street}
+          placeholder={"Digite o nome da rua"}
           type="text"
           register={register("street")}
           error={errors.street && errors.street.message}
-          defaultValue={userAddress!.street}
         />
 
         <div className="flex gap-3 mt-3 max-sm:flex-col">
           <Input
             label="Número"
-            placeholder={userAddress!.complement}
+            placeholder={"Digite o número"}
             type="text"
             register={register("number")}
             error={errors.number && errors.number.message}
-            defaultValue={userAddress!.number}
           />
           <Input
             label="Complemento"
-            placeholder={userAddress!.complement}
+            placeholder={"Digite o complemento"}
             type="text"
             register={register("complement")}
             error={errors.complement && errors.complement.message}
-            defaultValue={userAddress!.complement}
           />
         </div>
 

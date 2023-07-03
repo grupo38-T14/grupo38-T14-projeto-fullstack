@@ -23,6 +23,7 @@ interface iButtonProps {
   submit?: boolean;
   href?: string;
   link?: boolean;
+  target?: "_blank" | "_self"
 }
 
 const Button = ({
@@ -34,6 +35,7 @@ const Button = ({
   submit,
   href,
   link,
+  target
 }: iButtonProps) => {
   const sizeVariants = ["h-[3rem] text-md", "h-[2.375rem] text-sm"];
 
@@ -86,6 +88,7 @@ const Button = ({
       {link && (
         <Link
           href={href!}
+          target={target}
           className={`
         button-base
         ${sizeVariants[size - 1]} 
