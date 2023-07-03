@@ -15,6 +15,16 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
   const router = useRouter();
   const { currentAdverts, loading } = useAdverts();
 
+  const formatNumber = (number: number) => {
+    const nForString = number.toString();
+    const newNumber = `${nForString.slice(
+      0,
+      nForString.length - 2
+    )}.${nForString.slice(nForString.length - 2)}`;
+
+    return newNumber;
+  };
+
   if (loading) {
     return (
       <section
@@ -77,10 +87,13 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
                         </div>
                         <div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4">
                           <p className="text-sm lg:text-base font-medium text-gray-10">
-                            {advert.price?.toLocaleString("pt-BR", {
-                              style: "currency",
-                              currency: "BRL",
-                            })}
+                            {Number(formatNumber(advert.price)).toLocaleString(
+                              "pt-BR",
+                              {
+                                style: "currency",
+                                currency: "BRL",
+                              }
+                            )}
                           </p>
                           <div className="flex items-start gap-2">
                             <p className="text-xs lg:text-sm font-medium text-brand-1 px-2 py-1 bg-brand-4 rounded">

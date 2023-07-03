@@ -7,8 +7,8 @@ export const registerDataSchema = z.object({
     .max(127)
     .nonempty("Email é obrigatório")
     .email("Deve ser um e-mail válido"),
-  cpf: z.string().nonempty("CPF é obrigatório"),
-  phone: z.string().nonempty("Celular é obrigatório"),
+  cpf: z.string().nonempty("CPF é obrigatório").min(14, "verifique se preencheu corretamente o cpf"),
+  phone: z.string().nonempty("Celular é obrigatório").min(15, "verifique se preencheu corretamente o celular"),
   birth: z.string().nullable(),
   description: z.string().max(255).optional(),
   account_type: z.boolean(),
