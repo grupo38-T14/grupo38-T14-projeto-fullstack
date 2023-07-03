@@ -37,7 +37,7 @@ const Input = ({
 	const masked = {
 		cpf: "999.999.999.99",
 		phone: "(99) 99999-9999",
-		coin: "R$ 999999,99",
+		coin: "R$ 999999",
 	};
 
 	return (
