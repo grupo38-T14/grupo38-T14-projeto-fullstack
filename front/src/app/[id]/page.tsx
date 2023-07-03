@@ -87,10 +87,11 @@ const Advert = () => {
           <div className="flex flex-col gap-12 md:gap-8 w-full md:w-fit items-center">
             <div className=" min-h-[377px] max-w-[460px] w-full md:w-[460px] bg-white p-8 rounded">
               <h6 className="text-gray-10">Fotos</h6>
-              <div className="flex flex-wrap gap-[5.5px] sm:gap-4 mt-8 justify-center">
-                {advert.gallery && advert.gallery.length > 0 ? (
-                  advert.gallery?.map((pic) => (
+              {advert.gallery && advert.gallery.length > 0 ? (
+                <div className="grid grid-cols-2 w-[90%] grid-rows-2 gap-[5.5px] sm:gap-4 mt-8">
+                  {advert.gallery?.map((pic) => (
                     <button
+                      type="button"
                       title="Ver a imagem"
                       key={pic.id}
                       className="w-[90px] sm:w-[6.75rem] h-[6.75rem]  bg-gray-70 flex items-center justify-center"
@@ -105,11 +106,11 @@ const Advert = () => {
                         className=""
                       />
                     </button>
-                  ))
-                ) : (
-                  <h4>Este anúncio não possui imagens da galeria</h4>
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <h4>Este anúncio não possui imagens da galeria</h4>
+              )}
             </div>
             <div className="flex flex-col max-w-[460px] w-full md:w-[460px] gap-7 items-center bg-white p-8 rounded">
               <ImageProfile userProfile={advert.user && advert.user} size={1} />
@@ -129,9 +130,11 @@ const Advert = () => {
           <div className="flex flex-col gap-11">
             {advert.comments && advert.comments.length > 0 ? (
               advert.comments?.map((comment, index) => (
-                <>
-                  <CommentCard comment={comment} key={index} />
-                </>
+                <CommentCard
+                  comment={comment}
+                  key={index}
+                  setAdvert={setAdvert}
+                />
               ))
             ) : (
               <p className="body-2 text-gray-20 input-label">
@@ -150,23 +153,23 @@ const Advert = () => {
           <textarea
             placeholder="Carro muito confortável, foi uma ótima experiência de compra..."
             className="  
-					body-1
-					w-full
-					h-32
-					px-4
-					py-2
-					border-2 
-					border-gray-70 
-					hover:border-gray-80 
-					rounded 
-					input-placeholder
-					outline-none
-					focus:border-brand-1
-					focus:text-brand-1
-					resize-none
-					mb-6
-					md:mb-0
-				  "
+              body-1
+              w-full
+              h-32
+              px-4
+              py-2
+              border-2 
+              border-gray-70 
+              hover:border-gray-80 
+              rounded 
+              input-placeholder
+              outline-none
+              focus:border-brand-1
+              focus:text-brand-1
+              resize-none
+              mb-6
+              md:mb-0
+              "
             onChange={(e) => setCommentCurrent(e.target.value)}
             value={commentCurrent}
             disabled={user ? false : true}

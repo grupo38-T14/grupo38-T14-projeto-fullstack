@@ -5,14 +5,20 @@ import { comment } from "@/schemas/comment.schema";
 import { retrieveUser } from "@/schemas/user.schema";
 import React, { useEffect, useState } from "react";
 import ImageProfile from "../imageProfile";
+import { retrieveAdvertType } from "@/schemas/advert.schema";
+import { useAdverts } from "@/hooks/advertHook";
+import { CiEdit } from "react-icons/ci";
+import { BsTrash } from "react-icons/bs";
 
 interface commentCardProps {
   comment: comment;
+  setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>;
 }
 
-const CommentCard = ({ comment }: commentCardProps) => {
-  const [user, setUser] = useState<retrieveUser>({} as retrieveUser);
-  const { getUser } = useUser();
+const CommentCard = ({ comment, setAdvert }: commentCardProps) => {
+  const [userComment, setUser] = useState<retrieveUser>({} as retrieveUser);
+  const { getUser, user } = useUser();
+  const { deleteComment } = useAdverts();
   const dateActual = new Date();
 
   const getDate = (date: Date) => {
@@ -65,12 +71,37 @@ const CommentCard = ({ comment }: commentCardProps) => {
   return (
     <div className="flex flex-col gap-4 ">
       <header className="flex gap-2 items-center">
-        {user.id && <ImageProfile userProfile={user && user} size={2}/>}
-        <p className="text-gray-10 body-2 font-medium">{user.name}</p>
+        {userComment.id && (
+          <ImageProfile userProfile={userComment && userComment} size={2} />
+        )}
+        <p className="text-gray-10 body-2 font-medium">{userComment.name}</p>
         <div className="w-1 h-1 rounded-full bg-gray-40" />
         <p className="text-gray-40 text-xs font-inter">
           {getDate(new Date(comment.created_at))}
         </p>
+        {user?.id === userComment.id && (
+          <div className="ml-2 flex gap-2">
+            <div className="w-fit">
+              <button
+                type={"button"}
+                title="Editar comentário"
+                className="bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 p-1 rounded"
+              >
+                <CiEdit size={20} />
+              </button>
+            </div>
+            <div className="w-fit">
+              <button
+                type={"button"}
+                title="Editar comentário"
+                className="bg-feedback-alert3 hover:bg-feedback-alert2 text-feedback-alert1 border-feedback-alert3 hover:border-feedback-alert2 p-1 rounded"
+                onClick={() => deleteComment(comment.id, setAdvert)}
+              >
+                <BsTrash size={20} />
+              </button>
+            </div>
+          </div>
+        )}
       </header>
       <p className="body-2 text-gray-20 input-label">{comment.comment}</p>
     </div>

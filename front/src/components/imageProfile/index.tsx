@@ -1,5 +1,4 @@
 "use client";
-
 import { retrieveUser } from "@/schemas/user.schema";
 import Image from "next/image";
 import React from "react";
@@ -33,7 +32,7 @@ const ImageProfile = ({ userProfile, size }: imageProfileProps) => {
               : "w-[77px] h-[77px] md:h-[104px] md:w-[104px] text-xl md:text-3xl"
           } `}
         >
-          {userProfile && userProfile.name[0]}
+          {userProfile && userProfile!.name[0]}
         </p>
       )}
     </div>

@@ -300,6 +300,27 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   };
 
+  const deleteComment = async (
+    commentId: string,
+    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>
+  ) => {
+    try {
+      const res = await api.delete(`comments/${commentId}`);
+      Notify({ type: "success", message: "Comentário deletado com sucesso!" });
+      const { data } = await api.get<retrieveAdvertType>(
+        `adverts/${params.id}`
+      );
+      setAdvert(data);
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      Notify({
+        type: "error",
+        message: "Ops! Algo deu errado, tente novamente.",
+      });
+    }
+  };
+
   return (
     <AdvertsContext.Provider
       value={{
@@ -327,6 +348,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         profileId,
         setProfileId,
         createComment,
+        deleteComment,
       }}
     >
       {children}

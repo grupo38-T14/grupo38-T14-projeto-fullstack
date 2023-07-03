@@ -9,7 +9,7 @@ import { LoginData } from "@/schemas/login.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
 import { CreateRegisterData } from "@/schemas/register.schema";
 import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
@@ -52,6 +52,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         maxAge: 60 * 30,
         path: "/",
       });
+
       if (oldPath != "/register") {
         router.back();
       } else {

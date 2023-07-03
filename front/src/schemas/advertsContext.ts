@@ -58,6 +58,10 @@ export interface AdvertsContextValues {
     setAdvert: Dispatch<SetStateAction<retrieveAdvertType>>
   ) => void;
   profileUser: retrieveUser;
+  deleteComment: (
+    commentId: string,
+    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>
+  ) => void;
 }
 
 export interface AdvertsProviderProps {
