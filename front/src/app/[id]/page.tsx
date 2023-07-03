@@ -12,6 +12,7 @@ import ImageProfile from "@/components/imageProfile";
 import CommentCard from "@/components/commentCard";
 import Modal from "@/components/Modal";
 import { image } from "@/schemas/advert.schema";
+import Link from "next/link";
 
 const Advert = () => {
   const params = useParams();
@@ -19,6 +20,7 @@ const Advert = () => {
     {} as retrieveAdvertType
   );
   const [openModal, setOpenModal] = useState(false);
+  const [openModalRedirect, setOpenModalRedirect] = useState(false);
   const [currentImage, setCurrentImage] = useState<image>({} as image);
   const [commentCurrent, setCommentCurrent] = useState<string>("");
 
@@ -68,11 +70,25 @@ const Advert = () => {
                 </div>
                 <div className="w-28">
                   {user ? (
-                    <Button type="brand" size={2}>
-                      Comprar
-                    </Button>
+                    <>
+                      {advert.user && (
+                        <Button
+                          type="brand"
+                          size={2}
+                          link
+                          href={`https://wa.me/${advert.user.phone}`}
+                          target="_blank"
+                        >
+                          Comprar
+                        </Button>
+                      )}
+                    </>
                   ) : (
-                    <Button type="disableBland" size={2} disable>
+                    <Button
+                      type="brand"
+                      size={2}
+                      handle={() => setOpenModalRedirect(true)}
+                    >
                       Comprar
                     </Button>
                   )}
@@ -184,8 +200,12 @@ const Advert = () => {
                 Comentar
               </Button>
             ) : (
-              <Button type="disableBland" size={2} disable>
-                Comentar
+              <Button
+                type="brand"
+                size={2}
+                handle={() => setOpenModalRedirect(true)}
+              >
+                Comprar
               </Button>
             )}
           </div>
@@ -214,6 +234,21 @@ const Advert = () => {
                 height={1200}
                 className="w-full h-full object-cover"
               />
+            </div>
+          </div>
+        </Modal>
+      )}
+      {openModalRedirect && (
+        <Modal setOpenModal={setOpenModalRedirect}>
+          <div className="flex flex-col gap-10 items-center w-80">
+            <h3 className="text-center text-gray-10">
+              Ops! você precisa estar logado para poder acessar essa
+              funcionalidade
+            </h3>
+            <div className="w-fit">
+              <Button type="outlineBrand1" link href="/login">
+                Fazer Login
+              </Button>
             </div>
           </div>
         </Modal>

@@ -12,12 +12,14 @@ export const schemaAddress = z.object({
   userId: z.string(),
 });
 
-export const editAddressSchema = schemaAddress
-  .omit({
-    id: true,
-    created_at: true,
-  })
-  .partial();
+export const editAddressSchema = z.object({
+  cep: z.string().optional(),
+  state: z.string().optional(),
+  city: z.string().optional(),
+  street: z.string().optional(),
+  number: z.string().optional(),
+  complement: z.string().optional(),
+})
 
 export type retrieveAddressType = z.infer<typeof schemaAddress>;
-export type editAddressType = z.infer<typeof editAddressSchema>;
+export type EditAddressType = z.infer<typeof editAddressSchema>;

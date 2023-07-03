@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
@@ -6,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import Button from "@/components/button";
 import Input from "@/components/inputs";
+import InputWithOnChange from "@/components/inputsWithOnChange";
+import InputForMasked from "@/components/inputWithMasked";
 import {
 	CreateRegisterData,
 	RegisterData,
@@ -24,8 +27,6 @@ const RegisterForm = () => {
 	const path = usePathname()
 	const [btnLoading, setBtnLoading] = useState(false);
 
-	const [location, setLocation] = useState({} as LocationData);
-
 	interface LocationData {
 		cep: string;
 		logradouro: string;
@@ -39,26 +40,30 @@ const RegisterForm = () => {
 		siafi: string;
 	}
 
+
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		formState: { errors, isDirty, isValid },
+	} = useForm<RegisterData>({
+		resolver: zodResolver(registerSchema),
+		mode: "onBlur"
+	});
+
 	const getLocation = async (cep: string) => {
 		if (cep.length >= 8) {
 			try {
 				const req = await apiLocation.get(`${cep}/json/`);
 				const res: LocationData = req.data;
-				setLocation(res);
+				setValue("state", res.uf)
+				setValue("city", res.localidade)
+				setValue("street", res.logradouro)
 			} catch (error) {
 				console.log(error);
 			}
 		}
 	};
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors, isDirty, isValid },
-	} = useForm<RegisterData>({
-		resolver: zodResolver(registerSchema),
-		mode: "onBlur",
-	});
 
 	const handleRegister = (data: RegisterData) => {
 		const re = /\W+/g;
@@ -111,14 +116,14 @@ const RegisterForm = () => {
 					error={errors.email && errors.email.message}
 					register={register("email")}
 				/>
-				<Input
+				<InputForMasked
 					label="CPF"
 					placeholder="Digitar CPF"
 					type="cpf"
 					error={errors.cpf && errors.cpf.message}
 					register={register("cpf")}
 				/>
-				<Input
+				<InputForMasked
 					label="Celular"
 					placeholder="Digitar celular"
 					type="phone"
@@ -155,7 +160,7 @@ const RegisterForm = () => {
 					<h4 className="text-sm font-medium text-black mb-3 mt-3">
 						Informações de endereço
 					</h4>
-					<Input
+					<InputWithOnChange
 						label="CEP"
 						placeholder="Digitar CEP"
 						type="text"
@@ -168,9 +173,8 @@ const RegisterForm = () => {
 							label="Estado"
 							placeholder="Digitar Estado"
 							type="text"
-							error={errors.state && errors.state.message}
 							register={register("state")}
-							valueInput={location.uf}
+							error={errors.state && errors.state.message}
 						/>
 						<Input
 							label="Cidade"
@@ -178,7 +182,6 @@ const RegisterForm = () => {
 							type="text"
 							error={errors.city && errors.city.message}
 							register={register("city")}
-							valueInput={location.localidade}
 						/>
 					</div>
 					<Input
@@ -187,7 +190,6 @@ const RegisterForm = () => {
 						type="text"
 						error={errors.street && errors.street.message}
 						register={register("street")}
-						valueInput={location.logradouro}
 					/>
 					<div className="flex gap-6">
 						<Input
