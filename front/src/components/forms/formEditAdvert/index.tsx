@@ -13,9 +13,11 @@ import { api } from "@/service";
 import InputCoin from "@/components/inputCoin";
 import {
   requestUpdateAdvertPartialType,
+  retrieveAdvertType,
   schemaUpdateRequestAdvert,
   updateAdvertType,
 } from "@/schemas/advert.schema";
+import { AxiosResponse } from "axios";
 
 interface FormUpdateAdvertsProps {
   setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,10 +45,11 @@ export const FormUpdateAdvert = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     setValue,
   } = useForm<requestUpdateAdvertPartialType>({
     resolver: zodResolver(schemaUpdateRequestAdvert),
+    mode: "onBlur"
   });
   const handleGetCars = async (brand: string) => {
     setCars(await getCarsByBrands(brand));
@@ -61,7 +64,8 @@ export const FormUpdateAdvert = ({
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
-    setUpdateAdvertData({
+    console.log(data)
+    /* setUpdateAdvertData({
 			...data,
 			fuel: fuelsFields[selectCar.fuel],
 			table_fipe_price: selectCar.value,
@@ -83,11 +87,12 @@ export const FormUpdateAdvert = ({
 			},
 			setOpenUpdateModal,
 			setBtnLoading
-		);
+		); */
   };
 
-  const formatNumber = (number: number) => {
-    const nForString = number.toString();
+
+  const formatNumber = (number: number | undefined) => {
+    const nForString = String(number)
     const newNumber = `${nForString.slice(
       0,
       nForString.length - 2
@@ -100,7 +105,7 @@ export const FormUpdateAdvert = ({
     (async () => {
       const retrieveBrand = await getBrands();
       setBrands(retrieveBrand);
-      await api.get(`adverts/${advertId}`).then((res) => {
+      await api.get(`adverts/${advertId}`).then((res: AxiosResponse<retrieveAdvertType>) => {
         setValue("brand", res.data.brand);
         setValue("model", res.data.model);
         setValue("year", String(res.data.year));
@@ -192,7 +197,6 @@ export const FormUpdateAdvert = ({
             type="number"
             register={register("km")}
             error={errors.km && errors.km.message}
-            defaultValue={updateAdvertData?.km}
           />
           <Select
             label="Cor"
@@ -214,21 +218,15 @@ export const FormUpdateAdvert = ({
             )}
             error={errors.table_fipe_price && errors.table_fipe_price.message}
             disabled
-            value={
-              updateAdvertData?.table_fipe_price &&
-              updateAdvertData?.table_fipe_price
-            }
+            value={String(updateAdvertData?.table_fipe_price)}
+            register={register("table_fipe_price")}
           />
           <InputCoin
             label="Preço"
-            placeholder={updateAdvertData?.price?.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}
+            placeholder={Number(formatNumber(updateAdvertData?.price!)).toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}
             error={errors.price && errors.price.message}
-            value={
-              updateAdvertData?.price && formatNumber(updateAdvertData?.price)
-            }
+            value={formatNumber(updateAdvertData?.price)}
+            register={register("price")}
           />
         </div>
         <TextArea
@@ -309,7 +307,7 @@ export const FormUpdateAdvert = ({
             </Button>
           </div>
           <div className="lg:w-[40%]">
-            <Button type="brand" submit>
+            <Button type={!isDirty || !isValid ? "disableBland" : "brand"} submit disable={!isDirty || !isValid}>
               {!btnLoading ? (
                 "Salvar Alterações"
               ) : (
