@@ -1,6 +1,6 @@
 "use client";
-import ProfilePageViewAdmin from "@/components/profileViewAdmin/page";
-import ProfilePageViewUser from "@/components/profileViewUser/page";
+import ProfilePageViewAdmin from "@/components/profileViewAdmin";
+import ProfilePageViewUser from "@/components/profileViewUser";
 import nookies from "nookies";
 
 interface ProfileProps {
