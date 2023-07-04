@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client"
+
+import React, { useEffect, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import BaseForInput from "../baseForInput";
 import { currency } from "remask";
@@ -9,7 +11,7 @@ interface iInputCoinProps extends React.InputHTMLAttributes<HTMLInputElement> {
   register?: UseFormRegisterReturn;
   error?: string;
   disabled?: boolean;
-  value?: string | number;
+  value?: string;
 }
 
 const InputCoin = ({
@@ -19,6 +21,7 @@ const InputCoin = ({
   error,
   disabled,
   value,
+  ...rest
 }: iInputCoinProps) => {
   const handleValeuInput = (e: React.FormEvent<HTMLInputElement>) => {
     setInputValue(
@@ -32,17 +35,24 @@ const InputCoin = ({
     );
   };
 
-  const convertCoin = (value: string) => {
+  const convertCoin = (value: string | undefined) => {
     const newValue = currency.mask({
       locale: "pt-BR",
       currency: "BRL",
-      value: +value,
+      value: +value!,
     });
     return newValue;
   };
-  const [inputValue, setInputValue] = useState<string>(
-    value ? convertCoin(value + "") : ""
-  );
+  const [inputValue, setInputValue] = useState<string>("");
+
+  useEffect(() => {
+    (() => {
+      if (value) {
+        const oldValue = convertCoin(value)
+        setInputValue(oldValue)
+      }
+    })()
+  }, [value])
 
   return (
     <BaseForInput label={label} error={error} key={label}>
@@ -51,8 +61,9 @@ const InputCoin = ({
         name={label}
         id={label}
         placeholder={placeholder}
+        value={inputValue}
         {...register}
-        value={value ? convertCoin(value + "") : inputValue}
+        {...rest}
         onChange={handleValeuInput}
         disabled={disabled}
         className="input-base input-placeholder reset-appearence"
