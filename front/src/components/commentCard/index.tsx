@@ -9,6 +9,10 @@ import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { useAdverts } from "@/hooks/advertHook";
 import { CiEdit } from "react-icons/ci";
 import { BsTrash } from "react-icons/bs";
+import Modal from "../Modal";
+import EditComment from "../forms/formEditComment";
+import Button from "../button";
+import { RiLoader4Line } from "react-icons/ri";
 
 interface commentCardProps {
   comment: comment;
@@ -17,6 +21,9 @@ interface commentCardProps {
 
 const CommentCard = ({ comment, setAdvert }: commentCardProps) => {
   const [userComment, setUser] = useState<retrieveUser>({} as retrieveUser);
+  const [openModalEditComment, setOpenModalEditComment] = useState(false);
+  const [openModalDeleteComment, setOpenModalDeleteComment] = useState(false);
+  const [loading, setloading] = useState(false);
   const { getUser, user } = useUser();
   const { deleteComment } = useAdverts();
   const dateActual = new Date();
@@ -83,6 +90,7 @@ const CommentCard = ({ comment, setAdvert }: commentCardProps) => {
           <div className="ml-2 flex gap-2">
             <div className="w-fit">
               <button
+                onClick={() => setOpenModalEditComment(true)}
                 type={"button"}
                 title="Editar comentário"
                 className="bg-brand-1 hover:bg-brand-2 text-white border-brand-1 hover:border-brand-2 p-1 rounded"
@@ -95,7 +103,7 @@ const CommentCard = ({ comment, setAdvert }: commentCardProps) => {
                 type={"button"}
                 title="Editar comentário"
                 className="bg-feedback-alert3 hover:bg-feedback-alert2 text-feedback-alert1 border-feedback-alert3 hover:border-feedback-alert2 p-1 rounded"
-                onClick={() => deleteComment(comment.id, setAdvert)}
+                onClick={() => setOpenModalDeleteComment(true)}
               >
                 <BsTrash size={20} />
               </button>
@@ -104,6 +112,57 @@ const CommentCard = ({ comment, setAdvert }: commentCardProps) => {
         )}
       </header>
       <p className="body-2 text-gray-20 input-label">{comment.comment}</p>
+      {openModalEditComment && (
+        <Modal setOpenModal={setOpenModalEditComment}>
+          <div className="flex flex-col justify-between w-[23.4375rem] lg:w-[32.5rem] h-[20.6875rem] lg:h-[20.125rem] px-4">
+            <h1 className="h7 text-gray-10">Editar comentário</h1>
+            <div className="w-[312px] lg:w-full h-[300px]  mx-auto mt-3 ">
+              <EditComment
+                commentData={comment}
+                commentId={comment.id}
+                setAdvert={setAdvert}
+                setOpenModal={setOpenModalEditComment}
+              />
+            </div>
+          </div>
+        </Modal>
+      )}
+      {openModalDeleteComment && (
+        <Modal setOpenModal={setOpenModalDeleteComment}>
+          <div className="flex flex-col justify-between w-[23.4375rem] lg:w-[32.5rem] h-[15.6875rem] lg:h-[15.125rem] px-4">
+            <h1 className="h7 text-gray-10">Excluir comentário</h1>
+            <div className="w-[312px] lg:w-full h-[300px] mx-auto mt-3 flex flex-col justify-center items-center">
+              <h5 className="mb-5 text-center">
+                Tem certeza que deseja excluir seu comentário?
+              </h5>
+              <div className="flex flex-col md:flex-row gap-3 md:w-[70%]">
+                <Button
+                  type="alert"
+                  handle={() =>
+                    deleteComment(comment.id, setAdvert, setloading)
+                  }
+                >
+                  {!loading ? (
+                    "Excluir"
+                  ) : (
+                    <RiLoader4Line
+                      size={30}
+                      color="#fff"
+                      className="animate-spin"
+                    />
+                  )}
+                </Button>
+                <Button
+                  type="grey6"
+                  handle={() => setOpenModalDeleteComment(false)}
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

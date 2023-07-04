@@ -8,5 +8,11 @@ export const schemaComments = z.object({
   advertId: z.string(),
 });
 
-
-export type comment = z.infer<typeof schemaComments>
+export type comment = z.infer<typeof schemaComments>;
+export const editCommentSchema = schemaComments.omit({
+  id: true,
+  created_at: true,
+  userId: true,
+  advertId: true,
+});
+export type editCommentType = z.infer<typeof editCommentSchema>;

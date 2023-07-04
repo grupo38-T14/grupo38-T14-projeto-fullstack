@@ -29,9 +29,7 @@ const FormEditUser = ({
   });
 
   const handleSubmitEdit = (data: editUserType) => {
-    editUser(data, setBtnLoading);
-
-    if (!btnloading) setOpenModal(false);
+    editUser(data, setBtnLoading, setOpenModal);
   };
 
   const openModalDelete = () => {

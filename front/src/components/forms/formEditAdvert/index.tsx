@@ -62,28 +62,28 @@ export const FormUpdateAdvert = ({
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
     setUpdateAdvertData({
-			...data,
-			fuel: fuelsFields[selectCar.fuel],
-			table_fipe_price: selectCar.value,
-			price: price,
-			year: year,
-			km: km,
-			is_active: is_active,
-		});
-		updateAdvert(
-			advertId,
-			{
-				...data,
-				fuel: fuelsFields[selectCar.fuel],
-				table_fipe_price: selectCar.value,
-				price: price,
-				year: year,
-				km: km,
-				is_active: is_active,
-			},
-			setOpenUpdateModal,
-			setBtnLoading
-		);
+      ...data,
+      fuel: fuelsFields[selectCar.fuel],
+      table_fipe_price: selectCar.value,
+      price: price,
+      year: year,
+      km: km,
+      is_active: is_active,
+    });
+    updateAdvert(
+      advertId,
+      {
+        ...data,
+        fuel: fuelsFields[selectCar.fuel],
+        table_fipe_price: selectCar.value,
+        price: price,
+        year: year,
+        km: km,
+        is_active: is_active,
+      },
+      setOpenUpdateModal,
+      setBtnLoading
+    );
   };
 
   const formatNumber = (number: number) => {
@@ -226,9 +226,10 @@ export const FormUpdateAdvert = ({
               currency: "BRL",
             })}
             error={errors.price && errors.price.message}
-            value={
+            defaultValue={
               updateAdvertData?.price && formatNumber(updateAdvertData?.price)
             }
+            register={register("price")}
           />
         </div>
         <TextArea
