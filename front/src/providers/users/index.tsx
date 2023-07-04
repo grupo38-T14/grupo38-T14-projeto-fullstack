@@ -73,9 +73,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     destroyCookie(null, "user.token");
     destroyCookie(null, "profile.id");
     Notify({ type: "logout", message: "Saindo..." });
-    setTimeout(() => {
-      router.push("/");
-    }, 3000);
+
+    router.push("/");
   };
 
   const editUser = async (
