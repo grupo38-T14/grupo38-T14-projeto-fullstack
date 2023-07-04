@@ -12,6 +12,7 @@ interface iSelectProps {
 	register?: UseFormRegisterReturn;
 	error?: string;
 	handle?: (brand: string) => void;
+	disabled?: boolean
 }
 
 const Select = ({
@@ -23,6 +24,7 @@ const Select = ({
 	register,
 	error,
 	handle,
+	disabled
 }: iSelectProps) => {
 	const [selectValue, setSelectValue] = useState(
 		optionValueSelected ? optionValueSelected : ""
@@ -40,9 +42,10 @@ const Select = ({
 				onChange={(e) => (
 					setSelectValue(e.target.value), handle && handle(e.target.value)
 				)}
-				className={`px-4 py-2 input-base input-placeholder resize-none ${
+				className={`px-4 py-2 input-base input-placeholder resize-none disabled:text-black disabled:font-medium ${
 					selectValue == "" && !optionValueSelected && "text-gray-40"
 				}`}
+				disabled={disabled}
 			>
 				<option value={""} disabled>
 					{optionDefault}
@@ -52,6 +55,7 @@ const Select = ({
 						{opt}
 					</option>
 				))}
+				
 			</select>
 			{error && (
 				<span className="absolute -bottom-4 text-xs text-feedback-alert1">

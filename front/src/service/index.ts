@@ -1,3 +1,5 @@
+import { retrieveAddressType } from "@/schemas/address.schema";
+import { retrieveAdvertType } from "@/schemas/advert.schema";
 import axios from "axios";
 
 export const api = axios.create({

@@ -4,12 +4,13 @@ import { Comment } from "../../entities/comment.entity";
 import { CommentsRepository } from "../comments.repository";
 import { plainToInstance } from "class-transformer";
 import { Injectable } from "@nestjs/common";
+import { UpdateCommentDto } from "../../dto/update-comment.dto";
 
 
 @Injectable()
 export class CommentsPrismaRepository implements CommentsRepository {
   constructor(private prisma: PrismaService) {}
-
+  
   async create(
     advertId: string,
     userId: string,
@@ -29,11 +30,31 @@ export class CommentsPrismaRepository implements CommentsRepository {
     return plainToInstance(Comment, newComment);
   }
 
+  async findAll(userId: string): Promise<Comment[]> {
+    const comment = await this.prisma.comments.findMany({
+      where: {userId},
+      include: {
+        user: {
+          select: {name: true}
+        }
+      }
+    })
+    return plainToInstance(Comment, comment);
+  }
+
   async findOne(id: string): Promise<Comment> {
     const comment = await this.prisma.comments.findUnique({
       where: { id },
     });
     return plainToInstance(Comment, comment);
+  }
+  
+  async update(commentaryId: string, updateCommentDto: UpdateCommentDto): Promise<Comment> {
+    const updatedComment = await this.prisma.comments.update({
+      where: { id: commentaryId },
+      data: {...updateCommentDto}
+    })
+    return plainToInstance(Comment, updatedComment)
   }
 
   async delete(id: string): Promise<void> {

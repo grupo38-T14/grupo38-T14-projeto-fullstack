@@ -19,6 +19,7 @@ const Advert = () => {
     {} as retrieveAdvertType
   );
   const [openModal, setOpenModal] = useState(false);
+  const [openModalRedirect, setOpenModalRedirect] = useState(false);
   const [currentImage, setCurrentImage] = useState<image>({} as image);
   const [commentCurrent, setCommentCurrent] = useState<string>("");
 
@@ -68,11 +69,25 @@ const Advert = () => {
                 </div>
                 <div className="w-28">
                   {user ? (
-                    <Button type="brand" size={2}>
-                      Comprar
-                    </Button>
+                    <>
+                      {advert.user && (
+                        <Button
+                          type="brand"
+                          size={2}
+                          link
+                          href={`https://wa.me/55${advert.user.phone}`}
+                          target="_blank"
+                        >
+                          Comprar
+                        </Button>
+                      )}
+                    </>
                   ) : (
-                    <Button type="disableBland" size={2} disable>
+                    <Button
+                      type="brand"
+                      size={2}
+                      handle={() => setOpenModalRedirect(true)}
+                    >
                       Comprar
                     </Button>
                   )}
@@ -87,10 +102,11 @@ const Advert = () => {
           <div className="flex flex-col gap-12 md:gap-8 w-full md:w-fit items-center">
             <div className=" min-h-[377px] max-w-[460px] w-full md:w-[460px] bg-white p-8 rounded">
               <h6 className="text-gray-10">Fotos</h6>
-              <div className="flex flex-wrap gap-[5.5px] sm:gap-4 mt-8 justify-center">
-                {advert.gallery && advert.gallery.length > 0 ? (
-                  advert.gallery?.map((pic) => (
+              {advert.gallery && advert.gallery.length > 0 ? (
+                <div className="grid grid-cols-2 w-[90%] grid-rows-2 gap-[5.5px] sm:gap-4 mt-8">
+                  {advert.gallery?.map((pic) => (
                     <button
+                      type="button"
                       title="Ver a imagem"
                       key={pic.id}
                       className="w-[90px] sm:w-[6.75rem] h-[6.75rem]  bg-gray-70 flex items-center justify-center"
@@ -105,11 +121,11 @@ const Advert = () => {
                         className=""
                       />
                     </button>
-                  ))
-                ) : (
-                  <h4>Este anúncio não possui imagens da galeria</h4>
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <h4>Este anúncio não possui imagens da galeria</h4>
+              )}
             </div>
             <div className="flex flex-col max-w-[460px] w-full md:w-[460px] gap-7 items-center bg-white p-8 rounded">
               <ImageProfile userProfile={advert.user && advert.user} size={1} />
@@ -129,9 +145,11 @@ const Advert = () => {
           <div className="flex flex-col gap-11">
             {advert.comments && advert.comments.length > 0 ? (
               advert.comments?.map((comment, index) => (
-                <>
-                  <CommentCard comment={comment} key={index} />
-                </>
+                <CommentCard
+                  comment={comment}
+                  key={index}
+                  setAdvert={setAdvert}
+                />
               ))
             ) : (
               <p className="body-2 text-gray-20 input-label">
@@ -143,30 +161,30 @@ const Advert = () => {
       </section>
       <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-237px]">
         <header className="flex gap-2 items-center">
-          <ImageProfile userProfile={user && user} size={2} />
+          <ImageProfile userProfile={user!} size={2} />
           <p className="text-gray-10 body-2 font-medium">{user && user.name}</p>
         </header>
         <div className="md:relative">
           <textarea
             placeholder="Carro muito confortável, foi uma ótima experiência de compra..."
             className="  
-					body-1
-					w-full
-					h-32
-					px-4
-					py-2
-					border-2 
-					border-gray-70 
-					hover:border-gray-80 
-					rounded 
-					input-placeholder
-					outline-none
-					focus:border-brand-1
-					focus:text-brand-1
-					resize-none
-					mb-6
-					md:mb-0
-				  "
+              body-1
+              w-full
+              h-32
+              px-4
+              py-2
+              border-2 
+              border-gray-70 
+              hover:border-gray-80 
+              rounded 
+              input-placeholder
+              outline-none
+              focus:border-brand-1
+              focus:text-brand-1
+              resize-none
+              mb-6
+              md:mb-0
+              "
             onChange={(e) => setCommentCurrent(e.target.value)}
             value={commentCurrent}
             disabled={user ? false : true}
@@ -184,8 +202,12 @@ const Advert = () => {
                 Comentar
               </Button>
             ) : (
-              <Button type="disableBland" size={2} disable>
-                Comentar
+              <Button
+                type="brand"
+                size={2}
+                handle={() => setOpenModalRedirect(true)}
+              >
+                Comprar
               </Button>
             )}
           </div>
@@ -214,6 +236,21 @@ const Advert = () => {
                 height={1200}
                 className="w-full h-full object-cover"
               />
+            </div>
+          </div>
+        </Modal>
+      )}
+      {openModalRedirect && (
+        <Modal setOpenModal={setOpenModalRedirect}>
+          <div className="flex flex-col gap-10 items-center w-80">
+            <h3 className="text-center text-gray-10">
+              Ops! você precisa estar logado para poder acessar essa
+              funcionalidade
+            </h3>
+            <div className="w-fit">
+              <Button type="outlineBrand1" link href="/login">
+                Fazer Login
+              </Button>
             </div>
           </div>
         </Modal>

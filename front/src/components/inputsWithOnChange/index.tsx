@@ -2,6 +2,7 @@
 
 import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import MaskedInput from "react-input-mask";
 import BaseForInput from "../baseForInput";
 
 interface iInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -12,18 +13,22 @@ interface iInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     | "number"
     | "date"
     | "password";
-  placeholder: string;
+  placeholder?: string;
   label: string;
   register?: UseFormRegisterReturn;
   error?: string;
+  handle?: (e: string) => void;
+  valueInput?: string | number;
 }
 
-const Input = ({
+const InputWithOnChange = ({
   type,
   label,
   placeholder,
   register,
   error,
+  valueInput,
+  handle,
   ...rest
 }: iInputProps) => {
 
@@ -34,7 +39,13 @@ const Input = ({
           type={type}
           id={label}
           placeholder={placeholder}
+          value={valueInput && valueInput}
+          defaultValue={valueInput && valueInput}
           {...register}
+          onChange={
+            handle &&
+            ((e) => handle(e.target.value))
+          }
           className="
                 input-base
                 input-placeholder
@@ -47,4 +58,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default InputWithOnChange;
