@@ -71,6 +71,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     try {
       setBtnLoading(true);
       const { data } = await api.post("adverts", newData);
+      await retrieveAdvert();
       setOpenModal(false);
       const cookies = nookies.get(null, "profile.id");
       setProfileId(cookies["profile.id"]);
