@@ -9,7 +9,12 @@ import { Car, getBrands, getCarsByBrands } from "@/service/kenzieCarts";
 import { RiLoader4Line } from "react-icons/ri";
 import { useAdverts } from "@/hooks/advertHook";
 import nookies from "nookies";
+import { api } from "@/service";
+import InputCoin from "@/components/inputCoin";
 import {
+  requestUpdateAdvertPartialType,
+  schemaUpdateRequestAdvert,
+  updateAdvertType,
   requestUpdateAdvertPartialType,
   schemaUpdateRequestAdvert,
   updateAdvertType,
@@ -20,9 +25,13 @@ import InputForMasked from "@/components/inputWithMasked";
 interface FormUpdateAdvertsProps {
   setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FormUpdateAdvert = ({
+  setOpenUpdateModal,
+  setOpenDeleteModal,
   setOpenUpdateModal,
   setOpenDeleteModal,
 }: FormUpdateAdvertsProps) => {
@@ -32,11 +41,21 @@ export const FormUpdateAdvert = ({
   const [brands, setBrands] = useState<string[]>([]);
   const [btnLoading, setBtnLoading] = useState(false);
   const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
+  const [numImageGallery, setNumImageGallery] = useState([1, 2]);
+  const [cars, setCars] = useState<Car[]>([]);
+  const [selectCar, setSelectCar] = useState<Car>({} as Car);
+  const [brands, setBrands] = useState<string[]>([]);
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
 
+  const { updateAdvert } = useAdverts();
   const { updateAdvert } = useAdverts();
 
   const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
+  const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
+  const cookies = nookies.get(null, "updateAdvert.id");
+  const advertId = cookies["updateAdvert.id"];
   const cookies = nookies.get(null, "updateAdvert.id");
   const advertId = cookies["updateAdvert.id"];
 
@@ -55,35 +74,49 @@ export const FormUpdateAdvert = ({
   const handleSelectCar = (name: string) => {
     setSelectCar(cars.find((car) => car.name == name)!);
   };
+  const handleSelectCar = (name: string) => {
+    setSelectCar(cars.find((car) => car.name == name)!);
+  };
 
   const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
     const price = Number(data.price?.replace(/[^0-9]+/g, ""));
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
-    setUpdateAdvertData({
-      ...data,
-      fuel: fuelsFields[selectCar.fuel],
-      table_fipe_price: selectCar.value,
-      price: price,
-      year: year,
-      km: km,
-      is_active: is_active,
-    });
-    updateAdvert(
-      advertId,
-      {
-        ...data,
-        fuel: fuelsFields[selectCar.fuel],
-        table_fipe_price: selectCar.value,
-        price: price,
-        year: year,
-        km: km,
-        is_active: is_active,
-      },
-      setOpenUpdateModal,
-      setBtnLoading
-    );
+    console.log(data);
+    /* setUpdateAdvertData({
+			...data,
+			fuel: fuelsFields[selectCar.fuel],
+			table_fipe_price: selectCar.value,
+			price: price,
+			year: year,
+			km: km,
+			is_active: is_active,
+		});
+		updateAdvert(
+			advertId,
+			{
+				...data,
+				fuel: fuelsFields[selectCar.fuel],
+				table_fipe_price: selectCar.value,
+				price: price,
+				year: year,
+				km: km,
+				is_active: is_active,
+			},
+			setOpenUpdateModal,
+			setBtnLoading
+		); */
+  };
+
+  const formatNumber = (number: number) => {
+    const nForString = number.toString();
+    const newNumber = `${nForString.slice(
+      0,
+      nForString.length - 2
+    )}.${nForString.slice(nForString.length - 2)}`;
+
+    return newNumber;
   };
 
   useEffect(() => {
@@ -97,7 +130,13 @@ export const FormUpdateAdvert = ({
         setValue("fuel", res.data.fuel);
         setValue("km", String(res.data.km));
         setValue("color", res.data.color);
-        setValue("table_fipe_price", String(res.data.table_fipe_price));
+        setValue(
+          "table_fipe_price",
+          res.data.table_fipe_price.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })
+        );
         setValue("price", String(res.data.price));
         setValue("description", res.data.description);
         setValue("is_active", res.data.is_active ? "Ativo" : "Inativo");
@@ -127,6 +166,7 @@ export const FormUpdateAdvert = ({
           register={register("brand")}
           error={errors.brand && errors.brand.message}
           handle={handleGetCars}
+          disabled
         />
         <Select
           label="Modelo"
@@ -135,6 +175,7 @@ export const FormUpdateAdvert = ({
           register={register("model")}
           error={errors.model && errors.model.message}
           handle={handleSelectCar}
+          disabled
         />
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
           <Input
@@ -144,6 +185,7 @@ export const FormUpdateAdvert = ({
             register={register("year")}
             error={errors.year && errors.year.message}
             defaultValue={selectCar.year}
+            disabled
           />
           <Select
             label="Combustível"
@@ -163,6 +205,7 @@ export const FormUpdateAdvert = ({
             }
             register={register("fuel")}
             error={errors.fuel && errors.fuel.message}
+            disabled
           />
         </div>
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
@@ -183,28 +226,32 @@ export const FormUpdateAdvert = ({
           />
         </div>
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-          <InputForMasked
+          <InputCoin
             label="Preço tabela FIPE"
-            placeholder={String(updateAdvertData?.table_fipe_price)}
-            type="coin"
-            register={register("table_fipe_price")}
-            error={errors.table_fipe_price && errors.table_fipe_price.message}
-            defaultValue={updateAdvertData?.table_fipe_price}
-            value={
-              selectCar.value &&
-              selectCar.value.toLocaleString("pt-BR", {
+            placeholder={updateAdvertData?.table_fipe_price?.toLocaleString(
+              "pt-BR",
+              {
                 style: "currency",
                 currency: "BRL",
-              })
+              }
+            )}
+            error={errors.table_fipe_price && errors.table_fipe_price.message}
+            disabled
+            value={
+              updateAdvertData?.table_fipe_price &&
+              formatNumber(updateAdvertData?.table_fipe_price)
             }
           />
-          <InputForMasked
+          <InputCoin
             label="Preço"
-            placeholder={String(updateAdvertData?.price)}
-            type="coin"
-            register={register("price")}
+            placeholder={updateAdvertData?.price?.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
             error={errors.price && errors.price.message}
-            defaultValue={updateAdvertData?.price}
+            value={
+              updateAdvertData?.price && formatNumber(updateAdvertData?.price)
+            }
           />
         </div>
         <TextArea
@@ -228,7 +275,6 @@ export const FormUpdateAdvert = ({
           type="url"
           register={register("image_cape")}
           error={errors.image_cape && errors.image_cape.message}
-          defaultValue={updateAdvertData?.image_cape}
         />
         <div className="flex flex-col gap-5">
           {numImageGallery.map((num, index) => {

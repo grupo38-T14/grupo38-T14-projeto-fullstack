@@ -16,6 +16,16 @@ export default function AdvertsList({ hidden, setHidden }: AdvertsListProps) {
   const router = useRouter();
   const { currentAdverts, loading } = useAdverts();
 
+  const formatNumber = (number: number) => {
+    const nForString = number.toString();
+    const newNumber = `${nForString.slice(
+      0,
+      nForString.length - 2
+    )}.${nForString.slice(nForString.length - 2)}`;
+
+    return newNumber;
+  };
+
   if (loading) {
     return (
       <section

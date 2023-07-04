@@ -163,9 +163,11 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   ) => {
     try {
       const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`);
-      const res: retrieveAdvertPaginationType = req.data;
 
-      setCurrentAdverts(res.data.filter((e) => e.is_active == true));
+      const res: retrieveAdvertPaginationType = req.data;
+      console.log(res.data);
+      setCurrentAdverts(res.data.filter((e) => e.is_active === true));
+      console.log(currentAdverts);
       setPage({
         current: res.currentPage,
         last: res.lastPage,

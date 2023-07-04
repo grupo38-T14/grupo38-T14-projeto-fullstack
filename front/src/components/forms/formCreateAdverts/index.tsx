@@ -1,11 +1,11 @@
 import Button from "@/components/button";
+import InputCoin from "@/components/inputCoin";
 import InputForMasked from "@/components/inputWithMasked";
 import Input from "@/components/inputs";
 import Select from "@/components/select";
 import TextArea from "@/components/textArea";
 import { useAdverts } from "@/hooks/advertHook";
 import {
-  createAdvertType,
   requestAdvertType,
   schemaRequestAdvert,
 } from "@/schemas/advert.schema";
@@ -37,12 +37,14 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
     formState: { errors, isDirty, isValid },
   } = useForm<requestAdvertType>({
     resolver: zodResolver(schemaRequestAdvert),
+    mode: "onBlur"
   });
 
   const handleCreateAdvert = async (data: requestAdvertType) => {
     const price = Number(data.price.replace(/[^0-9]+/g, ""));
     const km = Number(data.km.replace(".", ""));
-    createAdvert(
+    console.log(price, data.price)
+    /* createAdvert(
       {
         ...data,
         fuel: fuelsFields[selectCar.fuel],
@@ -53,7 +55,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
       },
       setOpenModal,
       setBtnLoading
-    );
+    ); */
   };
 
   const handleGetCars = async (brand: string) => {
@@ -72,6 +74,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
       })
     );
   };
+
 
   useEffect(() => {
     (async () => {
@@ -112,6 +115,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             type="number"
             register={register("year")}
             error={errors.year && errors.year.message}
+            disabled
           />
           <Select
             label="Combustível"
@@ -123,6 +127,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             }
             register={register("fuel")}
             error={errors.fuel && errors.fuel.message}
+            disabled
           />
         </div>
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
@@ -141,22 +146,24 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             error={errors.color && errors.color.message}
           />
         </div>
+
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-          <InputForMasked
+          <InputCoin
             label="Preço tabela FIPE"
             placeholder="R$ 30.000,00"
-            type="coin"
-            register={register("table_fipe_price")}
             error={errors.table_fipe_price && errors.table_fipe_price.message}
+            register={register("table_fipe_price")}
+            value={selectCar.value && selectCar.value}
+            disabled
           />
-          <InputForMasked
+          <InputCoin
             label="Preço"
             placeholder="R$ 30.000,00"
-            type="coin"
             register={register("price")}
             error={errors.price && errors.price.message}
           />
         </div>
+
         <TextArea
           label="Descrição"
           placeholder="Digite a descrição do anúncio"
