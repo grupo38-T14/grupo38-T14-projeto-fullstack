@@ -12,7 +12,6 @@ import ImageProfile from "@/components/imageProfile";
 import CommentCard from "@/components/commentCard";
 import Modal from "@/components/Modal";
 import { image } from "@/schemas/advert.schema";
-import Link from "next/link";
 
 const Advert = () => {
   const params = useParams();
@@ -76,7 +75,7 @@ const Advert = () => {
                           type="brand"
                           size={2}
                           link
-                          href={`https://wa.me/${advert.user.phone}`}
+                          href={`https://wa.me/55${advert.user.phone}`}
                           target="_blank"
                         >
                           Comprar
@@ -162,7 +161,7 @@ const Advert = () => {
       </section>
       <section className="flex flex-col gap-4 max-w-[752px] w-full bg-white py-9 px-8 mb-11 rounded lg:relative lg:left-[-123px] xl:left-[-237px]">
         <header className="flex gap-2 items-center">
-          <ImageProfile userProfile={user && user} size={2} />
+          <ImageProfile userProfile={user!} size={2} />
           <p className="text-gray-10 body-2 font-medium">{user && user.name}</p>
         </header>
         <div className="md:relative">

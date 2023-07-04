@@ -11,8 +11,9 @@ import ModalDeleteAdvert from "@/components/Modal/modalDeleteAdvert";
 import { useUser } from "@/hooks/userHook";
 import ProfileHeader from "../profileComponents/profileHeader";
 import AdvertCard from "../advertCard";
+import nookies from "nookies";
 
-const ProfilePageViewAdmin = ({ idUserAdvert }: { idUserAdvert: string }) => {
+const ProfilePageViewAdmin = () => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -33,7 +34,10 @@ const ProfilePageViewAdmin = ({ idUserAdvert }: { idUserAdvert: string }) => {
       behavior: "smooth",
     });
   };
-  setProfileId(idUserAdvert);
+
+  const cookies = nookies.get(null, "profile.id");
+  setProfileId(cookies["profile.id"]);
+
   const saveAdvertIdAndOpenUpdateModal = (id: string) => {
     setCookie(null, "updateAdvert.id", id, {
       maxAge: 60 * 30,
@@ -47,7 +51,7 @@ const ProfilePageViewAdmin = ({ idUserAdvert }: { idUserAdvert: string }) => {
       <>
         <ProfileHeader
           user={user!}
-          idCookie={idUserAdvert}
+          idCookie={cookies["profile.id"]}
           setOpenModal={setOpenModal}
         />
         {openModal && (
@@ -75,7 +79,7 @@ const ProfilePageViewAdmin = ({ idUserAdvert }: { idUserAdvert: string }) => {
                       <AdvertCard
                         advert={advert}
                         key={advert.id}
-                        cookieId={idUserAdvert}
+                        cookieId={cookies["profile.id"]}
                       >
                         <div className="w-[65%] flex gap-3">
                           <Button

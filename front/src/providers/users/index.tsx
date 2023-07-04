@@ -1,8 +1,7 @@
 "use client";
 
 import Notify from "@/components/notify";
-import { editAddressType, retrieveAddressType } from "@/schemas/address.schema";
-import { RecoveryPasswordData } from "@/schemas/recoveryPassword.schema";
+import { EditAddressType, retrieveAddressType } from "@/schemas/address.schema";
 import { retrieveAdvertType } from "@/schemas/advert.schema";
 import { editUserType, retrieveUser } from "@/schemas/user.schema";
 import { UserContextProps, UserProviderProps } from "@/schemas/userContext";
@@ -20,10 +19,12 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   >();
   const [cookieId, setCookieId] = useState<string | undefined>(undefined);
   const [cookieToken, setCookieToken] = useState<string | undefined>(undefined);
-  const [initialsUser, setInitialsUser] = useState("");
   const [loading, setLoading] = useState(true);
   const cookies = parseCookies();
   const router = useRouter();
+  const [userProfile, setUserProfile] = useState(
+    {} as retrieveUser | undefined
+  );
 
   useEffect(() => {
     if (cookies["user.token"]) {
@@ -54,15 +55,15 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       return data;
     } catch (error) {
       console.error(error);
-      return;
     }
   };
 
-  const pageProfile = (advert: retrieveAdvertType) => {
+  const pageProfile = async (advert: retrieveAdvertType) => {
     setCookie(null, "profile.id", advert.userId, {
       maxAge: 60 * 30,
       path: "/",
     });
+    setUserProfile(await getUser(advert.userId));
     router.push(`/profile/${advert.userId}`);
   };
 
@@ -118,7 +119,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   const editAddress = async (
     userId: string,
-    data: editAddressType,
+    data: EditAddressType,
     loading: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     await api
@@ -145,7 +146,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         user,
         setUserAddress,
         userAddress,
-        initialsUser,
         getProfile,
         logOut,
         editUser,
@@ -154,6 +154,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         pageProfile,
         getUser,
         loading,
+        userProfile,
       }}
     >
       {children}

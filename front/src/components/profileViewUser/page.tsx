@@ -3,16 +3,19 @@ import { useAdverts } from "@/hooks/advertHook";
 import ProfileHeader from "../profileComponents/profileHeader";
 import AdvertCard from "../advertCard";
 import nookies from "nookies";
+import { useEffect } from "react";
+import { useUser } from "@/hooks/userHook";
 
-const ProfilePageViewUser = ({ idUserAdvert }: { idUserAdvert: string }) => {
+const ProfilePageViewUser = () => {
   const {
     getProfileAdverts,
     profileUserAdverts,
+    profileUser,
     loading,
     profileId,
-    profileUser,
     setProfileId,
   } = useAdverts();
+  const { userProfile } = useUser();
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -22,12 +25,14 @@ const ProfilePageViewUser = ({ idUserAdvert }: { idUserAdvert: string }) => {
   };
 
   const cookies = nookies.get(null, "profile.id");
-  setProfileId(cookies["profile.id"]);
+  useEffect(() => {
+    setProfileId(cookies["profile.id"]);
+  }, []);
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
       <>
-        <ProfileHeader user={profileUser} idCookie={idUserAdvert} />
+        <ProfileHeader user={userProfile!} idCookie={cookies["profile.id"]} />
         <section
           className={`flex flex-col h-full gap-10 w-full lg:w-full lg:gap-12 mt-10 md:mt-16 lg:m-0 lg:p-16 px-3 mb-14 lg:flex`}
         >

@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { editUserType, retrieveUser } from "./user.schema";
-import { editAddressType, retrieveAddressType } from "./address.schema";
-import { RecoveryPasswordData } from "./recoveryPassword.schema";
+import { EditAddressType, retrieveAddressType } from "./address.schema";
 import { retrieveAdvertType } from "./advert.schema";
 
 export interface UserContextProps {
@@ -11,7 +10,6 @@ export interface UserContextProps {
   user: retrieveUser | undefined;
   setUserAddress: Dispatch<SetStateAction<retrieveAddressType | undefined>>;
   userAddress: retrieveAddressType | undefined;
-  initialsUser: string;
   getProfile: (id: string) => Promise<void>;
   editUser: (
     data: editUserType,
@@ -23,12 +21,13 @@ export interface UserContextProps {
   logOut: () => void;
   editAddress: (
     userId: string,
-    data: editAddressType,
+    data: EditAddressType,
     loading: React.Dispatch<React.SetStateAction<boolean>>
   ) => Promise<void>;
   loading: boolean;
   pageProfile: (advert: retrieveAdvertType) => void;
   getUser: (id: string) => Promise<retrieveUser | undefined>;
+  userProfile: retrieveUser | undefined;
 }
 
 export interface UserProviderProps {

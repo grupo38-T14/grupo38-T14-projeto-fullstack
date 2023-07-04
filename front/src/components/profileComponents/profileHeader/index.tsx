@@ -1,3 +1,4 @@
+"use client";
 import Button from "@/components/button";
 import ImageProfile from "@/components/imageProfile";
 import { retrieveUser } from "@/schemas/user.schema";
