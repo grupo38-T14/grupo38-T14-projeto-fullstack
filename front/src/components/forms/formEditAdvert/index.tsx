@@ -61,8 +61,7 @@ export const FormUpdateAdvert = ({
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
-    console.log(data);
-    /* setUpdateAdvertData({
+    setUpdateAdvertData({
 			...data,
 			fuel: fuelsFields[selectCar.fuel],
 			table_fipe_price: selectCar.value,
@@ -84,7 +83,7 @@ export const FormUpdateAdvert = ({
 			},
 			setOpenUpdateModal,
 			setBtnLoading
-		); */
+		);
   };
 
   const formatNumber = (number: number) => {
@@ -217,7 +216,7 @@ export const FormUpdateAdvert = ({
             disabled
             value={
               updateAdvertData?.table_fipe_price &&
-              formatNumber(updateAdvertData?.table_fipe_price)
+              updateAdvertData?.table_fipe_price
             }
           />
           <InputCoin

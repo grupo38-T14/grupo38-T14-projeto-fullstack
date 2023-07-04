@@ -45,7 +45,7 @@ const Select = ({
 				className={`px-4 py-2 input-base input-placeholder resize-none disabled:text-black disabled:font-medium ${
 					selectValue == "" && !optionValueSelected && "text-gray-40"
 				}`}
-				disabled={disabled}
+			    disabled={disabled}
 			>
 				<option value={""} disabled>
 					{optionDefault}

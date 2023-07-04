@@ -43,8 +43,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
   const handleCreateAdvert = async (data: requestAdvertType) => {
     const price = Number(data.price.replace(/[^0-9]+/g, ""));
     const km = Number(data.km.replace(".", ""));
-    console.log(price, data.price)
-    /* createAdvert(
+    createAdvert(
       {
         ...data,
         fuel: fuelsFields[selectCar.fuel],
@@ -55,7 +54,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
       },
       setOpenModal,
       setBtnLoading
-    ); */
+    );
   };
 
   const handleGetCars = async (brand: string) => {
@@ -73,6 +72,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
         currency: "BRL",
       })
     );
+    setValue("fuel", fuelsFields[findCar.fuel - 1])
   };
 
 
@@ -123,7 +123,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             optionDefault={"Selecione uma opção"}
             optionsValue={fuelsFields}
             optionValueSelected={
-              !selectCar ? "ETHANOL" : fuelsFields[selectCar.fuel - 1]
+              !selectCar.fuel ? "ETHANOL" : fuelsFields[selectCar.fuel - 1]
             }
             register={register("fuel")}
             error={errors.fuel && errors.fuel.message}
