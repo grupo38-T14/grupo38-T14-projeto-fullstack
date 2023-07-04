@@ -15,23 +15,14 @@ import {
   requestUpdateAdvertPartialType,
   schemaUpdateRequestAdvert,
   updateAdvertType,
-  requestUpdateAdvertPartialType,
-  schemaUpdateRequestAdvert,
-  updateAdvertType,
 } from "@/schemas/advert.schema";
-import { api } from "@/service";
-import InputForMasked from "@/components/inputWithMasked";
 
 interface FormUpdateAdvertsProps {
-  setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FormUpdateAdvert = ({
-  setOpenUpdateModal,
-  setOpenDeleteModal,
   setOpenUpdateModal,
   setOpenDeleteModal,
 }: FormUpdateAdvertsProps) => {
@@ -41,21 +32,11 @@ export const FormUpdateAdvert = ({
   const [brands, setBrands] = useState<string[]>([]);
   const [btnLoading, setBtnLoading] = useState(false);
   const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
-  const [numImageGallery, setNumImageGallery] = useState([1, 2]);
-  const [cars, setCars] = useState<Car[]>([]);
-  const [selectCar, setSelectCar] = useState<Car>({} as Car);
-  const [brands, setBrands] = useState<string[]>([]);
-  const [btnLoading, setBtnLoading] = useState(false);
-  const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
 
-  const { updateAdvert } = useAdverts();
   const { updateAdvert } = useAdverts();
 
   const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
-  const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
-  const cookies = nookies.get(null, "updateAdvert.id");
-  const advertId = cookies["updateAdvert.id"];
   const cookies = nookies.get(null, "updateAdvert.id");
   const advertId = cookies["updateAdvert.id"];
 
@@ -71,9 +52,6 @@ export const FormUpdateAdvert = ({
     setCars(await getCarsByBrands(brand));
   };
 
-  const handleSelectCar = (name: string) => {
-    setSelectCar(cars.find((car) => car.name == name)!);
-  };
   const handleSelectCar = (name: string) => {
     setSelectCar(cars.find((car) => car.name == name)!);
   };
