@@ -44,7 +44,6 @@ export const FormUpdateAdvert = ({
     register,
     handleSubmit,
     formState: { errors },
-    control,
     setValue,
   } = useForm<requestUpdateAdvertPartialType>({
     resolver: zodResolver(schemaUpdateRequestAdvert),
@@ -89,12 +88,14 @@ export const FormUpdateAdvert = ({
   };
 
   const formatNumber = (number: number) => {
-	const nForString = number.toString()
-	const newNumber =  `${nForString.slice(0, nForString.length - 2
-		)}.${nForString.slice(nForString.length - 2)}`
+    const nForString = number.toString();
+    const newNumber = `${nForString.slice(
+      0,
+      nForString.length - 2
+    )}.${nForString.slice(nForString.length - 2)}`;
 
-	return newNumber
-  }
+    return newNumber;
+  };
 
   useEffect(() => {
     (async () => {
@@ -214,7 +215,10 @@ export const FormUpdateAdvert = ({
             )}
             error={errors.table_fipe_price && errors.table_fipe_price.message}
             disabled
-            value={updateAdvertData?.table_fipe_price && formatNumber(updateAdvertData?.table_fipe_price)}
+            value={
+              updateAdvertData?.table_fipe_price &&
+              formatNumber(updateAdvertData?.table_fipe_price)
+            }
           />
           <InputCoin
             label="Preço"
@@ -223,7 +227,9 @@ export const FormUpdateAdvert = ({
               currency: "BRL",
             })}
             error={errors.price && errors.price.message}
-            value={updateAdvertData?.price && formatNumber(updateAdvertData?.price)}
+            value={
+              updateAdvertData?.price && formatNumber(updateAdvertData?.price)
+            }
           />
         </div>
         <TextArea

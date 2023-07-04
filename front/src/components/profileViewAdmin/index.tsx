@@ -1,15 +1,17 @@
 "use client";
-import Image from "next/image";
 import Button from "@/components/button";
 import Modal from "@/components/Modal";
 import FormCreateAdverts from "@/components/forms/formCreateAdverts";
 import { useRouter } from "next/navigation";
 import { useAdverts } from "@/hooks/advertHook";
-import { useEffect, useState } from "react";
-import nookies, { setCookie } from "nookies";
+import { useState } from "react";
+import { setCookie } from "nookies";
 import { FormUpdateAdvert } from "@/components/forms/formEditAdvert";
 import ModalDeleteAdvert from "@/components/Modal/modalDeleteAdvert";
 import { useUser } from "@/hooks/userHook";
+import ProfileHeader from "../profileComponents/profileHeader";
+import AdvertCard from "../advertCard";
+import nookies from "nookies";
 
 const ProfilePageViewAdmin = () => {
   const router = useRouter();
@@ -19,7 +21,6 @@ const ProfilePageViewAdmin = () => {
   const {
     getProfileAdverts,
     profileUserAdverts,
-    profileUser,
     loading,
     profileId,
     setProfileId,
@@ -34,18 +35,8 @@ const ProfilePageViewAdmin = () => {
     });
   };
 
-  const formatNumber = (number: number) => {
-	const nForString = number.toString()
-	const newNumber =  `${nForString.slice(0, nForString.length - 2
-		)}.${nForString.slice(nForString.length - 2)}`
-
-	return newNumber
-  }
-
-  useEffect(() => {
-    const cookies = nookies.get(null, "profile.id");
-    setProfileId(cookies["profile.id"]);
-  }, [setProfileId]);
+  const cookies = nookies.get(null, "profile.id");
+  setProfileId(cookies["profile.id"]);
 
   const saveAdvertIdAndOpenUpdateModal = (id: string) => {
     setCookie(null, "updateAdvert.id", id, {
@@ -58,30 +49,11 @@ const ProfilePageViewAdmin = () => {
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
       <>
-        <section className="flex flex-col bg-white w-full md:w-[75%] items-start gap-6 p-7 rounded">
-          {user?.avatar_url && (
-            <div className="flex items-center justify-center w-24 h-24 bg-random-1 text-white rounded-full text-5xl">
-              {user?.name && user?.name[0].toUpperCase()}
-            </div>
-          )}
-          <div className="flex flex-col items-start gap-2.5 md:flex-row lg:flex-row md:items-center lg:items-center">
-            <p className="text-xl font-semibold">{user?.name}</p>
-            <p className="text-smfont-medium p-2 text-brand-1 bg-brand-4 rounded">
-              {user?.account_type ? "Anunciante" : "Comprador"}
-            </p>
-          </div>
-          <p className="text-base font-normal">{user?.description}</p>
-
-          <div className="w-30%">
-            <Button
-              size={1}
-              type="outlineBrand1"
-              handle={() => setOpenModal(true)}
-            >
-              Criar anúncio
-            </Button>
-          </div>
-        </section>
+        <ProfileHeader
+          user={user!}
+          idCookie={cookies["profile.id"]}
+          setOpenModal={setOpenModal}
+        />
         {openModal && (
           <Modal setOpenModal={setOpenModal}>
             <FormCreateAdverts setOpenModal={setOpenModal} />
@@ -104,47 +76,11 @@ const ProfilePageViewAdmin = () => {
                 <>
                   {profileUserAdverts!.data.map((advert) => {
                     return (
-                      <li
+                      <AdvertCard
+                        advert={advert}
                         key={advert.id}
-                        className="relative flex flex-col min-w-[312px] lg:w-fit lg:m-auto items-start gap-6 border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
+                        cookieId={cookies["profile.id"]}
                       >
-                        <div className="w-full">
-                          <div className="flex w-[100%] items-center h-[200px] rounded">
-                            <Image
-                              className={`flex m-auto h-[12.39263rem] w-[16.375rem] rounded`}
-                              alt={advert.brand}
-                              src={advert.image_cape}
-                              width={1000}
-                              height={1000}
-                            />
-                          </div>
-                        </div>
-                        <section className="flex flex-col items-start justify-start gap-4 w-full">
-                          <div className="w-[250px]">
-                            <h2 className="text-base font-semibold text-gray-10 truncate">
-                              {advert.brand} - {advert.model}
-                            </h2>
-                          </div>
-                          <p className="text-sm font-normal text-gray-20 w-[240px] truncate">
-                            {advert.description}
-                          </p>
-                          <div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4">
-                            <p className="text-sm lg:text-base font-medium text-gray-10">
-							  {Number(formatNumber(advert.price)).toLocaleString("pt-BR", {
-                                style: "currency",
-                                currency: "BRL",
-                              })}
-                            </p>
-                            <div className="flex items-start gap-2">
-                              <p className="text-xs lg:text-sm font-medium text-brand-1 px-2 py-1 bg-brand-4 rounded">
-                                {advert.km} KM
-                              </p>
-                              <p className="text-xs lg:text-sm font-medium text-brand-1 px-2 py-1 bg-brand-4 rounded">
-                                {advert.year}
-                              </p>
-                            </div>
-                          </div>
-                        </section>
                         <div className="w-[65%] flex gap-3">
                           <Button
                             size={2}
@@ -172,7 +108,7 @@ const ProfilePageViewAdmin = () => {
                             Inativo
                           </p>
                         )}
-                      </li>
+                      </AdvertCard>
                     );
                   })}
                 </>
