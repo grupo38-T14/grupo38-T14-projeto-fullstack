@@ -68,7 +68,7 @@ const RegisterForm = () => {
 	const handleRegister = (data: RegisterData) => {
 		const re = /\W+/g;
 		const phone = data.phone.split(re).join("");
-		const cpf = data.cpf.split(".").join("");
+		const cpf = data.cpf.split(".").join("").split("-").join("")
 		const account_type = data.account_type === "Comprador" ? false : true;
 		const cepData = data.cep.split(".").join("");
 		const birth = data.birth ? data.birth : null;

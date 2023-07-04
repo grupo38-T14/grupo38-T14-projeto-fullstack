@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import BaseForInput from "../baseForInput";
-import MaskedInput from "react-input-mask";
+import { mask, unMask } from "remask";
+
 
 interface iInputForMaskedProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  type: "cpf" | "phone" | "coin";
+  type: "cpf" | "phone";
   placeholder?: string;
   label: string;
   register?: UseFormRegisterReturn;
   error?: string;
+  disabled?: boolean;
+  value?: string;
 }
 
 const InputForMasked = ({
@@ -18,33 +21,32 @@ const InputForMasked = ({
   placeholder,
   register,
   error,
-  ...rest
+  disabled,
+  value,
 }: iInputForMaskedProps) => {
-  const masked = {
-    cpf: "999.999.999.99",
-    phone: "(99) 99999-9999",
-    coin: "R$ 999999,99",
+  const maskedArray = {
+    cpf: ["999.999.999-99", "99.999.999/9999-99"],
+    phone: ["(99) 99999-9999", "+99 (99) 99999-9999"],
+  };
+
+  const [inputValue, setInputValue] = useState<string>();
+
+  const handleValeuInput = (e: React.FormEvent<HTMLInputElement>) => {
+    setInputValue(mask(unMask(e.currentTarget.value), maskedArray[type]));
   };
 
   return (
     <BaseForInput label={label} error={error} key={label}>
-      <MaskedInput
-        mask={
-          type == "cpf"
-            ? masked["cpf"]
-            : type == "phone"
-            ? masked["phone"]
-            : masked["coin"]
-        }
+      <input
         type="text"
+        name={label}
+        id={label}
         placeholder={placeholder}
         {...register}
-        className="
-                input-base
-                input-placeholder
-                reset-appearence
-                "
-        {...rest}
+        value={inputValue}
+        onChange={handleValeuInput}
+        disabled={disabled}
+        className="input-base input-placeholder reset-appearence"
       />
     </BaseForInput>
   );
