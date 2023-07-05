@@ -38,15 +38,15 @@ const Advert = () => {
 
   const tags = ["Gostei muito!", "Incrível", "Recomendarei para meus amigos"];
 
-  const formatNumber = (number: number) => {
-    const nForString = String(number);
-    const newNumber = `${nForString.slice(
-      0,
-      nForString.length - 2
-    )}.${nForString.slice(nForString.length - 2)}`;
+  // const formatNumber = (number: number) => {
+  //   const nForString = String(number);
+  //   const newNumber = `${nForString.slice(
+  //     0,
+  //     nForString.length - 2
+  //   )}.${nForString.slice(nForString.length - 2)}`;
 
-    return newNumber;
-  };
+  //   return newNumber;
+  // };
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile md:bg-gradient">
@@ -77,7 +77,10 @@ const Advert = () => {
                     </p>
                   </div>
                   <p className="h7 text-gray-10">
-                    R$ {formatNumber(advert.price)}
+                    {advert.price?.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
                   </p>
                 </div>
                 <div className="w-28">
