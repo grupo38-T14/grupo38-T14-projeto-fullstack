@@ -60,7 +60,25 @@ export const FormUpdateAdvert = ({
   };
 
   const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
-    const price = Number(data.price?.replace(/[^0-9]+/g, ""));
+    const price = Number(
+      data.price
+        ?.replace(/[^0-9]+/g, "")
+        .slice(
+          0,
+          Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+        )
+    );
+    // console.log(
+    //   Number(
+    //     data.price
+    //       ?.replace(/[^0-9]+/g, "")
+    //       .slice(
+    //         0,
+    //         Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+    //       )
+    //   )
+    // );
+
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
@@ -224,11 +242,12 @@ export const FormUpdateAdvert = ({
           />
           <InputCoin
             label="Preço"
-            placeholder={Number(
-              formatNumber(updateAdvertData?.price!)
-            ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+            placeholder={updateAdvertData?.price!.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
             error={errors.price && errors.price.message}
-            value={formatNumber(updateAdvertData?.price)}
+            value={updateAdvertData?.price?.toPrecision(2)}
             register={register("price")}
           />
         </div>
