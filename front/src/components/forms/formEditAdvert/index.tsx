@@ -60,25 +60,26 @@ export const FormUpdateAdvert = ({
   };
 
   const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
-    const price = Number(
-      data.price
-        ?.replace(/[^0-9]+/g, "")
-        .slice(
-          0,
-          Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
-        )
-    );
-    // console.log(
-    //   Number(
-    //     data.price
-    //       ?.replace(/[^0-9]+/g, "")
-    //       .slice(
-    //         0,
-    //         Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
-    //       )
-    //   )
+    // const price = Number(
+    //   data.price
+    //     ?.replace(/[^0-9]+/g, "")
+    //     .slice(
+    //       0,
+    //       Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+    //     )
     // );
 
+    const price =
+      data.price != updateAdvertData?.price
+        ? Number(
+            data.price
+              ?.replace(/[^0-9]+/g, "")
+              .slice(
+                0,
+                Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+              )
+          )
+        : updateAdvertData?.price;
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
