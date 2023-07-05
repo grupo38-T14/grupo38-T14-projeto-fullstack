@@ -25,7 +25,7 @@ const InputForMasked = ({
 }: iInputForMaskedProps) => {
 	const maskedArray = {
 		cpf: ["999.999.999-99", "99.999.999/9999-99"],
-		phone: ["(99) 99999-9999", "+99 (99) 99999-9999"],
+		phone: ["(99) 99999-9999"],
 	};
 
 	const [inputValue, setInputValue] = useState<string>();

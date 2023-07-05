@@ -208,7 +208,6 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         setMaxPrice(newValue);
         filterValueMax = newValue;
       }
-
       const req = await api.get(
         `adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`
       );

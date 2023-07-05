@@ -24,7 +24,7 @@ import { usePathname } from "next/navigation";
 
 const RegisterForm = () => {
 	const { registerFunction, setOldPath } = useAuth();
-	const path = usePathname()
+	const path = usePathname();
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	interface LocationData {
@@ -40,7 +40,6 @@ const RegisterForm = () => {
 		siafi: string;
 	}
 
-
 	const {
 		register,
 		handleSubmit,
@@ -48,7 +47,7 @@ const RegisterForm = () => {
 		formState: { errors, isDirty, isValid },
 	} = useForm<RegisterData>({
 		resolver: zodResolver(registerSchema),
-		mode: "onBlur"
+		mode: "onBlur",
 	});
 
 	const getLocation = async (cep: string) => {
@@ -56,9 +55,9 @@ const RegisterForm = () => {
 			try {
 				const req = await apiLocation.get(`${cep}/json/`);
 				const res: LocationData = req.data;
-				setValue("state", res.uf)
-				setValue("city", res.localidade)
-				setValue("street", res.logradouro)
+				setValue("state", res.uf);
+				setValue("city", res.localidade);
+				setValue("street", res.logradouro);
 			} catch (error) {
 				console.log(error);
 			}
@@ -68,7 +67,7 @@ const RegisterForm = () => {
 	const handleRegister = (data: RegisterData) => {
 		const re = /\W+/g;
 		const phone = data.phone.split(re).join("");
-		const cpf = data.cpf.split(".").join("").split("-").join("")
+		const cpf = data.cpf.split(".").join("").split("-").join("");
 		const account_type = data.account_type === "Comprador" ? false : true;
 		const cepData = data.cep.split(".").join("");
 		const birth = data.birth ? data.birth : null;
@@ -168,13 +167,14 @@ const RegisterForm = () => {
 						register={register("cep")}
 						handle={getLocation}
 					/>
-					<div className="flex gap-6">
+					<div className="flex w-full gap-6 flex-col sm:flex-row">
 						<Input
 							label="Estado"
 							placeholder="Digitar Estado"
 							type="text"
 							register={register("state")}
 							error={errors.state && errors.state.message}
+							disabled={true}
 						/>
 						<Input
 							label="Cidade"
@@ -182,6 +182,7 @@ const RegisterForm = () => {
 							type="text"
 							error={errors.city && errors.city.message}
 							register={register("city")}
+							disabled={true}
 						/>
 					</div>
 					<Input
@@ -190,8 +191,9 @@ const RegisterForm = () => {
 						type="text"
 						error={errors.street && errors.street.message}
 						register={register("street")}
+						disabled={true}
 					/>
-					<div className="flex gap-6">
+					<div className="flex w-full gap-6 flex-col sm:flex-row">
 						<Input
 							label="Número"
 							placeholder="Digitar o número da residência"
