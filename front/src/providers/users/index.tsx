@@ -73,15 +73,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     destroyCookie(null, "user.token");
     destroyCookie(null, "profile.id");
     Notify({ type: "logout", message: "Saindo..." });
-    setTimeout(() => {
-      router.push("/");
-    }, 3000);
+
+    router.push("/");
   };
 
   const editUser = async (
     data: editUserType,
-    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
+    setBtnLoading(true);
     await api
       .patch(`users/${cookieId}`, data, {
         headers: {
@@ -90,12 +91,14 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         },
       })
       .then((res) => {
-        setBtnLoading(true);
         setUser(res.data);
         Notify({ type: "success", message: "Alteração feita com sucesso!" });
       })
       .catch((error) => console.error(error))
-      .finally(() => setBtnLoading(false));
+      .finally(() => {
+        setBtnLoading(false);
+        setOpenModal(false);
+      });
   };
 
   const deleteUser = async (

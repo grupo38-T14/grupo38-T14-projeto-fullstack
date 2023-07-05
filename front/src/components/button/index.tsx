@@ -23,7 +23,7 @@ interface iButtonProps {
   submit?: boolean;
   href?: string;
   link?: boolean;
-  target?: "_blank" | "_self"
+  target?: "_blank" | "_self";
 }
 
 const Button = ({
@@ -35,7 +35,7 @@ const Button = ({
   submit,
   href,
   link,
-  target
+  target,
 }: iButtonProps) => {
   const sizeVariants = ["h-[3rem] text-md", "h-[2.375rem] text-sm"];
 
@@ -67,7 +67,7 @@ const Button = ({
     <>
       {!link && (
         <button
-          title="buttonTitle"
+          title={`${children}`}
           onClick={handle}
           disabled={disable}
           type={submit ? "submit" : "button"}

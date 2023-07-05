@@ -37,11 +37,18 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
     formState: { errors, isDirty, isValid },
   } = useForm<requestAdvertType>({
     resolver: zodResolver(schemaRequestAdvert),
-    mode: "onBlur"
+    mode: "onBlur",
   });
 
   const handleCreateAdvert = async (data: requestAdvertType) => {
-    const price = Number(data.price.replace(/[^0-9]+/g, ""));
+    const price = Number(
+      data.price
+        ?.replace(/[^0-9]+/g, "")
+        .slice(
+          0,
+          Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+        )
+    );
     const km = Number(data.km.replace(".", ""));
     createAdvert(
       {
@@ -72,9 +79,8 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
         currency: "BRL",
       })
     );
-    setValue("fuel", fuelsFields[findCar.fuel - 1])
+    setValue("fuel", fuelsFields[findCar.fuel - 1]);
   };
-
 
   useEffect(() => {
     (async () => {
@@ -153,7 +159,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
             placeholder="R$ 30.000,00"
             error={errors.table_fipe_price && errors.table_fipe_price.message}
             register={register("table_fipe_price")}
-            value={selectCar.value && selectCar.value}
+            value={`${selectCar.value}` && `${selectCar.value}`}
             disabled
           />
           <InputCoin
