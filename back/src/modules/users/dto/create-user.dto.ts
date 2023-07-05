@@ -110,9 +110,6 @@ export class CreateUserDto {
     description: 'User Address',
     type: String,
   })
-  /* @ValidateNested({ each: true })
-  @Type(() => Address) */
   @IsOptional()
-  /* address?: Address; */
-  address: CreateAddressDto;
+  address?: Address;
 }
