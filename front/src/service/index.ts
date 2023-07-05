@@ -3,7 +3,7 @@ import { retrieveAdvertType } from "@/schemas/advert.schema";
 import axios from "axios";
 
 export const api = axios.create({
-	baseURL: "http://localhost:8000/",
+	baseURL: "https://motorsshop-db.onrender.com/",
 	timeout: 5000,
 });
 
