@@ -71,6 +71,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     try {
       setBtnLoading(true);
       const { data } = await api.post("adverts", newData);
+      await retrieveAdvert();
       setOpenModal(false);
       const cookies = nookies.get(null, "profile.id");
       setProfileId(cookies["profile.id"]);
@@ -163,11 +164,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   ) => {
     try {
       const req = await api.get(`adverts?page=${page}&${filter}=${filterName}`);
-
       const res: retrieveAdvertPaginationType = req.data;
-      console.log(res.data);
       setCurrentAdverts(res.data.filter((e) => e.is_active === true));
-      console.log(currentAdverts);
       setPage({
         current: res.currentPage,
         last: res.lastPage,
@@ -302,11 +300,41 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   };
 
-  const deleteComment = async (
+  const editComment = async (
     commentId: string,
-    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>
+    formData: { comment: string },
+    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>,
+    btnSetLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     try {
+      btnSetLoading(true);
+      const res = await api.patch(`comments/${commentId}`, formData);
+      Notify({ type: "success", message: "Comentário alterado com sucesso!" });
+      const { data } = await api.get<retrieveAdvertType>(
+        `adverts/${res.data.advertId}`
+      );
+      setAdvert(data);
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      Notify({
+        type: "error",
+        message: "Ops! Algo deu errado, tente novamente.",
+      });
+    } finally {
+      btnSetLoading(false);
+      setOpenModal(false);
+    }
+  };
+
+  const deleteComment = async (
+    commentId: string,
+    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>,
+    btnSetLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      btnSetLoading(true);
       const res = await api.delete(`comments/${commentId}`);
       Notify({ type: "success", message: "Comentário deletado com sucesso!" });
       const { data } = await api.get<retrieveAdvertType>(
@@ -320,6 +348,8 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         type: "error",
         message: "Ops! Algo deu errado, tente novamente.",
       });
+    } finally {
+      btnSetLoading(false);
     }
   };
 
@@ -351,6 +381,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
         setProfileId,
         createComment,
         deleteComment,
+        editComment,
       }}
     >
       {children}

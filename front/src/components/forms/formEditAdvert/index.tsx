@@ -13,9 +13,11 @@ import { api } from "@/service";
 import InputCoin from "@/components/inputCoin";
 import {
   requestUpdateAdvertPartialType,
+  retrieveAdvertType,
   schemaUpdateRequestAdvert,
   updateAdvertType,
 } from "@/schemas/advert.schema";
+import { AxiosResponse } from "axios";
 
 interface FormUpdateAdvertsProps {
   setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,10 +45,11 @@ export const FormUpdateAdvert = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     setValue,
   } = useForm<requestUpdateAdvertPartialType>({
     resolver: zodResolver(schemaUpdateRequestAdvert),
+    mode: "onBlur",
   });
   const handleGetCars = async (brand: string) => {
     setCars(await getCarsByBrands(brand));
@@ -57,38 +60,56 @@ export const FormUpdateAdvert = ({
   };
 
   const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
-    const price = Number(data.price?.replace(/[^0-9]+/g, ""));
+    const price = Number(
+      data.price
+        ?.replace(/[^0-9]+/g, "")
+        .slice(
+          0,
+          Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+        )
+    );
+    // console.log(
+    //   Number(
+    //     data.price
+    //       ?.replace(/[^0-9]+/g, "")
+    //       .slice(
+    //         0,
+    //         Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+    //       )
+    //   )
+    // );
+
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
-    console.log(data);
-    /* setUpdateAdvertData({
-			...data,
-			fuel: fuelsFields[selectCar.fuel],
-			table_fipe_price: selectCar.value,
-			price: price,
-			year: year,
-			km: km,
-			is_active: is_active,
-		});
-		updateAdvert(
-			advertId,
-			{
-				...data,
-				fuel: fuelsFields[selectCar.fuel],
-				table_fipe_price: selectCar.value,
-				price: price,
-				year: year,
-				km: km,
-				is_active: is_active,
-			},
-			setOpenUpdateModal,
-			setBtnLoading
-		); */
+
+    setUpdateAdvertData({
+      ...data,
+      fuel: fuelsFields[selectCar.fuel],
+      table_fipe_price: selectCar.value,
+      price: price,
+      year: year,
+      km: km,
+      is_active: is_active,
+    });
+    updateAdvert(
+      advertId,
+      {
+        ...data,
+        fuel: fuelsFields[selectCar.fuel],
+        table_fipe_price: selectCar.value,
+        price: price,
+        year: year,
+        km: km,
+        is_active: is_active,
+      },
+      setOpenUpdateModal,
+      setBtnLoading
+    );
   };
 
-  const formatNumber = (number: number) => {
-    const nForString = number.toString();
+  const formatNumber = (number: number | undefined) => {
+    const nForString = String(number);
     const newNumber = `${nForString.slice(
       0,
       nForString.length - 2
@@ -101,30 +122,32 @@ export const FormUpdateAdvert = ({
     (async () => {
       const retrieveBrand = await getBrands();
       setBrands(retrieveBrand);
-      await api.get(`adverts/${advertId}`).then((res) => {
-        setValue("brand", res.data.brand);
-        setValue("model", res.data.model);
-        setValue("year", String(res.data.year));
-        setValue("fuel", res.data.fuel);
-        setValue("km", String(res.data.km));
-        setValue("color", res.data.color);
-        setValue(
-          "table_fipe_price",
-          res.data.table_fipe_price.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          })
-        );
-        setValue("price", String(res.data.price));
-        setValue("description", res.data.description);
-        setValue("is_active", res.data.is_active ? "Ativo" : "Inativo");
-        setValue("image_cape", res.data.image_cape);
-        setValue("image_gallery1", undefined);
-        setValue("image_gallery2", undefined);
-        setValue("image_gallery3", undefined);
-        setValue("image_gallery4", undefined);
-        setUpdateAdvertData(res.data);
-      });
+      await api
+        .get(`adverts/${advertId}`)
+        .then((res: AxiosResponse<retrieveAdvertType>) => {
+          setValue("brand", res.data.brand);
+          setValue("model", res.data.model);
+          setValue("year", String(res.data.year));
+          setValue("fuel", res.data.fuel);
+          setValue("km", String(res.data.km));
+          setValue("color", res.data.color);
+          setValue(
+            "table_fipe_price",
+            res.data.table_fipe_price.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })
+          );
+          setValue("price", String(res.data.price));
+          setValue("description", res.data.description);
+          setValue("is_active", res.data.is_active ? "Ativo" : "Inativo");
+          setValue("image_cape", res.data.image_cape);
+          setValue("image_gallery1", undefined);
+          setValue("image_gallery2", undefined);
+          setValue("image_gallery3", undefined);
+          setValue("image_gallery4", undefined);
+          setUpdateAdvertData(res.data);
+        });
     })();
   }, [advertId, setValue]);
 
@@ -193,7 +216,6 @@ export const FormUpdateAdvert = ({
             type="number"
             register={register("km")}
             error={errors.km && errors.km.message}
-            defaultValue={updateAdvertData?.km}
           />
           <Select
             label="Cor"
@@ -215,21 +237,18 @@ export const FormUpdateAdvert = ({
             )}
             error={errors.table_fipe_price && errors.table_fipe_price.message}
             disabled
-            value={
-              updateAdvertData?.table_fipe_price &&
-              formatNumber(updateAdvertData?.table_fipe_price)
-            }
+            value={String(updateAdvertData?.table_fipe_price)}
+            register={register("table_fipe_price")}
           />
           <InputCoin
             label="Preço"
-            placeholder={updateAdvertData?.price?.toLocaleString("pt-BR", {
+            placeholder={updateAdvertData?.price!.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
             })}
             error={errors.price && errors.price.message}
-            value={
-              updateAdvertData?.price && formatNumber(updateAdvertData?.price)
-            }
+            value={updateAdvertData?.price?.toPrecision(2)}
+            register={register("price")}
           />
         </div>
         <TextArea
@@ -310,7 +329,7 @@ export const FormUpdateAdvert = ({
             </Button>
           </div>
           <div className="lg:w-[40%]">
-            <Button type="brand" submit>
+            <Button type={"brand"} submit>
               {!btnLoading ? (
                 "Salvar Alterações"
               ) : (

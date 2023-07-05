@@ -46,6 +46,7 @@ const ProfilePageViewAdmin = () => {
     setOpenUpdateModal(true);
   };
 
+
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile">
       <>

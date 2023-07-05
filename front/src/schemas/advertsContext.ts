@@ -56,12 +56,20 @@ export interface AdvertsContextValues {
     newComment: string,
     advertId: string,
     setAdvert: Dispatch<SetStateAction<retrieveAdvertType>>
-  ) => void;
+  ) => Promise<void>;
   profileUser: retrieveUser;
   deleteComment: (
     commentId: string,
-    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>
-  ) => void;
+    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>,
+    btnSetLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => Promise<void>;
+  editComment: (
+    commentId: string,
+    formData: { comment: string },
+    setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>,
+    btnSetLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
+  ) => Promise<void>;
 }
 
 export interface AdvertsProviderProps {

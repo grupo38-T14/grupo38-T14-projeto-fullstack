@@ -53,11 +53,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         path: "/",
       });
 
-      if (oldPath != "/register") {
-        router.back();
-      } else {
-        router.push("/");
-      }
+      router.push("/");
 
       Notify({ type: "success", message: "Login feito com sucesso!" });
     } catch (error) {
@@ -89,6 +85,10 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
       if (err.message === "Request failed with status code 409") {
         Notify({ type: "error", message: "Email ou CPF já existe!" });
       }
+      Notify({
+        type: "error",
+        message: "Ops! Alguma coisa deu errado. Tente novamente!",
+      });
     } finally {
       setBtnLoading(false);
     }

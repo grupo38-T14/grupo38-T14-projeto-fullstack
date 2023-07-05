@@ -12,6 +12,7 @@ import ImageProfile from "@/components/imageProfile";
 import CommentCard from "@/components/commentCard";
 import Modal from "@/components/Modal";
 import { image } from "@/schemas/advert.schema";
+import EditComment from "@/components/forms/formEditComment";
 
 const Advert = () => {
   const params = useParams();
@@ -36,6 +37,16 @@ const Advert = () => {
   }, [params.id]);
 
   const tags = ["Gostei muito!", "Incrível", "Recomendarei para meus amigos"];
+
+  // const formatNumber = (number: number) => {
+  //   const nForString = String(number);
+  //   const newNumber = `${nForString.slice(
+  //     0,
+  //     nForString.length - 2
+  //   )}.${nForString.slice(nForString.length - 2)}`;
+
+  //   return newNumber;
+  // };
 
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile md:bg-gradient">
@@ -65,7 +76,12 @@ const Advert = () => {
                       {advert.km} KM
                     </p>
                   </div>
-                  <p className="h7 text-gray-10">R$ {advert.price},00</p>
+                  <p className="h7 text-gray-10">
+                    {advert.price?.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </p>
                 </div>
                 <div className="w-28">
                   {user ? (
@@ -103,21 +119,21 @@ const Advert = () => {
             <div className=" min-h-[377px] max-w-[460px] w-full md:w-[460px] bg-white p-8 rounded">
               <h6 className="text-gray-10">Fotos</h6>
               {advert.gallery && advert.gallery.length > 0 ? (
-                <div className="grid grid-cols-2 w-[90%] grid-rows-2 gap-[5.5px] sm:gap-4 mt-8">
-                  {advert.gallery?.map((pic) => (
+                <div className="flex flex-wrap w-full gap-4 sm:gap-4 mt-8 justify-center">
+                  {advert.gallery.slice(0, 4)?.map((pic) => (
                     <button
                       type="button"
                       title="Ver a imagem"
                       key={pic.id}
-                      className="w-[90px] sm:w-[6.75rem] h-[6.75rem]  bg-gray-70 flex items-center justify-center"
+                      className="flex w-24 sm:w-[9.75rem] h-[9.75rem] justify-center items-center"
                       onClick={() => (setCurrentImage(pic), setOpenModal(true))}
                     >
                       <Image
                         key={pic.id}
                         src={pic.image_url}
                         alt={`Imagem do anúncio ${pic.advertId}`}
-                        width={90}
-                        height={90}
+                        width={250}
+                        height={250}
                         className=""
                       />
                     </button>

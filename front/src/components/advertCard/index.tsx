@@ -11,6 +11,7 @@ interface AdvertCardProps {
 
 const AdvertCard = ({ advert, cookieId, children }: AdvertCardProps) => {
   const router = useRouter();
+
   return (
     <li
       key={advert.id}
@@ -47,7 +48,7 @@ const AdvertCard = ({ advert, cookieId, children }: AdvertCardProps) => {
         </div>
         <div className="flex items-center justify-between w-full border-t-2 border-solid border-gray-50 pt-4">
           <p className="text-sm lg:text-base font-medium text-gray-10">
-            {advert.price?.toLocaleString("pt-BR", {
+            {advert.price.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
             })}
