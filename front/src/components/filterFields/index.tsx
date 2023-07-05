@@ -45,7 +45,7 @@ export const FilterField = ({ name, list, filterSelected, setFilterSelected }: F
 								<>
 									<li key={index}>
 										<p
-											className={`text-sm font-medium text-gray-30 cursor-pointer ${filterSelected == e && "bg-brand-2 w-fit rounded-md px-2 text-white"}`}
+											className={`text-sm font-medium text-gray-30 cursor-pointer ${filterSelected == e && "bg-brand-2 w-fit rounded-md px-2 text-white"} hover:text-brand-1 hover:border-b-2`}
 											onClick={() => (setFilterSelected(e), retrieveAdvert(fields[name], e))}
 										>
 											{e}
@@ -59,8 +59,8 @@ export const FilterField = ({ name, list, filterSelected, setFilterSelected }: F
 								<>
 									<li key={index}>
 										<p
-											className="text-sm font-medium text-gray-30 cursor-pointer"
-											onClick={() => retrieveAdvert(fields[name], list![index])}
+											className={`text-sm font-medium text-gray-30 cursor-pointer ${filterSelected == e && "bg-brand-2 w-fit rounded-md px-2 text-white"} hover:text-brand-1 hover:border-b-2`}
+											onClick={() => (setFilterSelected(e), retrieveAdvert(fields[name], list![index]))}
 										>
 											{e}
 										</p>
