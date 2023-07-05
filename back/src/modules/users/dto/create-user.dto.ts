@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Address } from '@prisma/client';
 import { hashSync } from 'bcryptjs';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsString,
   IsBoolean,
@@ -11,7 +10,10 @@ import {
   IsNotEmpty,
   MaxLength,
   IsDateString,
+  ValidateNested,
 } from 'class-validator';
+import { CreateAddressDto } from 'src/modules/addresses/dto/create-address.dto';
+import { Address } from 'src/modules/addresses/entities/address.entity';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -94,7 +96,8 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    default: 'https://i.pinimg.com/564x/8d/a2/6f/8da26f2aedf7d064347dbe9128c5227d.jpg',
+    default:
+      'https://i.pinimg.com/564x/8d/a2/6f/8da26f2aedf7d064347dbe9128c5227d.jpg',
     description: 'User Avatar',
     type: String,
   })
@@ -107,6 +110,9 @@ export class CreateUserDto {
     description: 'User Address',
     type: String,
   })
+  /* @ValidateNested({ each: true })
+  @Type(() => Address) */
   @IsOptional()
-  address?: Address;
+  /* address?: Address; */
+  address: CreateAddressDto;
 }
