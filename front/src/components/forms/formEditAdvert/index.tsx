@@ -64,30 +64,30 @@ export const FormUpdateAdvert = ({
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
     const is_active = data.is_active === "Ativo" ? true : false;
-    console.log(data);
-    /* setUpdateAdvertData({
-			...data,
-			fuel: fuelsFields[selectCar.fuel],
-			table_fipe_price: selectCar.value,
-			price: price,
-			year: year,
-			km: km,
-			is_active: is_active,
-		});
-		updateAdvert(
-			advertId,
-			{
-				...data,
-				fuel: fuelsFields[selectCar.fuel],
-				table_fipe_price: selectCar.value,
-				price: price,
-				year: year,
-				km: km,
-				is_active: is_active,
-			},
-			setOpenUpdateModal,
-			setBtnLoading
-		); */
+
+    setUpdateAdvertData({
+      ...data,
+      fuel: fuelsFields[selectCar.fuel],
+      table_fipe_price: selectCar.value,
+      price: price,
+      year: year,
+      km: km,
+      is_active: is_active,
+    });
+    updateAdvert(
+      advertId,
+      {
+        ...data,
+        fuel: fuelsFields[selectCar.fuel],
+        table_fipe_price: selectCar.value,
+        price: price,
+        year: year,
+        km: km,
+        is_active: is_active,
+      },
+      setOpenUpdateModal,
+      setBtnLoading
+    );
   };
 
   const formatNumber = (number: number | undefined) => {
@@ -99,6 +99,7 @@ export const FormUpdateAdvert = ({
 
     return newNumber;
   };
+
   useEffect(() => {
     (async () => {
       const retrieveBrand = await getBrands();
@@ -309,11 +310,7 @@ export const FormUpdateAdvert = ({
             </Button>
           </div>
           <div className="lg:w-[40%]">
-            <Button
-              type={!isDirty || !isValid ? "disableBland" : "brand"}
-              submit
-              disable={!isDirty || !isValid}
-            >
+            <Button type={"brand"} submit>
               {!btnLoading ? (
                 "Salvar Alterações"
               ) : (
