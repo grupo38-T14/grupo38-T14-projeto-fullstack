@@ -13,7 +13,8 @@ export interface UserContextProps {
   getProfile: (id: string) => Promise<void>;
   editUser: (
     data: editUserType,
-    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
+    setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => Promise<void>;
   deleteUser: (
     setBtnLoading: React.Dispatch<React.SetStateAction<boolean>>
