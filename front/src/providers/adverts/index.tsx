@@ -181,33 +181,22 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
     }
   };
 
-  const retrieveFilterByKmPriceAdvert = async (
-    type: "KM" | "Price",
-    value: string,
-    setState: string
-  ) => {
-    const newValue = Number(value);
-    try {
-      const filterMin = type == "KM" ? "minKM" : "minPrice";
-      const filterMax = type == "KM" ? "maxKM" : "maxPrice";
-      let filterValueMin = type == "KM" ? minKm : minPrice;
-      let filterValueMax = type == "KM" ? maxKm : maxPrice;
-      if (type == "KM" && setState == "min") {
-        setMinKm(newValue);
-        filterValueMin = newValue;
-      }
-      if (type == "Price" && setState == "min") {
-        setMinPrice(newValue);
-        filterValueMin = newValue;
-      }
-      if (type == "KM" && setState == "max") {
-        setMaxKm(newValue);
-        filterValueMax = newValue;
-      }
-      if (type == "Price" && setState == "max") {
-        setMaxPrice(newValue);
-        filterValueMax = newValue;
-      }
+			const res: retrieveAdvertPaginationType = req.data;
+			setCurrentAdverts(res.data.filter((e) => e.is_active === true));
+			setPage({
+				current: res.currentPage,
+				last: res.lastPage,
+				next: res.next,
+				prev: res.prev,
+				filter: filter,
+				filterName: filterName,
+			});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
       const req = await api.get(
         `adverts?page=${page}&${filterMin}=${filterValueMin}&${filterMax}=${filterValueMax}`
