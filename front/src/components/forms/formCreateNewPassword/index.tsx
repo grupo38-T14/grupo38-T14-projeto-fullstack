@@ -12,15 +12,13 @@ import {
   CreateNewPasswordData,
 } from "@/schemas/recoveryPassword.schema";
 import { useAuth } from "@/hooks/authHook";
-import { usePathname } from "next/navigation";
 
 export interface FormCreateNewPassword {
   token: string;
 }
 
 const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
-  const { createNewPassword, setOldPath } = useAuth();
-  const path = usePathname();
+  const { createNewPassword } = useAuth();
   const [btnLoading, setBtnLoading] = useState(false);
 
   const {
@@ -32,7 +30,6 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
   });
 
   const handleNewPassword = (data: CreateNewPasswordData) => {
-    setOldPath(path);
     createNewPassword(data, token);
   };
 
