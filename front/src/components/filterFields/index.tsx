@@ -3,12 +3,17 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 interface FilterFieldProps {
 	name: "Marca" | "Modelo" | "Cor" | "Ano" | "Combustível";
-	list?: string[] | number[];
-	filterSelected: string | number | null
-	setFilterSelected: Dispatch<SetStateAction<string | number | null>>
+	list: string[] | number[];
+	filterSelected: string | number | null;
+	setFilterSelected: Dispatch<SetStateAction<string | number | null>>;
 }
 
-export const FilterField = ({ name, list, filterSelected, setFilterSelected }: FilterFieldProps) => {
+export const FilterField = ({
+	name,
+	list,
+	filterSelected,
+	setFilterSelected,
+}: FilterFieldProps) => {
 	const { retrieveAdvert } = useAdverts();
 
 	const fields = {
@@ -45,8 +50,13 @@ export const FilterField = ({ name, list, filterSelected, setFilterSelected }: F
 								<>
 									<li key={index}>
 										<p
-											className={`text-sm font-medium text-gray-30 cursor-pointer ${filterSelected == e && "bg-brand-2 w-fit rounded-md px-2 text-white"} hover:text-brand-1 hover:border-b-2`}
-											onClick={() => (setFilterSelected(e), retrieveAdvert(fields[name], e))}
+											className={`text-sm font-medium text-gray-30 cursor-pointer ${
+												filterSelected == e &&
+												"bg-brand-2 w-fit rounded-md px-2 text-white"
+											} hover:text-brand-1 hover:border-b-2`}
+											onClick={() => (
+												setFilterSelected(e), retrieveAdvert(fields[name], e)
+											)}
 										>
 											{e}
 										</p>
@@ -59,8 +69,14 @@ export const FilterField = ({ name, list, filterSelected, setFilterSelected }: F
 								<>
 									<li key={index}>
 										<p
-											className={`text-sm font-medium text-gray-30 cursor-pointer ${filterSelected == e && "bg-brand-2 w-fit rounded-md px-2 text-white"} hover:text-brand-1 hover:border-b-2`}
-											onClick={() => (setFilterSelected(e), retrieveAdvert(fields[name], list![index]))}
+											className={`text-sm font-medium text-gray-30 cursor-pointer ${
+												filterSelected == e &&
+												"bg-brand-2 w-fit rounded-md px-2 text-white"
+											} hover:text-brand-1 hover:border-b-2`}
+											onClick={() => (
+												setFilterSelected(e),
+												retrieveAdvert(fields[name], list![index])
+											)}
 										>
 											{e}
 										</p>
