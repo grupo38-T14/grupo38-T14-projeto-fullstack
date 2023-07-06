@@ -44,6 +44,18 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 
   const router = useRouter();
   const params = useParams();
+  const carsColorsOptions = [
+    "Branco",
+    "Vermelho",
+    "Amarelo",
+    "Prata",
+    "Preto",
+    "Laranja",
+    "Verde",
+    "Azul",
+    "Roxo",
+    "Rosa"
+  ]
 
   const createAdvert = async (
     data: createAdvertType,
@@ -355,6 +367,7 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
   return (
     <AdvertsContext.Provider
       value={{
+        carsColorsOptions,
         retrieveAdvert,
         retrieveUniqueAdvert,
         advert,

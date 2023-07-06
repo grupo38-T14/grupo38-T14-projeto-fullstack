@@ -68,9 +68,8 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
           />
 
           <Button
-            type={/*!isDirty || !isValid ? "disableBland" : */ "brand"}
+            type={"brand"}
             submit
-            // disable={!isDirty || !isValid}
           >
             {!btnLoading ? (
               "Redefinir senha"

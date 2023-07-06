@@ -35,7 +35,7 @@ export const FormUpdateAdvert = ({
   const [btnLoading, setBtnLoading] = useState(false);
   const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
 
-  const { updateAdvert } = useAdverts();
+  const { updateAdvert, carsColorsOptions } = useAdverts();
 
   const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
@@ -68,16 +68,6 @@ export const FormUpdateAdvert = ({
           Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
         )
     );
-    // console.log(
-    //   Number(
-    //     data.price
-    //       ?.replace(/[^0-9]+/g, "")
-    //       .slice(
-    //         0,
-    //         Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
-    //       )
-    //   )
-    // );
 
     const km = Number(data.km?.replace(".", ""));
     const year = Number(data.year);
@@ -220,7 +210,7 @@ export const FormUpdateAdvert = ({
           <Select
             label="Cor"
             optionDefault={updateAdvertData?.color}
-            options={["Branco", "Vermelho", "Amarelo", "Prata"]}
+            options={carsColorsOptions}
             register={register("color")}
             error={errors.color && errors.color.message}
           />

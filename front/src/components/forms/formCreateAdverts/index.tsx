@@ -28,7 +28,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 
   const fuelsFields = ["ETHANOL", "HYBRID", "ELECTRIC"];
 
-  const { createAdvert } = useAdverts();
+  const { createAdvert, carsColorsOptions } = useAdverts();
 
   const {
     register,
@@ -147,7 +147,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
           <Select
             label="Cor"
             optionDefault="Selecione uma cor"
-            options={["Branco", "Vermelho", "Amarelo", "Prata"]}
+            options={carsColorsOptions}
             register={register("color")}
             error={errors.color && errors.color.message}
           />

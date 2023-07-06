@@ -10,6 +10,8 @@ import {
 import { retrieveUser } from "./user.schema";
 
 export interface AdvertsContextValues {
+  carsColorsOptions: string[]
+
   createAdvert: (
     data: createAdvertType,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,

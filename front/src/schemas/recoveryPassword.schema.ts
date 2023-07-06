@@ -9,12 +9,6 @@ export const RecoverySchema = z.object({
 export const CreateNewPasswordSchema = z
   .object({
     password: z.string(),
-    // .min(8, {
-    //   message: "A senha é obrigatória e precisa de mínimo 8 caracteres",
-    // })
-    // .regex(/(?=.*?[A-Z])/, "É necessário ao menos uma letra maiúscula")
-    // .regex(/(?=.*?[a-z])/, "É necessário ao menos uma letra minúscula")
-    // .regex(/(?=.*?[0-9])/, "É necessário pelo menos um número"),
     confirm: z.string().min(1, "A confirmação de senha é obrigatória"),
   })
   .refine(({ password, confirm }) => password === confirm, {
