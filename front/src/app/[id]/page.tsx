@@ -12,7 +12,6 @@ import ImageProfile from "@/components/imageProfile";
 import CommentCard from "@/components/commentCard";
 import Modal from "@/components/Modal";
 import { image } from "@/schemas/advert.schema";
-import EditComment from "@/components/forms/formEditComment";
 
 const Advert = () => {
   const params = useParams();
