@@ -42,7 +42,7 @@
 Bem vindos(a) a Motors Shop, uma plataforma voltada para a divulgação de anúncios de venda de automóveis e contato direto entre o anunciante e o comprador. Inspirada na plataforma Webmotors criamos um site sofisticado, simples e intuitivo para fácil utilização e manuseio.
 
 ## ⚙️ Funcionalidades
-- [x] Cadastro de usuário (2 tipos de cadastro: Comprador ou Anunciante);
+- [x] Cadastro de usuário (dois tipos de cadastro: Comprador ou Anunciante);
 - [x] Login;
 - [x] Usuário
   - Editar informações do usuário (perfil e endereço);
