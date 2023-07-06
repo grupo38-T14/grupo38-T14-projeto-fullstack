@@ -8,7 +8,7 @@ import {
 import { LoginData } from "@/schemas/login.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
 import { CreateRegisterData } from "@/schemas/register.schema";
@@ -51,7 +51,11 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         path: "/",
       });
 
-      router.push("/");
+      if (oldPath != "/register") {
+        router.back();
+      } else {
+        router.push("/");
+      }
 
       Notify({ type: "success", message: "Login feito com sucesso!" });
     } catch (error) {
@@ -107,6 +111,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
     await api
       .patch(`users/resetPassword/${token}`, { password: data.password })
       .then(() => {
+        setOldPath("/resetPassword");
         Notify({ type: "success", message: "Senha atualizada com sucesso !" });
         setTimeout(() => {
           router.push("/login");

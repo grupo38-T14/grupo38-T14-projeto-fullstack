@@ -12,13 +12,15 @@ import {
   CreateNewPasswordData,
 } from "@/schemas/recoveryPassword.schema";
 import { useAuth } from "@/hooks/authHook";
+import { usePathname } from "next/navigation";
 
 export interface FormCreateNewPassword {
   token: string;
 }
 
 const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
-  const { createNewPassword } = useAuth();
+  const { createNewPassword, setOldPath } = useAuth();
+  const path = usePathname();
   const [btnLoading, setBtnLoading] = useState(false);
 
   const {
@@ -30,6 +32,7 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
   });
 
   const handleNewPassword = (data: CreateNewPasswordData) => {
+    setOldPath(path);
     createNewPassword(data, token);
   };
 
@@ -67,10 +70,7 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
             register={register("confirm")}
           />
 
-          <Button
-            type={"brand"}
-            submit
-          >
+          <Button type={"brand"} submit>
             {!btnLoading ? (
               "Redefinir senha"
             ) : (
