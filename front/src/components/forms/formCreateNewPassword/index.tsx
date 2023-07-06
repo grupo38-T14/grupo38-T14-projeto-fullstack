@@ -70,7 +70,11 @@ const FormCreateNewPassword = ({ token }: FormCreateNewPassword) => {
             register={register("confirm")}
           />
 
-          <Button type={"brand"} submit>
+          <Button
+            type={/*!isDirty || !isValid ? "disableBland" : */ "brand"}
+            submit
+            // disable={!isDirty || !isValid}
+          >
             {!btnLoading ? (
               "Redefinir senha"
             ) : (

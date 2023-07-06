@@ -34,7 +34,9 @@ export const FormUpdateAdvert = ({
 	const [brands, setBrands] = useState<string[]>([]);
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
-  const { updateAdvert, carsColorsOptions } = useAdverts();
+
+	const { updateAdvert } = useAdverts();
+
 	const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
 	const cookies = nookies.get(null, "updateAdvert.id");
@@ -56,9 +58,18 @@ export const FormUpdateAdvert = ({
 	const handleSelectCar = (name: string) => {
 		setSelectCar(cars.find((car) => car.name == name)!);
 	};
-    
-  const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
- 		const price =
+
+	const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
+		// const price = Number(
+		//   data.price
+		//     ?.replace(/[^0-9]+/g, "")
+		//     .slice(
+		//       0,
+		//       Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+		//     )
+		// );
+
+		const price =
 			data.price != updateAdvertData?.price
 				? Number(
 						data.price
@@ -141,144 +152,155 @@ export const FormUpdateAdvert = ({
 		})();
 	}, [advertId, setValue]);
 
-  return (
-    <section className="flex flex-col gap-4">
-      <p className="h7">Editar anúncio</p>
-      <p className="body-2">Informações do anúncio</p>
-      <form
-        noValidate
-        className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px] pr-2"
-        onSubmit={handleSubmit(handleEditAdvert)}
-      >
-        <Select
-          label="Marca"
-          optionDefault={updateAdvertData?.brand}
-          options={brands}
-          register={register("brand")}
-          error={errors.brand && errors.brand.message}
-          handle={handleGetCars}
-          disabled
-        />
-        <Select
-          label="Modelo"
-          optionDefault={updateAdvertData?.model}
-          options={cars.map((car) => car.name)}
-          register={register("model")}
-          error={errors.model && errors.model.message}
-          handle={handleSelectCar}
-          disabled
-        />
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-          <Input
-            label="Ano"
-            placeholder={selectCar.year}
-            type="number"
-            register={register("year")}
-            error={errors.year && errors.year.message}
-            defaultValue={selectCar.year}
-            disabled
-          />
-          <Select
-            label="Combustível"
-            options={["Elétrico", "Etanol", "Hibrido"]}
-            optionDefault={
-              updateAdvertData?.fuel === "ELECTRIC"
-                ? "Elétrico"
-                : updateAdvertData?.fuel === "HYBRID"
-                ? "Híbrido"
-                : updateAdvertData?.fuel === "ETHANOL"
-                ? "Etanol"
-                : ""
-            }
-            optionsValue={fuelsFields}
-            optionValueSelected={
-              !selectCar ? "ELECTRIC" : fuelsFields[selectCar.fuel]
-            }
-            register={register("fuel")}
-            error={errors.fuel && errors.fuel.message}
-            disabled
-          />
-        </div>
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-          <Input
-            label="Quilometragem"
-            placeholder={String(updateAdvertData?.km)}
-            type="number"
-            register={register("km")}
-            error={errors.km && errors.km.message}
-          />
-          <Select
-            label="Cor"
-            optionDefault={updateAdvertData?.color}
-            options={carsColorsOptions}
-            register={register("color")}
-            error={errors.color && errors.color.message}
-          />
-        </div>
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-          <InputCoin
-            label="Preço tabela FIPE"
-            placeholder={updateAdvertData?.table_fipe_price?.toLocaleString(
-              "pt-BR",
-              {
-                style: "currency",
-                currency: "BRL",
-              }
-            )}
-            error={errors.table_fipe_price && errors.table_fipe_price.message}
-            disabled
-            value={String(updateAdvertData?.table_fipe_price)}
-            register={register("table_fipe_price")}
-          />
-          <InputCoin
-            label="Preço"
-            placeholder={updateAdvertData?.price!.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}
-            error={errors.price && errors.price.message}
-            value={updateAdvertData?.price?.toPrecision(2)}
-            register={register("price")}
-          />
-        </div>
-        <TextArea
-          label="Descrição"
-          placeholder={updateAdvertData?.description}
-          register={register("description")}
-          error={errors.description && errors.description.message}
-          defaultValue={updateAdvertData?.description}
-        />
-        <Select
-          label="Status do anúncio"
-          options={["Ativo", "Inativo"]}
-          optionDefault={updateAdvertData?.is_active ? "Ativo" : "Inativo"}
-          register={register("is_active")}
-          error={errors.is_active && errors.is_active.message}
-        />
-        <div className="flex flex-col gap-6"></div>
-        <Input
-          label="Imagem de capa"
-          placeholder={updateAdvertData?.image_cape!}
-          type="url"
-          register={register("image_cape")}
-          error={errors.image_cape && errors.image_cape.message}
-        />
-        <div className="flex flex-col gap-5">
-          {numImageGallery.map((num, index) => {
-            let registerName:
-              | "image_gallery1"
-              | "image_gallery2"
-              | "image_gallery3"
-              | "image_gallery4" = "image_gallery1";
-            if (num == 1) {
-              registerName = "image_gallery1";
-            } else if (num == 2) {
-              registerName = "image_gallery2";
-            } else if (num == 3) {
-              registerName = "image_gallery3";
-            } else if (num == 4) {
-              registerName = "image_gallery4";
-            }
+	return (
+		<section className="flex flex-col gap-4">
+			<p className="h7">Editar anúncio</p>
+			<p className="body-2">Informações do anúncio</p>
+			<form
+				noValidate
+				className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 h-[550px] lg:h-[600px] pr-2"
+				onSubmit={handleSubmit(handleEditAdvert)}
+			>
+				<Select
+					label="Marca"
+					optionDefault={updateAdvertData?.brand}
+					options={brands}
+					register={register("brand")}
+					error={errors.brand && errors.brand.message}
+					handle={handleGetCars}
+					disabled
+				/>
+				<Select
+					label="Modelo"
+					optionDefault={updateAdvertData?.model}
+					options={cars.map((car) => car.name)}
+					register={register("model")}
+					error={errors.model && errors.model.message}
+					handle={handleSelectCar}
+					disabled
+				/>
+				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
+					<Input
+						label="Ano"
+						placeholder={selectCar.year}
+						type="number"
+						register={register("year")}
+						error={errors.year && errors.year.message}
+						defaultValue={selectCar.year}
+						disabled
+					/>
+					<Select
+						label="Combustível"
+						options={["Elétrico", "Etanol", "Hibrido"]}
+						optionDefault={
+							updateAdvertData?.fuel === "ELECTRIC"
+								? "Elétrico"
+								: updateAdvertData?.fuel === "HYBRID"
+								? "Híbrido"
+								: updateAdvertData?.fuel === "ETHANOL"
+								? "Etanol"
+								: ""
+						}
+						optionsValue={fuelsFields}
+						optionValueSelected={
+							!selectCar ? "ELECTRIC" : fuelsFields[selectCar.fuel]
+						}
+						register={register("fuel")}
+						error={errors.fuel && errors.fuel.message}
+						disabled
+					/>
+				</div>
+				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
+					<Input
+						label="Quilometragem"
+						placeholder={String(updateAdvertData?.km)}
+						type="number"
+						register={register("km")}
+						error={errors.km && errors.km.message}
+					/>
+					<Select
+						label="Cor"
+						optionDefault={updateAdvertData?.color}
+						options={[
+							"Branco",
+							"Cinza",
+							"Preto",
+							"Azul",
+							"Marrom",
+							"Bege",
+							"Verde",
+							"Vermelho",
+							"Amarelo",
+							"Prata",
+						]}
+						register={register("color")}
+						error={errors.color && errors.color.message}
+					/>
+				</div>
+				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
+					<InputCoin
+						label="Preço tabela FIPE"
+						placeholder={updateAdvertData?.table_fipe_price?.toLocaleString(
+							"pt-BR",
+							{
+								style: "currency",
+								currency: "BRL",
+							}
+						)}
+						error={errors.table_fipe_price && errors.table_fipe_price.message}
+						disabled
+						value={String(updateAdvertData?.table_fipe_price)}
+						register={register("table_fipe_price")}
+					/>
+					<InputCoin
+						label="Preço"
+						placeholder={updateAdvertData?.price!.toLocaleString("pt-BR", {
+							style: "currency",
+							currency: "BRL",
+						})}
+						error={errors.price && errors.price.message}
+						value={updateAdvertData?.price?.toPrecision(2)}
+						register={register("price")}
+					/>
+				</div>
+				<TextArea
+					label="Descrição"
+					placeholder={updateAdvertData?.description}
+					register={register("description")}
+					error={errors.description && errors.description.message}
+					defaultValue={updateAdvertData?.description}
+				/>
+				<Select
+					label="Status do anúncio"
+					options={["Ativo", "Inativo"]}
+					optionDefault={updateAdvertData?.is_active ? "Ativo" : "Inativo"}
+					register={register("is_active")}
+					error={errors.is_active && errors.is_active.message}
+				/>
+				<div className="flex flex-col gap-6"></div>
+				<Input
+					label="Imagem de capa"
+					placeholder={updateAdvertData?.image_cape!}
+					type="url"
+					register={register("image_cape")}
+					error={errors.image_cape && errors.image_cape.message}
+				/>
+				<div className="flex flex-col gap-5">
+					{numImageGallery.map((num, index) => {
+						let registerName:
+							| "image_gallery1"
+							| "image_gallery2"
+							| "image_gallery3"
+							| "image_gallery4" = "image_gallery1";
+						if (num == 1) {
+							registerName = "image_gallery1";
+						} else if (num == 2) {
+							registerName = "image_gallery2";
+						} else if (num == 3) {
+							registerName = "image_gallery3";
+						} else if (num == 4) {
+							registerName = "image_gallery4";
+						}
 
 						return (
 							<Input

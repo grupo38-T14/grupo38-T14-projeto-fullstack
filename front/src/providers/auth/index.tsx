@@ -8,7 +8,7 @@ import {
 import { LoginData } from "@/schemas/login.schema";
 import { api } from "@/service";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { createContext, useState } from "react";
 import { AdvertsProvider } from "../adverts";
 import { CreateRegisterData } from "@/schemas/register.schema";
@@ -28,6 +28,8 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuhtProvider = ({ children }: AuhtProviderProps) => {
   const router = useRouter();
+  const path = usePathname();
+
   const [userAdverts, setUserAdverts] = useState<listRetrieveAdvertsType>([]);
   const [loading, setLoading] = useState(true);
   const [oldPath, setOldPath] = useState("");
@@ -51,11 +53,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         path: "/",
       });
 
-      if (oldPath != "/register") {
-        router.back();
-      } else {
-        router.push("/");
-      }
+      router.push("/");
 
       Notify({ type: "success", message: "Login feito com sucesso!" });
     } catch (error) {
