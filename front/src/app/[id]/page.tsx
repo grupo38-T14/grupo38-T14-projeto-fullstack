@@ -37,6 +37,16 @@ const Advert = () => {
 
   const tags = ["Gostei muito!", "Incrível", "Recomendarei para meus amigos"];
 
+  // const formatNumber = (number: number) => {
+  //   const nForString = String(number);
+  //   const newNumber = `${nForString.slice(
+  //     0,
+  //     nForString.length - 2
+  //   )}.${nForString.slice(nForString.length - 2)}`;
+
+  //   return newNumber;
+  // };
+
   return (
     <main className="body min-h-screen flex flex-col gap-4 px-3 pt-11 md:pt-10 w-full items-center bg-gradient-mobile md:bg-gradient">
       <section className="flex flex-col gap-4 w-full items-center">
