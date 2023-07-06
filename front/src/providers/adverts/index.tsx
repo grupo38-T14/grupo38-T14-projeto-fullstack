@@ -55,8 +55,20 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		fuels: string[];
 	});
 
-	const router = useRouter();
-	const params = useParams();
+  const router = useRouter();
+  const params = useParams();
+  const carsColorsOptions = [
+    "Branco",
+    "Vermelho",
+    "Amarelo",
+    "Prata",
+    "Preto",
+    "Laranja",
+    "Verde",
+    "Azul",
+    "Roxo",
+    "Rosa"
+  ]
 
 	const createAdvert = async (
 		data: createAdvertType,
@@ -315,139 +327,39 @@ export const AdvertsProvider = ({ children }: AdvertsProviderProps) => {
 		years.sort();
 		fuels.sort();
 
-		const newData = {
-			brands: brands,
-			models: models,
-			colors: colors,
-			years: years,
-			fuels: fuels,
-		};
-
-		setFiltersAdverts(newData);
-	};
-
-	useEffect(() => {
-		const cookies = nookies.get(null, "profile.id");
-		setProfileId(cookies["profile.id"]);
-		(async () => {
-			await retrieveAdvert();
-			await getFiltersAdverts();
-			await getProfileAdverts(profileId);
-			await getProfile(profileId);
-		})();
-	}, [profileId]);
-
-	const createComment = async (
-		newComment: string,
-		advertId: string,
-		setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>
-	) => {
-		const request = {
-			comment: newComment,
-		};
-		try {
-			const res = await api.post(`comments/${advertId}`, request);
-			Notify({ type: "success", message: "Comentário feito com sucesso!" });
-			const { data } = await api.get<retrieveAdvertType>(
-				`adverts/${params.id}`
-			);
-			setAdvert(data);
-			router.refresh();
-		} catch (error) {
-			console.log(error);
-			Notify({
-				type: "error",
-				message: "Ops! Algo deu errado, tente novamente.",
-			});
-		}
-	};
-
-	const editComment = async (
-		commentId: string,
-		formData: { comment: string },
-		setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>,
-		btnSetLoading: React.Dispatch<React.SetStateAction<boolean>>,
-		setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
-	) => {
-		try {
-			btnSetLoading(true);
-			const res = await api.patch(`comments/${commentId}`, formData);
-			Notify({ type: "success", message: "Comentário alterado com sucesso!" });
-			const { data } = await api.get<retrieveAdvertType>(
-				`adverts/${res.data.advertId}`
-			);
-			setAdvert(data);
-			router.refresh();
-		} catch (error) {
-			console.log(error);
-			Notify({
-				type: "error",
-				message: "Ops! Algo deu errado, tente novamente.",
-			});
-		} finally {
-			btnSetLoading(false);
-			setOpenModal(false);
-		}
-	};
-
-	const deleteComment = async (
-		commentId: string,
-		setAdvert: React.Dispatch<React.SetStateAction<retrieveAdvertType>>,
-		btnSetLoading: React.Dispatch<React.SetStateAction<boolean>>
-	) => {
-		try {
-			btnSetLoading(true);
-			const res = await api.delete(`comments/${commentId}`);
-			Notify({ type: "success", message: "Comentário deletado com sucesso!" });
-			const { data } = await api.get<retrieveAdvertType>(
-				`adverts/${params.id}`
-			);
-			setAdvert(data);
-			router.refresh();
-		} catch (error) {
-			console.log(error);
-			Notify({
-				type: "error",
-				message: "Ops! Algo deu errado, tente novamente.",
-			});
-		} finally {
-			btnSetLoading(false);
-		}
-	};
-
-	return (
-		<AdvertsContext.Provider
-			value={{
-				retrieveAdvert,
-				retrieveUniqueAdvert,
-				advert,
-				createAdvert,
-				deleteAdvert,
-				updateAdvert,
-				page,
-				minKm,
-				setMinKm,
-				maxKm,
-				setMaxKm,
-				minPrice,
-				setMinPrice,
-				maxPrice,
-				setMaxPrice,
-				currentAdverts,
-				retrieveFilterByKmPriceAdvert,
-				loading,
-				getProfileAdverts,
-				profileUserAdverts,
-				profileUser,
-				profileId,
-				setProfileId,
-				createComment,
-				deleteComment,
-				editComment,
-				filtersAdverts,
-			}}
-		>
-			{children}
-		</AdvertsContext.Provider>
-	);
+  return (
+    <AdvertsContext.Provider
+      value={{
+        carsColorsOptions,
+        retrieveAdvert,
+        retrieveUniqueAdvert,
+        advert,
+        createAdvert,
+        deleteAdvert,
+        updateAdvert,
+        page,
+        minKm,
+        setMinKm,
+        maxKm,
+        setMaxKm,
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
+        currentAdverts,
+        retrieveFilterByKmPriceAdvert,
+        loading,
+        getProfileAdverts,
+        profileUserAdverts,
+        profileUser,
+        profileId,
+        setProfileId,
+        createComment,
+        deleteComment,
+        editComment,
+      }}
+    >
+      {children}
+    </AdvertsContext.Provider>
+  );
 };

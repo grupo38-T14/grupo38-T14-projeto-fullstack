@@ -28,7 +28,7 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 
 	const fuelsFields = ["ETHANOL", "HYBRID", "ELECTRIC"];
 
-	const { createAdvert } = useAdverts();
+  const { createAdvert, carsColorsOptions } = useAdverts();
 
 	const {
 		register,
@@ -89,80 +89,69 @@ const FormCreateAdverts = ({ setOpenModal }: FormCreateAdvertsProps) => {
 		})();
 	}, []);
 
-	return (
-		<div className="flex flex-col gap-4">
-			<p className="h7">Criar anuncio</p>
-			<span className="body-2">Infomações do veículo</span>
-			<form
-				noValidate
-				className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 max-h-[350px] lg:max-h-[450px] pr-2"
-				onSubmit={handleSubmit(handleCreateAdvert)}
-			>
-				<Select
-					label="Marca"
-					optionDefault="Selecione a Marca"
-					options={brands}
-					register={register("brand")}
-					error={errors.brand && errors.brand.message}
-					handle={handleGetCars}
-				/>
-				<Select
-					label="Modelo"
-					optionDefault="Selecione o Modelo"
-					options={cars.map((car) => car.name)}
-					register={register("model")}
-					error={errors.model && errors.model.message}
-					handle={handleSelectCar}
-				/>
-				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-					<Input
-						label="Ano"
-						placeholder="2018"
-						type="number"
-						register={register("year")}
-						error={errors.year && errors.year.message}
-						disabled
-					/>
-					<Select
-						label="Combustível"
-						options={["Etanol", "Hibrido", "Eletrico"]}
-						optionDefault={"Selecione uma opção"}
-						optionsValue={fuelsFields}
-						optionValueSelected={
-							!selectCar.fuel ? "ETHANOL" : fuelsFields[selectCar.fuel - 1]
-						}
-						register={register("fuel")}
-						error={errors.fuel && errors.fuel.message}
-						disabled
-					/>
-				</div>
-				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
-					<Input
-						label="Quilometragem"
-						placeholder="30.000"
-						type="number"
-						register={register("km")}
-						error={errors.km && errors.km.message}
-					/>
-					<Select
-						label="Cor"
-						optionDefault="Selecione uma cor"
-						options={[
-							"Branco",
-							"Cinza",
-							"Preto",
-							"Azul",
-							"Marrom",
-							"Bege",
-							"Verde",
-							"Vermelho",
-							"Amarelo",
-							"Prata",
-						]}
-						register={register("color")}
-						error={errors.color && errors.color.message}
-					/>
-				</div>
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="h7">Criar anuncio</p>
+      <span className="body-2">Infomações do veículo</span>
+      <form
+        noValidate
+        className="flex flex-col gap-6 overflow-y-scroll scrollbar scrollbar-w-2 scrollbar-track-rounded-md scrollbar-track-brand-3 scrollbar-thumb-rounded-md scrollbar-thumb-brand-1 max-h-[350px] lg:max-h-[450px] pr-2"
+        onSubmit={handleSubmit(handleCreateAdvert)}
+      >
+        <Select
+          label="Marca"
+          optionDefault="Selecione a Marca"
+          options={brands}
+          register={register("brand")}
+          error={errors.brand && errors.brand.message}
+          handle={handleGetCars}
+        />
+        <Select
+          label="Modelo"
+          optionDefault="Selecione o Modelo"
+          options={cars.map((car) => car.name)}
+          register={register("model")}
+          error={errors.model && errors.model.message}
+          handle={handleSelectCar}
+        />
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
+          <Input
+            label="Ano"
+            placeholder="2018"
+            type="number"
+            register={register("year")}
+            error={errors.year && errors.year.message}
+            disabled
+          />
+          <Select
+            label="Combustível"
+            options={["Etanol", "Hibrido", "Eletrico"]}
+            optionDefault={"Selecione uma opção"}
+            optionsValue={fuelsFields}
+            optionValueSelected={
+              !selectCar.fuel ? "ETHANOL" : fuelsFields[selectCar.fuel - 1]
+            }
+            register={register("fuel")}
+            error={errors.fuel && errors.fuel.message}
+            disabled
+          />
+        </div>
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
+          <Input
+            label="Quilometragem"
+            placeholder="30.000"
+            type="number"
+            register={register("km")}
+            error={errors.km && errors.km.message}
+          />
+          <Select
+            label="Cor"
+            optionDefault="Selecione uma cor"
+            options={carsColorsOptions}
+            register={register("color")}
+            error={errors.color && errors.color.message}
+          />
+        </div>
 
 				<div className="flex flex-col lg:grid lg:grid-cols-2 gap-3">
 					<InputCoin
