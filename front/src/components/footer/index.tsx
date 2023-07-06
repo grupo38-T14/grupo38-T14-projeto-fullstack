@@ -18,6 +18,8 @@ export default function Footer() {
         © 2022 - Todos os direitos reservados.
       </p>
       <button
+        title="Ir para cima"
+        type="button"
         onClick={() => {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         }}

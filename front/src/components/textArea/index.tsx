@@ -5,7 +5,6 @@ interface iTextAreaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   placeholder: string | undefined;
   label: string;
-  /* quando for utilizar deve ser tirado a interrogação */
   register?: UseFormRegisterReturn;
   error?: string;
   valueTextArea?: string;
