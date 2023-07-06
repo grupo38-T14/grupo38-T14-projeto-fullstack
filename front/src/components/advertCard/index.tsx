@@ -15,7 +15,7 @@ const AdvertCard = ({ advert, cookieId, children }: AdvertCardProps) => {
   return (
     <li
       key={advert.id}
-      className="animate-show relative flex flex-col min-w-[300px] lg:w-fit items-start gap-4 cursor-pointer border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
+      className=" animate-show relative flex flex-col min-w-[300px] lg:w-fit items-start gap-4 cursor-pointer border-none rounded shadow-lg p-4 bg-white brightness-95 hover:brightness-100 transition-all ease-in-out duration-500"
       onClick={!cookieId ? () => router.push(`/${advert.id}`) : undefined}
     >
       <div className="flex w-[100%] items-center h-[200px] rounded">

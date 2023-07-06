@@ -15,12 +15,12 @@ module.exports = {
       keyframes: {
         drop: {
           "0%": {
-            transform: "translateY(-60%)"
+            transform: "translateY(-60%)",
           },
         },
         show: {
           "0%": {
-            transform: "scale(0.4)"
+            transform: "scale(0.4)",
           },
         },
       },
