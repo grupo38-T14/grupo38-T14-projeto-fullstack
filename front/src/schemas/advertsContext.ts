@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import {
-  IPageProps,
-  createAdvertType,
-  listRetrieveAdvertsType,
-  retrieveAdvertPaginationType,
-  retrieveAdvertType,
-  updateAdvertType,
+	IPageProps,
+	createAdvertType,
+	listRetrieveAdvertsType,
+	retrieveAdvertPaginationType,
+	retrieveAdvertType,
+	updateAdvertType,
 } from "./advert.schema";
 import { retrieveUser } from "./user.schema";
 
@@ -75,5 +75,5 @@ export interface AdvertsContextValues {
 }
 
 export interface AdvertsProviderProps {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }

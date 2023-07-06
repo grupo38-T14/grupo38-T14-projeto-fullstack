@@ -1,56 +1,10 @@
+"use client";
+
 import Adverts from "@/components/adverts";
-import { listRetrieveAdvertsType } from "@/schemas/advert.schema";
-import { api } from "@/service";
 import Image from "next/image";
 import bgImage from "../../public/bg-home.png";
 
 export default async function Home() {
-	const getFiltersAdverts = async () => {
-		const request = await api.get("adverts/all");
-		const response: listRetrieveAdvertsType = request.data;
-		const data = response.filter((e) => e.is_active);
-
-		const brands: string[] = [];
-		const models: string[] = [];
-		const colors: string[] = [];
-		const years: number[] = [];
-		const fuels: string[] = [];
-		data.map((advert) => {
-			if (!brands.includes(advert.brand)) {
-				brands.push(advert.brand);
-			}
-			if (!models.includes(advert.model)) {
-				models.push(advert.model);
-			}
-			if (!colors.includes(advert.color)) {
-				colors.push(advert.color);
-			}
-			if (!years.includes(advert.year)) {
-				years.push(advert.year);
-			}
-			if (!fuels.includes(advert.fuel)) {
-				fuels.push(advert.fuel);
-			}
-		});
-
-		brands.sort();
-		models.sort();
-		colors.sort();
-		years.sort();
-		fuels.sort();
-
-		const newData = {
-			brands: brands,
-			models: models,
-			colors: colors,
-			years: years,
-			fuels: fuels,
-		};
-
-		return newData;
-	};
-
-	const filtersAdverts = await getFiltersAdverts();
 	return (
 		<main className="flex flex-col lg:justify-between w-full h-fit bg-gray-90 overflow-hidden">
 			<div className="overflow-hidden">
@@ -68,7 +22,7 @@ export default async function Home() {
 					</div>
 				</div>
 			</div>
-			<Adverts filtersAdverts={filtersAdverts} />
+			<Adverts />
 		</main>
 	);
 }

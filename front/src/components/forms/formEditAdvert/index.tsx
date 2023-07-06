@@ -12,134 +12,134 @@ import nookies from "nookies";
 import { api } from "@/service";
 import InputCoin from "@/components/inputCoin";
 import {
-  requestUpdateAdvertPartialType,
-  retrieveAdvertType,
-  schemaUpdateRequestAdvert,
-  updateAdvertType,
+	requestUpdateAdvertPartialType,
+	retrieveAdvertType,
+	schemaUpdateRequestAdvert,
+	updateAdvertType,
 } from "@/schemas/advert.schema";
 import { AxiosResponse } from "axios";
 
 interface FormUpdateAdvertsProps {
-  setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+	setOpenUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
+	setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FormUpdateAdvert = ({
-  setOpenUpdateModal,
-  setOpenDeleteModal,
+	setOpenUpdateModal,
+	setOpenDeleteModal,
 }: FormUpdateAdvertsProps) => {
-  const [numImageGallery, setNumImageGallery] = useState([1, 2]);
-  const [cars, setCars] = useState<Car[]>([]);
-  const [selectCar, setSelectCar] = useState<Car>({} as Car);
-  const [brands, setBrands] = useState<string[]>([]);
-  const [btnLoading, setBtnLoading] = useState(false);
-  const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
-
+	const [numImageGallery, setNumImageGallery] = useState([1, 2]);
+	const [cars, setCars] = useState<Car[]>([]);
+	const [selectCar, setSelectCar] = useState<Car>({} as Car);
+	const [brands, setBrands] = useState<string[]>([]);
+	const [btnLoading, setBtnLoading] = useState(false);
+	const [updateAdvertData, setUpdateAdvertData] = useState<updateAdvertType>();
   const { updateAdvert, carsColorsOptions } = useAdverts();
+	const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
 
-  const fuelsFields = ["ELECTRIC", "ETHANOL", "HYBRID"];
+	const cookies = nookies.get(null, "updateAdvert.id");
+	const advertId = cookies["updateAdvert.id"];
 
-  const cookies = nookies.get(null, "updateAdvert.id");
-  const advertId = cookies["updateAdvert.id"];
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isDirty, isValid },
+		setValue,
+	} = useForm<requestUpdateAdvertPartialType>({
+		resolver: zodResolver(schemaUpdateRequestAdvert),
+		mode: "onBlur",
+	});
+	const handleGetCars = async (brand: string) => {
+		setCars(await getCarsByBrands(brand));
+	};
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isDirty, isValid },
-    setValue,
-  } = useForm<requestUpdateAdvertPartialType>({
-    resolver: zodResolver(schemaUpdateRequestAdvert),
-    mode: "onBlur",
-  });
-  const handleGetCars = async (brand: string) => {
-    setCars(await getCarsByBrands(brand));
-  };
-
-  const handleSelectCar = (name: string) => {
-    setSelectCar(cars.find((car) => car.name == name)!);
-  };
-
+	const handleSelectCar = (name: string) => {
+		setSelectCar(cars.find((car) => car.name == name)!);
+	};
+    
   const handleEditAdvert = (data: requestUpdateAdvertPartialType) => {
-    const price = Number(
-      data.price
-        ?.replace(/[^0-9]+/g, "")
-        .slice(
-          0,
-          Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
-        )
-    );
+ 		const price =
+			data.price != updateAdvertData?.price
+				? Number(
+						data.price
+							?.replace(/[^0-9]+/g, "")
+							.slice(
+								0,
+								Number(data.price?.replace(/[^0-9]+/g, "").lastIndexOf("0") - 1)
+							)
+				  )
+				: updateAdvertData?.price;
+		const km = Number(data.km?.replace(".", ""));
+		const year = Number(data.year);
+		const is_active = data.is_active === "Ativo" ? true : false;
 
-    const km = Number(data.km?.replace(".", ""));
-    const year = Number(data.year);
-    const is_active = data.is_active === "Ativo" ? true : false;
+		setUpdateAdvertData({
+			...data,
+			fuel: fuelsFields[selectCar.fuel],
+			table_fipe_price: selectCar.value,
+			price: price,
+			year: year,
+			km: km,
+			is_active: is_active,
+		});
+		updateAdvert(
+			advertId,
+			{
+				...data,
+				fuel: fuelsFields[selectCar.fuel],
+				table_fipe_price: selectCar.value,
+				price: price,
+				year: year,
+				km: km,
+				is_active: is_active,
+			},
+			setOpenUpdateModal,
+			setBtnLoading
+		);
+	};
 
-    setUpdateAdvertData({
-      ...data,
-      fuel: fuelsFields[selectCar.fuel],
-      table_fipe_price: selectCar.value,
-      price: price,
-      year: year,
-      km: km,
-      is_active: is_active,
-    });
-    updateAdvert(
-      advertId,
-      {
-        ...data,
-        fuel: fuelsFields[selectCar.fuel],
-        table_fipe_price: selectCar.value,
-        price: price,
-        year: year,
-        km: km,
-        is_active: is_active,
-      },
-      setOpenUpdateModal,
-      setBtnLoading
-    );
-  };
+	const formatNumber = (number: number | undefined) => {
+		const nForString = String(number);
+		const newNumber = `${nForString.slice(
+			0,
+			nForString.length - 2
+		)}.${nForString.slice(nForString.length - 2)}`;
 
-  const formatNumber = (number: number | undefined) => {
-    const nForString = String(number);
-    const newNumber = `${nForString.slice(
-      0,
-      nForString.length - 2
-    )}.${nForString.slice(nForString.length - 2)}`;
+		return newNumber;
+	};
 
-    return newNumber;
-  };
-
-  useEffect(() => {
-    (async () => {
-      const retrieveBrand = await getBrands();
-      setBrands(retrieveBrand);
-      await api
-        .get(`adverts/${advertId}`)
-        .then((res: AxiosResponse<retrieveAdvertType>) => {
-          setValue("brand", res.data.brand);
-          setValue("model", res.data.model);
-          setValue("year", String(res.data.year));
-          setValue("fuel", res.data.fuel);
-          setValue("km", String(res.data.km));
-          setValue("color", res.data.color);
-          setValue(
-            "table_fipe_price",
-            res.data.table_fipe_price.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })
-          );
-          setValue("price", String(res.data.price));
-          setValue("description", res.data.description);
-          setValue("is_active", res.data.is_active ? "Ativo" : "Inativo");
-          setValue("image_cape", res.data.image_cape);
-          setValue("image_gallery1", undefined);
-          setValue("image_gallery2", undefined);
-          setValue("image_gallery3", undefined);
-          setValue("image_gallery4", undefined);
-          setUpdateAdvertData(res.data);
-        });
-    })();
-  }, [advertId, setValue]);
+	useEffect(() => {
+		(async () => {
+			const retrieveBrand = await getBrands();
+			setBrands(retrieveBrand);
+			await api
+				.get(`adverts/${advertId}`)
+				.then((res: AxiosResponse<retrieveAdvertType>) => {
+					setValue("brand", res.data.brand);
+					setValue("model", res.data.model);
+					setValue("year", String(res.data.year));
+					setValue("fuel", res.data.fuel);
+					setValue("km", String(res.data.km));
+					setValue("color", res.data.color);
+					setValue(
+						"table_fipe_price",
+						res.data.table_fipe_price.toLocaleString("pt-BR", {
+							style: "currency",
+							currency: "BRL",
+						})
+					);
+					setValue("price", String(res.data.price));
+					setValue("description", res.data.description);
+					setValue("is_active", res.data.is_active ? "Ativo" : "Inativo");
+					setValue("image_cape", res.data.image_cape);
+					setValue("image_gallery1", undefined);
+					setValue("image_gallery2", undefined);
+					setValue("image_gallery3", undefined);
+					setValue("image_gallery4", undefined);
+					setUpdateAdvertData(res.data);
+				});
+		})();
+	}, [advertId, setValue]);
 
   return (
     <section className="flex flex-col gap-4">
@@ -280,61 +280,61 @@ export const FormUpdateAdvert = ({
               registerName = "image_gallery4";
             }
 
-            return (
-              <Input
-                label={`${num}° Imagem da galeria`}
-                placeholder="https://image.com"
-                type="url"
-                key={index}
-                register={register(registerName)}
-              />
-            );
-          })}
-          {numImageGallery.length <= 3 && (
-            <Button
-              type="outlineBrand1"
-              size={1}
-              handle={() =>
-                numImageGallery.length <= 3 &&
-                setNumImageGallery([
-                  ...numImageGallery,
-                  numImageGallery[numImageGallery.length - 1] + 1,
-                ])
-              }
-            >
-              Adicionar campo para imagem da galeria
-            </Button>
-          )}
-        </div>
-        <div className="flex flex-col lg:flex-row justify-end gap-2">
-          <div className="lg:w-[60%]">
-            <Button
-              type="grey6"
-              handle={() => {
-                setOpenUpdateModal(false);
-                setOpenDeleteModal(true);
-              }}
-            >
-              Excluir Anúncio
-            </Button>
-          </div>
-          <div className="lg:w-[40%]">
-            <Button type={"brand"} submit>
-              {!btnLoading ? (
-                "Salvar Alterações"
-              ) : (
-                <RiLoader4Line
-                  size={30}
-                  color="#fff"
-                  className="animate-spin"
-                />
-              )}
-            </Button>
-          </div>
-        </div>
-      </form>
-    </section>
-  );
+						return (
+							<Input
+								label={`${num}° Imagem da galeria`}
+								placeholder="https://image.com"
+								type="url"
+								key={index}
+								register={register(registerName)}
+							/>
+						);
+					})}
+					{numImageGallery.length <= 3 && (
+						<Button
+							type="outlineBrand1"
+							size={1}
+							handle={() =>
+								numImageGallery.length <= 3 &&
+								setNumImageGallery([
+									...numImageGallery,
+									numImageGallery[numImageGallery.length - 1] + 1,
+								])
+							}
+						>
+							Adicionar campo para imagem da galeria
+						</Button>
+					)}
+				</div>
+				<div className="flex flex-col lg:flex-row justify-end gap-2">
+					<div className="lg:w-[60%]">
+						<Button
+							type="grey6"
+							handle={() => {
+								setOpenUpdateModal(false);
+								setOpenDeleteModal(true);
+							}}
+						>
+							Excluir Anúncio
+						</Button>
+					</div>
+					<div className="lg:w-[40%]">
+						<Button type={"brand"} submit>
+							{!btnLoading ? (
+								"Salvar Alterações"
+							) : (
+								<RiLoader4Line
+									size={30}
+									color="#fff"
+									className="animate-spin"
+								/>
+							)}
+						</Button>
+					</div>
+				</div>
+			</form>
+		</section>
+	);
 };
 
 export default FormUpdateAdvert;
