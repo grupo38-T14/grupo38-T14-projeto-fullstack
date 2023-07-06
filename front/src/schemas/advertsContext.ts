@@ -1,16 +1,16 @@
 import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import {
-	IPageProps,
-	createAdvertType,
-	listRetrieveAdvertsType,
-	retrieveAdvertPaginationType,
-	retrieveAdvertType,
-	updateAdvertType,
+  IPageProps,
+  createAdvertType,
+  listRetrieveAdvertsType,
+  retrieveAdvertPaginationType,
+  retrieveAdvertType,
+  updateAdvertType,
 } from "./advert.schema";
 import { retrieveUser } from "./user.schema";
 
 export interface AdvertsContextValues {
-  carsColorsOptions: string[]
+  carsColorsOptions: string[];
 
   createAdvert: (
     data: createAdvertType,
@@ -72,8 +72,15 @@ export interface AdvertsContextValues {
     btnSetLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => Promise<void>;
+  filtersAdverts: {
+    brands: string[];
+    models: string[];
+    colors: string[];
+    years: number[];
+    fuels: string[];
+  };
 }
 
 export interface AdvertsProviderProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
