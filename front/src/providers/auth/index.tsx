@@ -51,11 +51,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
         path: "/",
       });
 
-      if (oldPath != "/register") {
-        router.back();
-      } else {
-        router.push("/");
-      }
+      router.push("/");
 
       Notify({ type: "success", message: "Login feito com sucesso!" });
     } catch (error) {
