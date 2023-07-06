@@ -111,6 +111,7 @@ export const AuhtProvider = ({ children }: AuhtProviderProps) => {
     await api
       .patch(`users/resetPassword/${token}`, { password: data.password })
       .then(() => {
+        setOldPath("/resetPassword");
         Notify({ type: "success", message: "Senha atualizada com sucesso !" });
         setTimeout(() => {
           router.push("/login");
