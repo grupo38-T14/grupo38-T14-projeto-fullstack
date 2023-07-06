@@ -39,20 +39,24 @@
 
 ## 💻 Sobre o projeto
 
-Bem vindos(a) a Motors Shop, uma plataforma voltada a simular a  compra e venda de automoveis. Inspirada na plataforma Webmotors criamos um site sofisticado, simples e intuitivo para fácil utilização e manuseio.
+Bem vindos(a) a Motors Shop, uma plataforma voltada para a divulgação de anúncios de venda de automóveis e contato direto entre o anunciante e o comprador. Inspirada na plataforma Webmotors criamos um site sofisticado, simples e intuitivo para fácil utilização e manuseio.
 
 ## ⚙️ Funcionalidades
-- [x] Cadastro de usuário (possibiladade de se cadastrar como comprador ou anunciante)
-- [x] Login
-- [x] Usuário 
-  - Editar informações do usuário
-  - Remover usuário
-  - criar anúncio (caso o usuário seja do tipo anunciante)
-  - editar anúncio (caso o usuário seja do tipo anunciante)
-  - remover anúncio (caso o usuário seja do tipo anunciante)
-- [x] Recuperação de senha
-- [x] Listagem e Filtragem de anúncios
-- [x] Criar e vizualizar comentarios em um determinado anúncio  
+- [x] Cadastro de usuário (2 tipos de cadastro: Comprador ou Anunciante);
+- [x] Login;
+- [x] Usuário
+  - Editar informações do usuário (perfil e endereço);
+  - Remover usuário;
+- [x] Recuperação de senha;
+- [x] Anúncio
+  - Criar anúncio (somente usuários do tipo anunciante);
+  - Editar anúncio (somente usuários do tipo anunciante);
+  - Remover anúncio (somente usuários do tipo anunciante);
+- [x] Listagem e filtragem de anúncios;
+- [x] Comentários
+  - Criar e vizualizar comentários em um anúncio; 
+  - Editar e remover comentário (somente usuário que fez o comentário);
+- [x] Link para contato do whatsapp do anunciante.
 
 ## 🎨 Layout
 O layout da aplicação está disponível no Figma:
